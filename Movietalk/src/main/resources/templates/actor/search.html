@@ -1,0 +1,114 @@
+<!-- templates/actor/search.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>배우 검색</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .actor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 40px auto 0;
+        }
+
+        .actor-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+            text-align: center;
+        }
+
+        .actor-card:hover {
+            transform: scale(1.03);
+        }
+
+        .actor-card img {
+            width: 100%;
+            height: 225px;
+            object-fit: cover;
+        }
+
+        .actor-card p {
+            margin: 10px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .no-result {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 1.2rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<h1>🎬 배우 검색</h1>
+
+<!-- 검색 입력 폼 -->
+<form class="search-form" th:action="@{/actors/search}" method="get">
+    <input type="text" name="query" placeholder="배우 이름을 입력하세요" required />
+    <button type="submit">검색</button>
+</form>
+
+<!-- 검색 결과 없을 때 -->
+<div th:if="${#lists.isEmpty(actors)}" class="no-result">
+    검색 결과가 없습니다 😢
+</div>
+
+<!-- 검색 결과 출력 -->
+<div class="actor-list" th:if="${not #lists.isEmpty(actors)}">
+    <div th:each="actor : ${actors}" class="actor-card">
+        <img th:if="${actor.profilePath != null}"
+             th:src="@{'https://image.tmdb.org/t/p/w200/' + ${actor.profilePath}}"
+             alt="배우 사진"/>
+
+        <img th:if="${actor.profilePath == null}"
+             src="https://via.placeholder.com/200x300?text=No+Image"
+             alt="기본 이미지"/>
+
+        <p th:text="${actor.name}">배우 이름</p>
+    </div>
+</div>
+</body>
+</html>
