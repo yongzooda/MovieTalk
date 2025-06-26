@@ -1,4 +1,4 @@
-package com.sec.movietalk.userinfo.config;
+package com.sec.movietalk.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
