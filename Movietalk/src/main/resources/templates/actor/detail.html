@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${actor.name} + ' 상세 정보'">배우 상세</title>
+    <style>
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .actor-container {
+            background-color: white;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .actor-image {
+            width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="actor-container">
+
+    <h1 th:text="${actor.name}">배우 이름</h1>
+
+    <img class="actor-image" th:src="'https://image.tmdb.org/t/p/w300' + ${actor.profilePath}" alt="배우 프로필">
+
+    <p th:text="${actor.biography}">소개글</p>
+
+    <p>생일: <span th:text="${actor.birthday}">1990-01-01</span></p>
+
+    <p>출생지: <span th:text="${actor.placeOfBirth}">서울</span></p>
+
+    <p>성별:
+        <span th:switch="${actor.gender}">
+            <span th:case="1">여자</span>
+            <span th:case="2">남자</span>
+            <span th:case="0">정보없음</span>
+        </span>
+    </p>
+
+    <p>대표 활동 분야: <span th:text="${actor.knownForDepartment}">Acting</span></p>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/actors/search?query=">
+            <button style="padding: 10px 20px; font-size: 16px; background-color: #eee; border: 1px solid #ccc; border-radius: 5px;">
+                필모그래피 보러가기
+            </button>
+        </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/actors/search?query=">
+
+            <button style="padding: 10px 20px; font-size: 13px; background-color: #eee; border: 1px solid #ccc; border-radius: 3px;">
+                배우 검색으로 돌아가기
+            </button>
+
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.sec.movietalk.common.domain.actor.dto;
+package com.sec.movietalk.actor.dto;
 
 import java.util.List;
 

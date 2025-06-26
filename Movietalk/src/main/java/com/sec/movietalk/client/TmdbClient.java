@@ -1,7 +1,7 @@
 package com.sec.movietalk.client;
 
-import com.sec.movietalk.common.domain.actor.dto.ActorDto;
-import com.sec.movietalk.common.domain.actor.dto.TmdbActorSearchResponse;
+import com.sec.movietalk.actor.dto.ActorDto;
+import com.sec.movietalk.actor.dto.TmdbActorSearchResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +43,19 @@ public class TmdbClient {
         );
 
         return response.getBody().getResults();
+    }
+
+    public ActorDto getActorDetail(int id) {
+        String url = "https://api.themoviedb.org/3/person/" + id + "?api_key=" + apiKey + "&language=ko-KR";
+
+        ResponseEntity<ActorDto> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
+        );
+
+        return response.getBody();
     }
 
 
