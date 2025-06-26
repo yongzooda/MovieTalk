@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode          // PK 비교에 필요
 public class MovieViewDailyId implements Serializable {
 
+    //이 클래스의 필드(movieId, viewDate) 순서와 이름이 엔티티의 @Id 필드와 정확히 일치해야함
     private Integer movieId;
     private LocalDate viewDate;
 
