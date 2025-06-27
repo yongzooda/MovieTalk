@@ -29,4 +29,8 @@ public class User {
 
     @Column(columnDefinition = "int default 0")
     private Integer reviewCnt;
+
+
+    public void setUserId(Long userId) { this.userId = userId; }
+
 }
