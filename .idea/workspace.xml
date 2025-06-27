@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c0819d1-dc52-46d6-b809-77cd6396b592" name="변경" comment="ㅇ">
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/Papers/DB.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/MovietalkApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/client/TmdbClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/ActorComment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/Comment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/CommentReactions.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/CommentReports.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieCache.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieViewDaily.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieViews.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/Review.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewReactions.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewReports.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewViews.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/user/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/user/UserFavorite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/controller/MovieController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/dto/MovieResponseDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/repository/MovieRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/service/MovieService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/templates/movie/list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/test/java/com/sec/movietalk/MovietalkApplicationTests.java" beforeDir="false" />
-    </list>
+    <list default="true" id="9c0819d1-dc52-46d6-b809-77cd6396b592" name="변경" comment="ㅇ" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -180,7 +150,7 @@
       <workItem from="1750819110263" duration="18775000" />
       <workItem from="1750911365943" duration="15054000" />
       <workItem from="1750996631850" duration="2353000" />
-      <workItem from="1750999067241" duration="4649000" />
+      <workItem from="1750999067241" duration="4981000" />
     </task>
     <task id="LOCAL-00001" summary="domain/yml">
       <option name="closed" value="true" />
@@ -230,7 +200,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750999844897</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ㅇ">
+      <option name="closed" value="true" />
+      <created>1751003803356</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1751003803356</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ㅇ">
+      <option name="closed" value="true" />
+      <created>1751003925772</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1751003925772</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
