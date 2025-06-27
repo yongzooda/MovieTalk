@@ -4,5 +4,5 @@ package com.sec.movietalk.popular.repository;
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovieCacheRepository extends JpaRepository<MovieCache, Integer> {
+public interface MovieCache2Repository extends JpaRepository<MovieCache, Integer> {
 }

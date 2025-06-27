@@ -4,7 +4,7 @@ import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.popular.client.TmdbApiClient;
 import com.sec.movietalk.popular.dto.ActorChip;
 import com.sec.movietalk.popular.dto.external.TmdbMovieDto;
-import com.sec.movietalk.popular.repository.MovieCacheRepository;
+import com.sec.movietalk.popular.repository.MovieCache2Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class MovieMetaService {
 
-    private final MovieCacheRepository cacheRepo;
+    private final MovieCache2Repository cacheRepo;
     private final TmdbApiClient        tmdbClient;
 
     /** 캐시에 있으면 반환, 없으면 TMDB 호출 후 저장 */

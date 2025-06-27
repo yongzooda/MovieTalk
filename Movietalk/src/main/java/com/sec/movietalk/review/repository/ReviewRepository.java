@@ -9,7 +9,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByMovieId(Integer movieId);
 
-    List<Review> findByUserId(Long userId);
+    List<Review> findByUser_UserId(Long userId); // ✔️ 정확한 경로 지정
 
     List<Review> findByContentContaining(String keyword);
 }
