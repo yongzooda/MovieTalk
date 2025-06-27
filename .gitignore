@@ -36,3 +36,5 @@ build/
 *.env
 Movietalk/.env/.idea/
 .idea/
+*.DS_Store
+*.DS_Store
