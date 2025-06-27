@@ -3,9 +3,9 @@ spring:
     import: optional:file:.env
 
   datasource:
-    url: jdbc:mysql://localhost:3306/movie_db
-    username: root
-    password: admin1234
+    url: jdbc:mysql://localhost:3306/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -16,7 +16,7 @@ spring:
         format_sql: true # SQL 포맷팅
 
 tmdb:
-  api-key: 2fa7dc9bd134ff95650334b8030a032d
+  api-key: ${TMDB_API_KEY}
 
 logging:
   level:
