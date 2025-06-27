@@ -1,3 +1,4 @@
+<!-- src/main/resources/templates/popular/list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,7 +9,7 @@
 <body>
 <h1>인기 영화 TOP</h1>
 
-<!-- 기간 · 정렬 선택 -->
+<!-- 기간·정렬 선택 폼 -->
 <form method="get" th:action="@{/popular}">
     <select name="period">
         <option th:selected="${param.period=='DAILY'}"  value="DAILY">일간</option>
@@ -16,10 +17,9 @@
         <option th:selected="${param.period=='MONTHLY'}" value="MONTHLY">월간</option>
         <option th:selected="${param.period=='ALLTIME'}" value="ALLTIME">전체</option>
     </select>
-
     <select name="sort">
-        <option th:selected="${param.sort=='views'}"  value="views">조회수</option>
-        <option th:selected="${param.sort=='reviews'}" value="reviews">리뷰수</option>
+        <option th:selected="${param.sort=='VIEWS'}"  value="VIEWS">조회수</option>
+        <option th:selected="${param.sort=='REVIEWS'}" value="REVIEWS">리뷰수</option>
     </select>
     <button type="submit">적용</button>
 </form>
@@ -28,7 +28,7 @@
 
 <!-- 인기 영화 카드 반복 -->
 <ul>
-    <li th:each="card : ${page.content}">
+    <li th:each="card : ${resp.content}">
         <span th:text="${card.rank}">1</span>.
         <img th:src="@{|https://image.tmdb.org/t/p/w200${card.posterUrl}|}"
              alt="poster" width="70"/>
@@ -38,24 +38,22 @@
         <span th:text="${card.metricLabel} + ' : ' + ${card.metricValue}"/>
         <!-- 배우 칩 -->
         <span th:each="a : ${card.actorChips}" th:text="${a.name}" class="chip">배우</span>
-
-        <!-- 상세 페이지 링크 예시 -->
+        <!-- 상세 페이지 링크 -->
         <a th:href="@{/movie/{id}(id=${card.movieId})}">상세</a>
     </li>
 </ul>
 
 <!-- 페이지네이션 -->
 <div>
-    <a th:if="${page.page>0}"
-       th:href="@{|/popular?page=${page.page-1}&size=${page.size}&period=${param.period}&sort=${param.sort}|}">
+    <a th:if="${resp.meta.page>0}"
+       th:href="@{|/popular?page=${resp.meta.page-1}&size=${resp.meta.size}&period=${param.period}&sort=${param.sort}|}">
         &laquo; Prev
     </a>
-    <span th:text="${page.page+1} + ' / ' + ${page.totalPages}"/>
-    <a th:if="${page.page+1 < page.totalPages}"
-       th:href="@{|/popular?page=${page.page+1}&size=${page.size}&period=${param.period}&sort=${param.sort}|}">
+    <span th:text="${resp.meta.page+1} + ' / ' + ${resp.meta.totalPages}"/>
+    <a th:if="${resp.meta.page+1 < resp.meta.totalPages}"
+       th:href="@{|/popular?page=${resp.meta.page+1}&size=${resp.meta.size}&period=${param.period}&sort=${param.sort}|}">
         Next &raquo;
     </a>
 </div>
-
 </body>
 </html>
