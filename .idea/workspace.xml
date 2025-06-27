@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9c0819d1-dc52-46d6-b809-77cd6396b592" name="변경" comment="ㅇ">
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/Papers/DB.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/MovietalkApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/client/TmdbClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/ActorComment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/CommentReactions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/comment/CommentReports.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieCache.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieViewDaily.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/movie/MovieViews.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/Review.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewReactions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewReports.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/review/ReviewViews.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/user/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/common/domain/user/UserFavorite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/controller/MovieController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/dto/MovieResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/repository/MovieRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/java/com/sec/movietalk/movie/service/MovieService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/main/resources/templates/movie/list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTalk/Movietalk/src/test/java/com/sec/movietalk/MovietalkApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;bonyubking&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/yongzooda/MovieTalk.git&quot;,
+    &quot;accountId&quot;: &quot;aaeece29-91ab-4c3a-aff1-7f69e7d86c7b&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;yongzooda&quot;,
+    &quot;repository&quot;: &quot;MovieTalk&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2ywZ7PGf1rxUUer5zDYnfZyD3Lx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.MovietalkApplicationTests.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.MovietalkApplication.executor": "Run",
+    "git-widget-placeholder": "feature/movie-list",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/MyBootCamp/Project2/Movietalk/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "project.propCompiler",
+    "vue.rearranger.settings.migration": "true",
+    "애플리케이션.MovietalkApplication.executor": "Run"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\MyBootCamp\Project2\Movietalk\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\MyBootCamp\Project2\Movietalk" />
+      <recent name="D:\MyBootCamp\Project2" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sec.movietalk.userinfo.config" />
+      <recent name="com.sec.movietalk.userinfo.dto.response" />
+      <recent name="com.sec.movietalk.userinfo.dto.request" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MovietalkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/Movietalk/.env" />
+      </option>
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Movietalk" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.sec.movietalk.MovietalkApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\piusk\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="9c0819d1-dc52-46d6-b809-77cd6396b592" name="변경" comment="" />
+      <created>1750747427881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750747427881</updated>
+      <workItem from="1750747430494" duration="129000" />
+      <workItem from="1750747593071" duration="3498000" />
+      <workItem from="1750817917175" duration="732000" />
+      <workItem from="1750818690301" duration="159000" />
+      <workItem from="1750819110263" duration="18775000" />
+      <workItem from="1750911365943" duration="15054000" />
+      <workItem from="1750996631850" duration="2353000" />
+      <workItem from="1750999067241" duration="4649000" />
+    </task>
+    <task id="LOCAL-00001" summary="domain/yml">
+      <option name="closed" value="true" />
+      <created>1750827727428</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750827727428</updated>
+    </task>
+    <task id="LOCAL-00002" summary="domain/yml">
+      <option name="closed" value="true" />
+      <created>1750911904989</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750911904989</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Session 활용한 로그인/로그아웃 기능 구현 &#10;현재 사용자의 정보 CurrentUserDetails 객체에 저장">
+      <option name="closed" value="true" />
+      <created>1750923686177</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750923686177</updated>
+    </task>
+    <task id="LOCAL-00004" summary="ㅇ">
+      <option name="closed" value="true" />
+      <created>1750928807151</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1750928807151</updated>
+    </task>
+    <task id="LOCAL-00005" summary="ㅇ">
+      <option name="closed" value="true" />
+      <created>1750928858054</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1750928858054</updated>
+    </task>
+    <task id="LOCAL-00006" summary="ㅇ">
+      <option name="closed" value="true" />
+      <created>1750999844897</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1750999844897</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/Movietalk" />
+    </ignored-roots>
+    <MESSAGE value="domain/yml" />
+    <MESSAGE value="Session 활용한 로그인/로그아웃 기능 구현 &#10;현재 사용자의 정보 CurrentUserDetails 객체에 저장" />
+    <MESSAGE value="ㅇ" />
+    <option name="LAST_COMMIT_MESSAGE" value="ㅇ" />
+  </component>
+</project>
