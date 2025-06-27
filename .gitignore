@@ -34,4 +34,4 @@ build/
 
 # 환경 설정 파일 (DB 비번 등)
 *.env
-Movietalk/.env
+Movietalk/.env/.idea/
