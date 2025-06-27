@@ -34,4 +34,11 @@ public class UserFavorite {
     public void prePersist() {
         if (createdAt == null) createdAt = LocalDateTime.now();
     }
+
+
+    public UserFavorite(User user, Integer movieId) {
+        this.user = user;
+        this.movieId = movieId;
+    }
+
 }
