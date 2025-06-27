@@ -46,8 +46,8 @@ public class RecommendationService {
 
     //    ------- 3. 선택된 영화들 UserFavorite에 저장 ------
     public void saveFavorites(Long userId, List<Long> movieIds){
-        User userRef = new User();
-        userRef.setUserId(userId);
+
+       User userRef = new User(userId);
 
         List<UserFavorite> insertList = movieIds.stream()
                 .filter(id -> !userFavoriteRepository.existsByUser_UserIdAndMovieId(userId, id.intValue()))
