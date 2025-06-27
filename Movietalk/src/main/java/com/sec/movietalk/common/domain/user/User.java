@@ -31,6 +31,7 @@ public class User {
     private Integer reviewCnt;
 
 
+
     public void setUserId(Long userId) { this.userId = userId; }
 
 }
