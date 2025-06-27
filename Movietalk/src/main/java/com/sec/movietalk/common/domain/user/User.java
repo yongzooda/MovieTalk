@@ -30,8 +30,18 @@ public class User {
     @Column(columnDefinition = "int default 0")
     private Integer reviewCnt;
 
+    // ✅ Review.java에서 사용되는 간단 생성자
+    public User(Long userId) {
+        this.userId = userId;
+    }
+
+    // ✅ getId() 호출용 메서드
+    public Long getId() {
+        return userId;
+    }
 
 
-    public void setUserId(Long userId) { this.userId = userId; }
-
+    public void setUserId(Long userId) { 
+      this.userId = userId; 
+    }
 }
