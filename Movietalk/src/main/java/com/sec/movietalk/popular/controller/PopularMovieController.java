@@ -19,7 +19,7 @@ public class PopularMovieController {
     /** 인기 영화 리스트 JSON */
     @GetMapping
     public ResponseEntity<PopularMoviePageResponse> getPopularMovies(
-            @RequestParam(defaultValue = "views")  SortType sort,
+            @RequestParam(defaultValue = "VIEWS")  SortType sort,
             @RequestParam(defaultValue = "DAILY")  RankingPeriod period,
             @RequestParam(defaultValue = "0")      int page,
             @RequestParam(defaultValue = "20")     int size) {
