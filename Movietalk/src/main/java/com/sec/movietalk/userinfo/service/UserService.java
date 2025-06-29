@@ -3,6 +3,7 @@ package com.sec.movietalk.userinfo.service;
 import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,4 +52,21 @@ public class UserService {
         user.setPassword(encodedPassword); // 보통 여기서 암호화 필요 (예: BCrypt)
         userRepository.save(user);
     }
+
+    public UserInfoResponseDto getUserInfo(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        return new UserInfoResponseDto(
+
+                user.getId(),
+                user.getEmail(),
+                user.getNickname(),
+                user.getCommentCnt() != null ? user.getCommentCnt() : 0,
+                user.getReviewCnt() != null ? user.getReviewCnt() : 0
+
+        );
+    }
+
 }
