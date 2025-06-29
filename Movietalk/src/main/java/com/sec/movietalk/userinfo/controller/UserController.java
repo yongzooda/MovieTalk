@@ -22,7 +22,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
+    public String showRegisterForm(@AuthenticationPrincipal CurrentUserDetails userDetails, Model model) {
+        if (userDetails != null) {
+            return "redirect:/home";
+        }
         model.addAttribute("user", new SignupRequestDto());
         return "register";
     }
@@ -79,10 +82,14 @@ public class UserController {
     }
 
     @GetMapping("/findpassword")
-    public String showFindPasswordForm(Model model) {
+    public String showFindPasswordForm(@AuthenticationPrincipal CurrentUserDetails userDetails, Model model) {
+        if (userDetails != null) {
+            return "redirect:/home";
+        }
         model.addAttribute("user", new PasswordResetRequestDto());
         return "findpw";
     }
+
 
     @PostMapping("/findpassword")
     public String register(@ModelAttribute PasswordResetRequestDto dto, Model model) {
