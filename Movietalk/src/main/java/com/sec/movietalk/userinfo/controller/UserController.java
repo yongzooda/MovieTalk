@@ -53,5 +53,15 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/mypage")
+    public String mypage(@AuthenticationPrincipal CurrentUserDetails userDetails, Model model) {
+
+        model.addAttribute("nickname", userDetails.getNickname());
+        model.addAttribute("userId", userDetails.getUserId());
+        model.addAttribute("email", userDetails.getEmail());
+
+        return "mypage/mypage";
+    }
+
 
 }
