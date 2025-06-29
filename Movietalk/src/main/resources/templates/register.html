@@ -14,5 +14,10 @@
 </form>
 
 <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+
+<form th:action="@{/login}" method="get" style="margin-top:16px;">
+    <button type="submit">로그인 화면으로</button>
+</form>
+
 </body>
 </html>

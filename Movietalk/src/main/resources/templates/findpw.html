@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/findpassword}" th:object="${user}" method="post">
+    <label>
+        이메일
+        <input type="text" th:field="*{email}" placeholder="이메일" required>
+    </label><br>
+    <label>
+        닉네임
+        <input type="text" th:field="*{nickname}" placeholder="닉네임" required>
+    </label><br>
+    <label>
+        새 비밀번호
+        <input type="password" th:field="*{newPassword}" placeholder="새 비밀번호" required>
+    </label><br>
+    <label>
+        비밀번호 확인
+        <input type="password" th:field="*{newPasswordConfirm}" placeholder="비밀번호 확인" required>
+    </label><br>
+    <button type="submit">비밀번호 변경</button>
+    <div th:if="${error}" th:text="${error}" style="color:red"></div>
+</form>
+
+<form th:action="@{/login}" method="get" style="margin-top:16px;">
+    <button type="submit">로그인 화면으로</button>
+</form>
+
+
+</body>
+</html>

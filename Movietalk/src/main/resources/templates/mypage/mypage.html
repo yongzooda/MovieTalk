@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>홈</title>
     <meta charset="UTF-8">
 
 </head>
+
 <body>
-<div th:replace="fragments/top-nav :: topNav"></div>
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
 
 <h1>환영합니다!</h1>
 
@@ -15,4 +17,5 @@
 <a href="/logout">로그아웃</a>
 
 </body>
+
 </html>

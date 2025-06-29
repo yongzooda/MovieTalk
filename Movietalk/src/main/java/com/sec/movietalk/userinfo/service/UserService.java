@@ -1,6 +1,7 @@
 package com.sec.movietalk.userinfo.service;
 
 import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,22 @@ public class UserService {
         user.setPassword(encodedPassword);
 
         userRepository.save(user); // 비밀번호 암호화는 추후에 추가 가능
+    }
+
+    public void resetPassword(PasswordResetRequestDto dto) {
+        // 1. email, nickname 일치 회원 찾기
+        User user = userRepository.findByEmailAndNickname(dto.getEmail(), dto.getNickname())
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 회원이 없습니다."));
+
+        // 2. 새 비밀번호, 확인값 일치 체크
+        if (!dto.getNewPassword().equals(dto.getNewPasswordConfirm())) {
+            throw new IllegalArgumentException("새 비밀번호와 확인값이 일치하지 않습니다.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
+
+        // 4. 비밀번호 변경
+        user.setPassword(encodedPassword); // 보통 여기서 암호화 필요 (예: BCrypt)
+        userRepository.save(user);
     }
 }

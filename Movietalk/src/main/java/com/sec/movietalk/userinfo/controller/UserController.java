@@ -1,5 +1,6 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
 import com.sec.movietalk.userinfo.security.CurrentUserDetails;
 import com.sec.movietalk.userinfo.service.UserService;
@@ -61,6 +62,24 @@ public class UserController {
         model.addAttribute("email", userDetails.getEmail());
 
         return "mypage/mypage";
+    }
+
+    @GetMapping("/findpassword")
+    public String showFindPasswordForm(Model model) {
+        model.addAttribute("user", new PasswordResetRequestDto());
+        return "findpw";
+    }
+
+    @PostMapping("/findpassword")
+    public String register(@ModelAttribute PasswordResetRequestDto dto, Model model) {
+        try {
+            userService.resetPassword(dto);
+            return "redirect:/login"; // 이 줄이 예외 없이 실행되면 바로 리다이렉트됨
+        } catch (Exception e) {
+            model.addAttribute("user", dto);
+            model.addAttribute("error", e.getMessage()); // 이 줄이 호출될 경우만 에러 메시지 전달됨
+            return "findpw"; // 에러 있을 때만 다시 register.html 보여줌
+        }
     }
 
 
