@@ -2,9 +2,11 @@ package com.sec.movietalk.userinfo.controller;
 
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.security.CurrentUserDetails;
 import com.sec.movietalk.userinfo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,8 +41,20 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public String loginPage() {
-        return "login"; // login.html 반환
+    public String loginPage(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            // 이미 로그인된 경우(세션 유지 중) 메인화면 등으로 리다이렉트
+            return "redirect:/home";
+        }
+        return "login";
+    }
+
+    @GetMapping("/")
+    public String startPage(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/home";
+        }
+        return "login";
     }
 
 
@@ -81,6 +95,23 @@ public class UserController {
             return "findpw"; // 에러 있을 때만 다시 register.html 보여줌
         }
     }
+
+    @GetMapping("/mypage/my_info")
+    public String myInfo(@AuthenticationPrincipal CurrentUserDetails userDetails, Model model) {
+        UserInfoResponseDto info = userService
+                .getUserInfo(userDetails.getUserId());
+
+        model.addAttribute("nickname", info.getNickname());
+        model.addAttribute("userId", info.getUserId());
+        model.addAttribute("email", info.getEmail());
+        model.addAttribute("commentCnt", info.getCommentCnt());
+        model.addAttribute("reviewCnt", info.getReviewCnt());
+
+        return "mypage/my_info";
+    }
+
+
+
 
 
 }

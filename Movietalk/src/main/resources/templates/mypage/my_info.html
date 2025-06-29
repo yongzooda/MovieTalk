@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보</title>
+    <style>
+        body {
+            background: #f8fafc;
+            font-family: 'Pretendard', Arial, sans-serif;
+        }
+        .card {
+            margin: 80px auto;
+            max-width: 340px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 6px 24px rgba(40,40,40,0.07);
+            padding: 34px 40px 30px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card h2 {
+            font-size: 1.5em;
+            color: #111;
+            margin-bottom: 24px;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+        .item {
+            margin: 11px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .label {
+            color: #6c757d;
+            font-size: 1em;
+        }
+        .value {
+            font-weight: bold;
+            color: #222;
+            font-size: 1.05em;
+        }
+        .line {
+            width: 100%;
+            border-bottom: 1px solid #ececec;
+            margin: 4px 0 4px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>내 정보</h2>
+    <div class="item">
+        <span class="label">닉네임</span>
+        <span class="value" th:text="${nickname}"></span>
+    </div>
+    <div class="line"></div>
+    <div class="item">
+        <span class="label">이메일</span>
+        <span class="value" th:text="${email}"></span>
+    </div>
+    <div class="line"></div>
+    <div class="item">
+        <span class="label">댓글 수</span>
+        <span class="value" th:text="${commentCnt}"></span>
+    </div>
+    <div class="line"></div>
+    <div class="item">
+        <span class="label">리뷰 수</span>
+        <span class="value" th:text="${reviewCnt}"></span>
+    </div>
+</div>
+</body>
+</html>
