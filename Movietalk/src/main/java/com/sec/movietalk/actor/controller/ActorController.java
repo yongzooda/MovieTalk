@@ -1,7 +1,11 @@
 package com.sec.movietalk.actor.controller;
 
 import com.sec.movietalk.actor.dto.ActorDto;
+import com.sec.movietalk.actor.dto.FilmographyDto;
+import com.sec.movietalk.actor.external.TmdbService;
 import com.sec.movietalk.client.TmdbClient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/actors")
 public class ActorController {
 
 
     private final TmdbClient tmdbClient; //TMDB API와 통신하기 위해 가져온 클라이언트 객체
+    private final TmdbService tmdbService;
 
     // tmdbClient를 스프링이 자동으로 주입할 수 있도록 만든 생성자 기반 의존성 주입
-    public ActorController(TmdbClient tmdbClient) {
-        this.tmdbClient = tmdbClient;
-    }
+    //public ActorController(TmdbClient tmdbClient) {
+        //this.tmdbClient = tmdbClient;
+    //}
 
     // 배우 검색
     @GetMapping("/search")
@@ -46,5 +52,16 @@ public class ActorController {
         model.addAttribute("actor", actor);
 
         return "actor/detail";
+    }
+
+    // 배우 필모그래피
+    @GetMapping("/{id}/filmography")
+    public String getFilmography(@PathVariable int id, Model model) {
+        List<FilmographyDto> filmography = tmdbService.getFilmographyByPersonId((long) id);
+        ActorDto actor = tmdbClient.getActorDetail(id); // 배우 정보
+
+        model.addAttribute("filmography", filmography);
+        model.addAttribute("actor", actor); // model에 담아주기
+        return "actor/filmography"; // ← html 파일명
     }
 }
