@@ -41,6 +41,21 @@
             color: #666;
             white-space: pre-wrap;
         }
+
+        .btn-search {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-search:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +64,10 @@
 
     <div th:if="${#lists.isEmpty(filmography)}" class="alert alert-warning text-center">
         필모그래피 정보가 없습니다.
+    </div>
+
+    <div style="text-align: right; margin-bottom: 1rem;">
+        <a href="/actors/search" class="btn-search">🎬 배우 검색으로 돌아가기</a>
     </div>
 
     <div th:if="${!#lists.isEmpty(filmography)}">
