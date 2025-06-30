@@ -23,20 +23,20 @@ public class ReviewController {
     public String listReviews(Model model) {
         List<ReviewListResponse> reviews = reviewService.getAllReviews();
         model.addAttribute("reviews", reviews);
-        return "review/list";
+        return "review/review_list";
     }
 
     @GetMapping("/{reviewId}")
     public String getReview(@PathVariable Long reviewId, Model model) {
         ReviewResponse review = reviewService.getReviewById(reviewId);
         model.addAttribute("review", review);
-        return "review/view";
+        return "review/review_detail";
     }
 
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("review", new ReviewCreateRequest());
-        return "review/form";
+        return "review/review_form";
     }
 
     @PostMapping

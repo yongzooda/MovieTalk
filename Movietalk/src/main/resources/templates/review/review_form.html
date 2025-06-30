@@ -53,9 +53,9 @@
 <body>
 <div class="container">
   <h2>리뷰 작성</h2>
-  <form th:action="@{/review}" method="post" th:object="${reviewRequest}">
+  <form th:action="@{/review}" method="post" th:object="${review}">
     <label for="movieTitle">영화 제목</label>
-    <input type="text" id="movieTitle" name="movieTitle" th:field="*{movieTitle}" required />
+    <input type="text" id="movieTitle" name="movieTitle" th:field="*{movieId}" required />
 
     <label for="content">리뷰 내용</label>
     <textarea id="content" name="content" rows="8" th:field="*{content}" required></textarea>

@@ -63,9 +63,11 @@
     </style>
 </head>
 <body>
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
+
 <div class="container">
     <h2>영화 리뷰 게시판</h2>
-    <a th:href="@{/review/new}">
+    <a th:href="@{/reviews/new}">
         <button class="btn-write">리뷰 작성</button>
     </a>
 
@@ -78,7 +80,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="review : ${reviewList}">
+        <tr th:each="review : ${review}">
             <td>
                 <a th:href="@{'/review/' + ${review.id}}"
                    th:text="${review.movieTitle}"
