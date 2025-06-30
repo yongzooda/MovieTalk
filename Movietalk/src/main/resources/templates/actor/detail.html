@@ -77,7 +77,7 @@
     <p>대표 활동 분야: <span th:text="${actor.knownForDepartment}">Acting</span></p>
 
     <div style="text-align: center; margin-top: 30px;">
-        <a href="/actors/search?query=">
+        <a th:href="@{'/actors/' + ${actor.id} + '/filmography'}" class="btn btn-primary">
             <button style="padding: 10px 20px; font-size: 16px; background-color: #eee; border: 1px solid #ccc; border-radius: 5px;">
                 필모그래피 보러가기
             </button>
