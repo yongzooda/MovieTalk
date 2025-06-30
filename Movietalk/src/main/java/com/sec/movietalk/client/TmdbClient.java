@@ -3,6 +3,7 @@ package com.sec.movietalk.client;
 
 import com.sec.movietalk.actor.dto.ActorDto;
 import com.sec.movietalk.actor.dto.TmdbActorSearchResponse;
+import com.sec.movietalk.actor.external.TmdbMovieCreditsResponse;
 import com.sec.movietalk.recommendation.dto.MovieRecommendation; // G1
 import com.sec.movietalk.recommendation.dto.OnboardingMovie; // G1
 import java.util.Collections; // G1
@@ -59,6 +60,19 @@ public class TmdbClient {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}
+        );
+
+        return response.getBody();
+    }
+
+    public TmdbMovieCreditsResponse getMovieCredits(Long personId, String apiKey) {
+        String url = "https://api.themoviedb.org/3/person/" + personId + "/movie_credits?api_key=" + apiKey + "&language=ko-KR";
+
+        ResponseEntity<TmdbMovieCreditsResponse> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                TmdbMovieCreditsResponse.class
         );
 
         return response.getBody();
