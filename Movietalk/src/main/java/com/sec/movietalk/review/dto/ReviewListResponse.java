@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class ReviewListResponse {
+
     private Long id;
     private Integer movieId;
     private String movieTitle;
@@ -16,7 +17,7 @@ public class ReviewListResponse {
     private String content;
     private LocalDateTime createdAt;
     private int likeCount;
-    private String author; // ✅ 추가됨
+    private String author; // ⭐ 추가
 
     public static ReviewListResponse fromEntity(Review review, String movieTitle, String author) {
         return new ReviewListResponse(
@@ -27,7 +28,7 @@ public class ReviewListResponse {
                 review.getContent(),
                 review.getCreatedAt(),
                 review.getLikeCount(),
-                author // ✅ 추가됨
+                author // ⭐ 추가
         );
     }
 }

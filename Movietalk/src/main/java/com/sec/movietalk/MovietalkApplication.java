@@ -9,21 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EntityScan(basePackages = {
-		"com.sec.movietalk.review.entity",
-		"com.sec.movietalk.movie.entity",
-		"com.sec.movietalk.common.domain.movie",
-		"com.sec.movietalk.common.domain.user",
-		"com.sec.movietalk.common.domain.review",   // ✅ 추가된 부분
-		"com.sec.movietalk.common.domain.comment"   // ✅ 혹시 comment 엔티티도 쓰면 같이 추가
-})
-@EnableJpaRepositories(basePackages = {
-		"com.sec.movietalk.review.repository",
-		"com.sec.movietalk.movie.repository",
-		"com.sec.movietalk.userinfo.repository",
-		"com.sec.movietalk.popular.repository",
-		"com.sec.movietalk.recommendation.repository"
-})
 public class MovietalkApplication {
 
 	public static void main(String[] args) {
