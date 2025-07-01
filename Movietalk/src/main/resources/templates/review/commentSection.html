@@ -13,10 +13,12 @@
     <form th:action="@{/reviews/{id}/comments(id=${reviewId})}"
           method="post"
           class="comment-form">
-    <textarea name="content"
-              rows="2"
-              placeholder="댓글을 입력하세요..."
-              required></textarea>
+        <label>
+<textarea name="content"
+          rows="2"
+          placeholder="댓글을 입력하세요..."
+          required></textarea>
+        </label>
         <button type="submit">등록</button>
     </form>
 </div>
