@@ -65,29 +65,25 @@ public class UserController {
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal Object principal, Model model) {
 
-        String nickname = "";
-        String email = "";
         Long userId = null;
 
-
         if (principal instanceof CurrentUserDetails userDetails) {
-            nickname = userDetails.getNickname();
-            email = userDetails.getEmail();
             userId = userDetails.getUserId();
-        }
-
-        else if (principal instanceof org.springframework.security.oauth2.core.user.OAuth2User oAuth2User) {
-            nickname = (String) oAuth2User.getAttribute("nickname");
-            email = (String) oAuth2User.getAttribute("email");
+        } else if (principal instanceof org.springframework.security.oauth2.core.user.OAuth2User oAuth2User) {
             Object idObj = oAuth2User.getAttribute("userId");
-            // userId가 Long 타입인지 체크
             if (idObj instanceof Long) userId = (Long) idObj;
             else if (idObj instanceof Integer) userId = ((Integer) idObj).longValue();
+        } else {
+            return "redirect:/login";
         }
 
-        model.addAttribute("nickname", nickname);
-        model.addAttribute("userId", userId);
-        model.addAttribute("email", email);
+        UserInfoResponseDto info = userService.getUserInfo(userId);
+
+        model.addAttribute("nickname", info.getNickname());
+        model.addAttribute("userId", info.getUserId());
+        model.addAttribute("email", info.getEmail());
+        model.addAttribute("commentCnt", info.getCommentCnt());
+        model.addAttribute("reviewCnt", info.getReviewCnt());
 
         return "home";
     }
@@ -121,6 +117,7 @@ public class UserController {
             else if (idObj instanceof Integer) userId = ((Integer) idObj).longValue();
             // 기타 타입 체크
         }
+
 
         // 모델에 값 넣기
         model.addAttribute("nickname", nickname);

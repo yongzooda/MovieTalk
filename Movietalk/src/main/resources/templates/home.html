@@ -14,12 +14,15 @@
     <div style="width: 220px; min-width: 180px; flex-shrink: 0;">
         <div style="border:1px solid #ddd; border-radius:14px; padding:24px;">
             <h3>회원 정보</h3>
-            <div><b>닉네임</b>: 무비유저</div>
-            <div>리뷰 수: 3</div>
-            <div>댓글 수: 10</div>
-            <button style="margin-top:12px;">로그아웃</button>
+            <div><span th:text="${nickname}"></span></div>
+            <div>나의 리뷰 수: <span th:text="${reviewCnt}"></span></div>
+            <div>나의 댓글 수: <span th:text="${commentCnt}"></span></div>
+            <form th:action="@{/logout}" method="post" style="width:100%;">
+                <button type="submit" class="logout-btn">로그아웃</button>
+            </form>
         </div>
     </div>
+
 
     <!-- 2. 가운데: 인기 영화 + 인기 배우 (더 큼) -->
     <div style="flex:1; display: flex; flex-direction: column; align-items: center;">
