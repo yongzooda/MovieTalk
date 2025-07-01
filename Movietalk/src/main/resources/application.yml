@@ -19,7 +19,9 @@ spring:
         format_sql: true # SQL 포맷팅
 
 tmdb:
-  api-key: ${TMDB_API_KEY}
+  api:
+    key: ${TMDB_API_KEY}
+
 
 logging:
   level:

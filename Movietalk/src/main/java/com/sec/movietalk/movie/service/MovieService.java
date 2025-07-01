@@ -32,8 +32,8 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final TmdbClient tmdbClient;
-
     private static final int PAGE_SIZE = 20;
+
 
     public Page<MovieResponseDto> getPagedMovies(int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("releaseDate").descending());
@@ -194,5 +194,80 @@ public class MovieService {
             log.error("TMDB 검색 수 조회 실패: {}", e.getMessage());
             return 0;
         }
+    }
+    // TODO: 추후 영화 검색 결과 상세보기에서 사용 예정
+    public MovieResponseDto getMovieById(Long id) {
+        MovieCache movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다"));
+        return MovieResponseDto.fromEntity(movie);
+    }
+
+    public Optional<MovieCache> findMovieEntityById(Long id) {
+        return movieRepository.findById(id);
+    }
+
+    // ✅ 내부 DB에서 TMDB 상세정보 가져오는 경우
+    public MovieDetailDto getMovieDetailFromTmdb(Long id) {
+        MovieCache movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다"));
+        Integer tmdbId = movie.getMovieId();
+
+        String url = "https://api.themoviedb.org/3/movie/" + tmdbId +
+                "?api_key=" + tmdbClient.getApiKey() + "&language=ko-KR";
+
+        RestTemplate restTemplate = new RestTemplate();
+        MovieDetailDto detail = restTemplate.getForObject(url, MovieDetailDto.class);
+
+        // ✅ 성인 여부 체크
+        if (detail != null && detail.isAdult()) {
+            detail.setRestricted(true);
+        }
+
+        return detail;
+    }
+
+    // ✅ 내부 DB가 없을 때 외부 API 직접 호출
+    public MovieDetailDto getMovieDetailFromTmdbId(Long tmdbId) {
+        String url = "https://api.themoviedb.org/3/movie/" + tmdbId +
+                "?api_key=" + tmdbClient.getApiKey() + "&language=ko-KR";
+
+        RestTemplate restTemplate = new RestTemplate();
+        MovieDetailDto detail = restTemplate.getForObject(url, MovieDetailDto.class);
+
+        // ✅ 성인 여부 체크
+        if (detail != null && detail.isAdult()) {
+            detail.setRestricted(true);
+        }
+
+        return detail;
+    }
+
+    public List<MovieSearchResultDto> searchMoviesFromTmdb(String keyword) {
+        String encodedKeyword = UriUtils.encode(keyword, StandardCharsets.UTF_8);
+        String url = "https://api.themoviedb.org/3/search/movie?api_key=" + tmdbClient.getApiKey()
+                + "&language=ko-KR&query=" + encodedKeyword;
+
+        RestTemplate restTemplate = new RestTemplate();
+//        JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+//        JsonNode results = response.path("results");
+        JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+        JsonNode results = (response != null) ? response.path("results") : NullNode.getInstance();
+
+
+        List<MovieSearchResultDto> searchResults = new ArrayList<>();
+
+        for (JsonNode result : results) {
+            String title = result.path("title").asText();
+            String overview = result.path("overview").asText();
+            String posterPath = result.path("poster_path").asText(null);
+            String releaseDate = result.path("release_date").asText(null);
+
+            String posterUrl = posterPath != null ? "https://image.tmdb.org/t/p/w500" + posterPath : null;
+
+            MovieSearchResultDto dto = new MovieSearchResultDto(title, overview, posterPath, releaseDate, posterUrl);
+            searchResults.add(dto);
+        }
+
+        return searchResults;
     }
 }

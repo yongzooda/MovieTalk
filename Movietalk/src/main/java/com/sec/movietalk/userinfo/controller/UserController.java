@@ -124,8 +124,10 @@ public class UserController {
         model.addAttribute("email", email);
         model.addAttribute("userId", userId);
 
+
         return "mypage/mypage";
     }
+
 
 
     @GetMapping("/findpassword")
@@ -174,6 +176,7 @@ public class UserController {
 
         UserInfoResponseDto info = userService.getUserInfo(userId);
 
+
         model.addAttribute("nickname", info.getNickname());
         model.addAttribute("userId", info.getUserId());
         model.addAttribute("email", info.getEmail());
@@ -182,8 +185,6 @@ public class UserController {
 
         return "mypage/my_info";
     }
-
-
 
 
 

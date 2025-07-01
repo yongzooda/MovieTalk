@@ -35,7 +35,9 @@ public class MovieDetailDto {
 
     private List<Genre> genres;
 
+
     private List<CastMember> cast;
+
 
     @JsonProperty("production_countries")
     private List<ProductionCountry> productionCountries;
