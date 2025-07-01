@@ -15,9 +15,10 @@ public class ReviewListResponse {
     private Long userId;
     private String content;
     private LocalDateTime createdAt;
-    private int likeCount; //
+    private int likeCount;
+    private String author; // ✅ 추가됨
 
-    public static ReviewListResponse fromEntity(Review review, String movieTitle) {
+    public static ReviewListResponse fromEntity(Review review, String movieTitle, String author) {
         return new ReviewListResponse(
                 review.getId(),
                 review.getMovieId(),
@@ -25,10 +26,12 @@ public class ReviewListResponse {
                 review.getUserId(),
                 review.getContent(),
                 review.getCreatedAt(),
-                review.getLikeCount() //
+                review.getLikeCount(),
+                author // ✅ 추가됨
         );
     }
 }
+
 
 
 

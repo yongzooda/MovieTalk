@@ -6,9 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewUpdateRequest {
-    private Long reviewId;
+    private Long id;  // reviewId → id 로 변경
     private String content;
 }
+
 
 
 
