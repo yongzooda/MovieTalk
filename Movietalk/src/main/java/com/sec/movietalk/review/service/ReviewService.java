@@ -111,6 +111,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(request.getReviewId())
                 .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다. id=" + request.getReviewId()));
 
+
         review.setContent(request.getContent());
         review.setUpdatedAt(LocalDateTime.now());
     }
@@ -120,3 +121,4 @@ public class ReviewService {
         reviewRepository.deleteById(reviewId);
     }
 }
+

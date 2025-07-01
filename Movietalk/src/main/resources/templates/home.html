@@ -1,67 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>홈</title>
     <meta charset="UTF-8">
-
-    <style>
-        .profile-card {
-            width: 230px;
-            min-width: 180px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(50, 70, 90, 0.08);
-            border: none;
-            padding: 28px 24px 20px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-        }
-        .profile-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.3em;
-            color: #25564b;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-        .profile-nickname {
-            font-size: 1.15em;
-            font-weight: 600;
-            color: #28826d;
-            margin-bottom: 6px;
-        }
-        .profile-counts {
-            display: flex;
-            gap: 18px;
-            margin-bottom: 8px;
-            font-size: 0.97em;
-            color: #444;
-        }
-        .profile-counts b {
-            font-size: 1.08em;
-            color: #32b09e;
-        }
-        .logout-btn {
-            width: 100%;
-            background: linear-gradient(90deg, #38a169 60%, #2f855a 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            padding: 9px 0 8px 0;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: background 0.18s, box-shadow 0.18s;
-            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.05);
-        }
-        .logout-btn:hover {
-            background: linear-gradient(90deg, #2f855a 50%, #38a169 100%);
-            box-shadow: 0 4px 16px rgba(56, 161, 105, 0.12);
-        }
-    </style>
-
 </head>
 <body>
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
@@ -70,41 +11,65 @@
 <div style="display: flex; justify-content: flex-start; align-items: flex-start; gap:48px; max-width: 1400px; margin: 36px auto 64px;">
 
     <!-- 1. 왼쪽: 회원 정보 -->
-    <div class="profile-card">
-        <h3>회원 정보</h3>
-        <div class="profile-nickname" th:text="${nickname}">닉네임</div>
-        <div class="profile-counts">
-            <span>리뷰 <b th:text="${reviewCnt}">0</b></span>
-            <span>댓글 <b th:text="${commentCnt}">0</b></span>
+    <div style="width: 220px; min-width: 180px; flex-shrink: 0;">
+        <div style="border:1px solid #ddd; border-radius:14px; padding:24px;">
+            <h3>회원 정보</h3>
+            <div><span th:text="${nickname}"></span></div>
+            <div>나의 리뷰 수: <span th:text="${reviewCnt}"></span></div>
+            <div>나의 댓글 수: <span th:text="${commentCnt}"></span></div>
+            <form th:action="@{/logout}" method="post" style="width:100%;">
+                <button type="submit" class="logout-btn">로그아웃</button>
+            </form>
         </div>
-        <form th:action="@{/logout}" method="post" style="width:100%;">
-            <button type="submit" class="logout-btn">로그아웃</button>
-        </form>
     </div>
 
 
     <!-- 2. 가운데: 인기 영화 + 인기 배우 (더 큼) -->
     <div style="flex:1; display: flex; flex-direction: column; align-items: center;">
 
-
+        <!-- 인기 영화 박스 (세로 더 큼) -->
         <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
             <h2 style="margin-bottom:30px; font-size:2em;">🔥 인기 영화</h2>
             <div style="display: flex; gap: 40px; justify-content: center;">
 
-
-                <div th:each="movie : ${popularMovies}"
-                     style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     th:onclick="|window.location.href='/movies/${movie.movieId}'|"
+                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     onclick="alert('상세페이지 준비중입니다!')"
                      onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
                      onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
                 >
-                    <img th:src="${movie.posterUrl}" style="border-radius:10px; width:140px; height:210px;" alt="url"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${movie.title}"></span>
+                    <img src="https://via.placeholder.com/140x210?text=포스터1" alt="포스터1" style="border-radius:10px;"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목1</span>
                 </div>
 
+
+                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     onclick="alert('상세페이지 준비중입니다!')"
+                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
+                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
+                >
+                    <img src="https://via.placeholder.com/140x210?text=포스터2" alt="포스터2" style="border-radius:10px;"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목2</span>
+                </div>
+
+                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     onclick="alert('상세페이지 준비중입니다!')"
+                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
+                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
+                >
+                    <img src="https://via.placeholder.com/140x210?text=포스터3" alt="포스터3" style="border-radius:10px;"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목3</span>
+                </div>
+
+                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     onclick="alert('상세페이지 준비중입니다!')"
+                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
+                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
+                >
+                    <img src="https://via.placeholder.com/140x210?text=포스터4" alt="포스터4" style="border-radius:10px;"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목4</span>
+                </div>
             </div>
         </div>
-
 
         <!-- 인기 배우 박스 (세로 더 큼) -->
         <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
@@ -150,71 +115,76 @@
 
         <!-- 인기 리뷰/댓글 통합 박스 -->
         <div style="width:100%; max-width:720px; margin:48px auto 0 auto; border:2px solid #bbb; border-radius:18px; background:#fff; overflow:hidden;">
-
             <div style="display:flex;">
-                <div id="tab-review" style="flex:1; text-align:center; padding:22px 0; font-weight:600; font-size:1.13em; cursor:pointer; background:#4CAF50;"
-                     onclick="showTab('review')"
-                     onmouseover="this.style.backgroundColor='#43b14b'"
-                     onmouseout="this.style.backgroundColor=selectedTab==='review' ? '#4CAF50' : '#f8f8f8'">
+                <!-- 탭 -->
+                <div id="tab-review" style="flex:1; text-align:center; padding:22px 0; font-weight:600; font-size:1.13em; cursor:pointer; background:#f8f8f8;"
+                     th:onmouseover="showTab('review')"
+                     onmouseover="this.style.backgroundColor='#4CAF50'"
+                     onmouseout="if(selectedTab!=='review') this.style.background='#f8f8f8'">
                     📝 인기 리뷰
                 </div>
                 <div id="tab-comment" style="flex:1; text-align:center; padding:22px 0; font-weight:600; font-size:1.13em; cursor:pointer; background:#f8f8f8;"
-                     onclick="showTab('comment')"
-                     onmouseover="this.style.backgroundColor='#43b14b'"
-                     onmouseout="this.style.backgroundColor=selectedTab==='comment' ? '#4CAF50' : '#f8f8f8'">
+                     th:onmouseover="showTab('comment')"
+                     onmouseover="this.style.backgroundColor='#4CAF50'"
+                     onmouseout="if(selectedTab!=='comment') this.style.background='#f8f8f8'">
                     💬 인기 댓글
                 </div>
             </div>
-
-
-
             <div id="tab-review-list" style="padding:36px 38px;">
-                <div th:each="review : ${topReviews}" style="margin-bottom:14px;">
-                    <div
-                            style="display: flex; align-items: center; justify-content: space-between; padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.07em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
-                            th:onclick="|window.location.href='@{/reviews/{id}(id=${review.reviewId})}'|"
-                            onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
-                            onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';"
-                    >
-                        <!-- 왼쪽: 제목, 내용 -->
-                        <div>
-                            <b th:text="${review.movieTitle}">영화 제목</b>
-                            <span style="color:#bbb; margin:0 8px;">|</span>
-                            <span th:text="${review.content}" style="color:#333;">리뷰 내용</span>
-                        </div>
-                        <!-- 오른쪽: 좋아요 수 -->
-                        <div style="display: flex; align-items: center; gap:6px; min-width:65px; justify-content: flex-end;">
-                            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="18" style="margin-right:3px; opacity:0.7;">
-                            <span th:text="${review.likeCount}" style="font-weight:600; color:#248253; font-size:1.07em;"></span>
-                        </div>
+                <!-- 리스트: 버튼화 & 넓게 -->
+                <div style="margin-bottom:18px;">
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('리뷰 상세페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        이 영화 정말 최고였어요!
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('리뷰 상세페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        스토리가 신선했어요.
+                    </div>
+                </div>
+                <div>
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('리뷰 상세페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        연출이 너무 감동적이었음.
                     </div>
                 </div>
             </div>
-
-
             <div id="tab-comment-list" style="display:none; padding:36px 38px;">
-                <div th:each="comment : ${topComments}" style="margin-bottom:14px;">
-                    <div
-                            style="display: flex; align-items: center; justify-content: space-between; padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.07em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
-                            th:onclick="|window.location.href='@{/reviews/{id}(id=${comment.reviewId})}'|"
-                            onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
-                            onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';"
-                    >
-                        <!-- 왼쪽: 닉네임 + 댓글 내용 -->
-                        <div>
-                            <b th:text="${comment.nickname}" style="margin-right:7px;">닉네임</b>
-                            <span style="color:#bbb; margin:0 7px;">|</span>
-                            <span th:text="${comment.content}" style="color:#333; max-width:340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;">댓글 내용</span>
-                        </div>
-                        <!-- 오른쪽: 좋아요 수 -->
-                        <div style="display: flex; align-items: center; gap:6px; min-width:65px; justify-content: flex-end;">
-                            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="18" style="margin-right:3px; opacity:0.7;">
-                            <span th:text="${comment.likeCount}" style="font-weight:600; color:#248253; font-size:1.07em;"></span>
-                        </div>
+                <!-- 댓글 리스트 -->
+                <div style="margin-bottom:18px;">
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('댓글이 달린 리뷰 페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        저도 이 장면 좋아해요!
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('댓글이 달린 리뷰 페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        동감합니다.
+                    </div>
+                </div>
+                <div>
+                    <div style="padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.1em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
+                         onclick="alert('댓글이 달린 리뷰 페이지로 이동!')"
+                         onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
+                         onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';">
+                        정보 감사합니다 :)
                     </div>
                 </div>
             </div>
-
+        </div>
 
         <script>
             // 탭 전환 스크립트
@@ -231,7 +201,7 @@
 
     </div>
 </div>
-</div>
+
 
 
 

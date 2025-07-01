@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,11 +14,10 @@ import lombok.Setter;
 public class MyCommentResponseDto {
 
     private Long commentId;
-    private Long reviewId;
-    private String reviewNickName;
     private String content;
-    private Integer likeCnt;
-    private Integer dislikeCnt;
-
+    private LocalDateTime createdAt;
+    private String dislikeCnt;
+    private String likeCnt;
+    private String reviewId;
 
 }

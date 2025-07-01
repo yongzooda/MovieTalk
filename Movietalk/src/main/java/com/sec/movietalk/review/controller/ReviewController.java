@@ -68,6 +68,7 @@ public class ReviewController {
         );
         // 2) 현재 로그인 유저 엔티티 (id 만 필요)
         User user = new User(UserUtil.extractUserId(principal));
+
         // 3) 서비스 호출
         commentService.addComment(payload, user);
         // 4) 상세페이지로 리다이렉트
