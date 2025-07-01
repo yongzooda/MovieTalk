@@ -12,4 +12,7 @@ public interface UserFavoriteRepository extends JpaRepository<UserFavorite, Long
 
     // 이미 저장된 영화인지 중복 체크
     boolean existsByUser_UserIdAndMovieId(long userId, Integer movieId);
+
+    // 즐겨찾기 목록 조회
+    List<UserFavorite> findAllByUser_UserId(Long user_id);
 }

@@ -1,13 +1,20 @@
 package com.sec.movietalk.recommendation.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-// 온보딩 될 페이지
+/**
+ * 온보딩 영화 카드 DTO
+ */
 @Getter
 @Builder
 public class OnboardingMovie {
-    private Integer movieId;   // MovieCache.movieId
+
+    /** MovieCache.movieId */
+    private Integer movieId;
+
     private String  title;
-    private String  posterUrl; // MovieCache.posterUrl
+    @JsonProperty("posterUrl")   // JSON 필드명 고정
+    private String  posterUrl;
 }
