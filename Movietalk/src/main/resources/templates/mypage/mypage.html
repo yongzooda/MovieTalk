@@ -5,90 +5,81 @@
     <title>홈</title>
     <style>
         body {
-            background-color: #f5f7fa;
+            background-color: #f5f5f5;
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             min-height: 100vh;
         }
         .container {
-            margin: 86px auto 0 auto;
-            max-width: 390px;
+            margin: 84px auto 0 auto;
+            max-width: 370px;
             background: #fff;
-            border-radius: 22px;
-            box-shadow: 0 4px 20px rgba(45, 85, 60, 0.10);
-            padding: 42px 36px 30px 36px;
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+            padding: 38px 36px 28px 36px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            position: relative;
-            gap: 24px;
         }
         .home-title {
             font-size: 2em;
-            font-weight: 700;
-            color: #28826d;
-            margin-bottom: 8px;
-            letter-spacing: -1.5px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 22px;
+            letter-spacing: -1px;
         }
         .nickname {
-            color: #21564b;
-            background: #e6fcf5;
-            font-size: 1.13em;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 8px 0 7px 0;
-            margin-bottom: 3px;
-            width: 100%;
-            box-shadow: 0 1.5px 8px rgba(0,150,120,0.05);
+            color: #444;
+            font-size: 1.11em;
+            font-weight: 500;
+            margin-bottom: 28px;
         }
         .menu {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 4px;
+            gap: 16px;
+            margin-bottom: 18px;
         }
         .menu a {
             display: block;
             width: 100%;
-            background: linear-gradient(90deg, #39b38b 70%, #257559 100%);
+            background: #4CAF50; /* 초록색으로 통일 */
             color: #fff;
-            font-size: 1.08em;
-            border-radius: 9px;
-            padding: 13px 0 12px 0;
+            font-size: 1.09em;
+            border-radius: 7px;
+            padding: 12px 0;
             text-decoration: none;
             font-weight: 600;
-            letter-spacing: -0.4px;
-            box-shadow: 0 1.5px 10px rgba(30, 170, 120, 0.07);
-            transition: background 0.15s, box-shadow 0.15s;
+            box-shadow: 0 2px 7px rgba(40,90,200,0.06);
+            transition: background 0.13s;
+            letter-spacing: -0.5px;
         }
         .menu a:hover {
-            background: linear-gradient(90deg, #257559 60%, #39b38b 100%);
-            box-shadow: 0 4px 16px rgba(30,170,120,0.15);
+            background: #388e3c; /* hover도 초록 계열로 */
         }
         .logout-btn {
-            margin-top: 10px;
+            margin-top: 16px;
             width: 100%;
-            background: linear-gradient(90deg, #e74848 65%, #b83232 100%);
+            background: #e74848;
             color: #fff;
             font-weight: 600;
-            border-radius: 9px;
-            padding: 13px 0 12px 0;
+            border-radius: 7px;
+            padding: 12px 0;
             border: none;
-            font-size: 1.06em;
+            font-size: 1.04em;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(200,60,60,0.10);
-            transition: background 0.13s, box-shadow 0.13s;
+            box-shadow: 0 2px 7px rgba(200,60,60,0.07);
+            transition: background 0.12s;
         }
         .logout-btn:hover {
-            background: linear-gradient(90deg, #be2929 60%, #e74848 100%);
-            box-shadow: 0 6px 20px rgba(230, 72, 72, 0.15);
+            background: #be2929;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 480px) {
             .container {
-                max-width: 98vw;
-                padding: 22px 6vw 18px 6vw;
+                max-width: 95vw;
+                padding: 24px 6vw 18px 6vw;
             }
         }
     </style>
@@ -97,11 +88,11 @@
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 <div class="container">
     <div class="home-title">환영합니다!</div>
-    <div class="nickname" th:text="'사용자 닉네임: ' + ${nickname}">사용자 닉네임: 구본엽</div>
+    <div class="nickname" th:text="'사용자 닉네임: ' + ${nickname}"></div>
     <div class="menu">
         <a th:href="@{/mypage/my_info}">나의 정보 보기</a>
-        <a th:href="@{/mypage/comments}">나의 댓글 목록</a>
-        <a th:href="@{/mypage/reviews}">나의 리뷰 목록</a>
+        <a th:href="@{/mypage/my_comment}">나의 댓글 목록</a>
+        <a th:href="@{/mypage/my_review}">나의 리뷰 목록</a>
     </div>
     <form th:action="@{/logout}" method="post" style="width:100%;">
         <button type="submit" class="logout-btn">로그아웃</button>
