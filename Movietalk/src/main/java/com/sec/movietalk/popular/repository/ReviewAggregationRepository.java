@@ -1,4 +1,3 @@
-// com/sec/movietalk/popular/repository/ReviewAggregationRepository.java
 package com.sec.movietalk.popular.repository;
 
 import com.sec.movietalk.common.domain.review.Review;
@@ -20,11 +19,25 @@ public interface ReviewAggregationRepository
     @Query("""
            SELECT  r.movieId        AS movieId,
                    COUNT(r)         AS cnt
-           FROM    Review r
-           WHERE   r.createdAt >= :from
-           GROUP BY r.movieId
-           ORDER BY cnt DESC
+             FROM  Review r
+            WHERE  r.createdAt >= :from
+            GROUP  BY r.movieId
+            ORDER  BY cnt DESC
            """)
-    Page<ReviewCountProjection> findTopMoviesByReviewCount(@Param("from") LocalDateTime from,
-                                                           Pageable pageable);
+    Page<ReviewCountProjection> findTopMoviesByReviewCount(
+            @Param("from") LocalDateTime from,
+            Pageable pageable
+    );
+
+    /**
+     * 전체 기간(ALLTIME) 리뷰 수 TOP N 영화 집계
+     */
+    @Query("""
+           SELECT  r.movieId        AS movieId,
+                   COUNT(r)         AS cnt
+             FROM  Review r
+            GROUP  BY r.movieId
+            ORDER  BY cnt DESC
+           """)
+    Page<ReviewCountProjection> findTopMoviesByReviewCountAllTime(Pageable pageable);
 }
