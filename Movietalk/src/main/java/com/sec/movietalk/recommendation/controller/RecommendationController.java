@@ -10,7 +10,13 @@ import com.sec.movietalk.recommendation.service.RecommendationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -37,13 +43,14 @@ public class RecommendationController {
 
     // 3: 온보딩 완료 → 선호 영화 저장
     @PostMapping("/onboarding/complete/{user_id}")
-    public ResponseEntity<Void> completeOnboarding(
-            @PathVariable("user_id") Long userId,
-            @RequestBody FavoriteSaveReq req
-    ) {
-        service.saveFavorites(userId, req.getMovie_ids());
-        return ResponseEntity.ok().build();
+    public void saveFavorites(@PathVariable("user_id") Long userId,
+                              @RequestBody Map<String,List<Long>> body) {
+        service.saveFavorites(userId, body.get("movie_ids"));
+    }
+    @GetMapping("/{user_id}")
+    public List<MovieRecommendation> getRecs(@PathVariable("user_id") Long userId) {
+        return service.getRecommendations(userId);
     }
 
-    // 4 유저별 추천 리스트 반환
+
 }
