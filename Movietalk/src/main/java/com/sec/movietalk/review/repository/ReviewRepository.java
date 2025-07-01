@@ -18,6 +18,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> searchByMovieTitleInCache(@Param("keyword") String keyword);
 
     List<Review> findAllByMovieIdIn(List<Integer> movieIds);
+
+    List<Review> findByUser_UserId(Long userId);
 }
 
 

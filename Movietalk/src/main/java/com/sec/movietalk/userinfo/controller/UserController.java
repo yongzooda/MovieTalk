@@ -1,11 +1,15 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
-import com.sec.movietalk.home.service.HomeMovieService;
+import com.sec.movietalk.home.dto.HomeReviewDto;
+import com.sec.movietalk.home.service.HomeService;
+import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.security.CurrentUserDetails;
+import com.sec.movietalk.userinfo.service.MyDataService;
 import com.sec.movietalk.userinfo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -24,8 +28,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final HomeMovieService homeMovieService;
+    private final HomeService homeService;
     private final UserService userService;
+    private final MyDataService mydataService;
+
 
     @GetMapping("/register")
     public String showRegisterForm(@AuthenticationPrincipal CurrentUserDetails userDetails, Model model) {
@@ -90,8 +96,14 @@ public class UserController {
         model.addAttribute("commentCnt", info.getCommentCnt());
         model.addAttribute("reviewCnt", info.getReviewCnt());
 
-        List<HomeMovieDto> popularMovies = homeMovieService.getTop4MoviesByViews();
+        List<HomeMovieDto> popularMovies = homeService.getTop4MoviesByViews();
         model.addAttribute("popularMovies", popularMovies);
+
+        List<HomeReviewDto> topReviews = homeService.getTop3Reviews();
+        model.addAttribute("topReviews", topReviews);
+
+        List<HomeCommentDto> topComments = homeService.getTop3Comments();
+        model.addAttribute("topComments", topComments);
 
         return "home";
     }
@@ -190,6 +202,30 @@ public class UserController {
 
         return "mypage/my_info";
     }
+
+
+    @GetMapping("/mypage/reviews")
+    public String myReviews(Authentication authentication, Model model) {
+        Long userId = null;
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof CurrentUserDetails currentUser) {
+            userId = currentUser.getUserId();
+        } else if (principal instanceof OAuth2User oAuth2User) {
+            Object socialId = oAuth2User.getAttribute("userId"); // 또는 "id"
+            if (socialId != null) userId = Long.valueOf(socialId.toString());
+        }
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        List<ReviewResponse> myReviews = mydataService.getReviewsByUserId(userId);
+        model.addAttribute("reviewList", myReviews);
+        return "mypage/my_review";
+    }
+
 
 
 
