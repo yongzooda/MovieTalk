@@ -38,12 +38,22 @@ public class PopularMovieService {
         PageRequest pageable = PageRequest.of(req.getPage(), req.getSize());
 
         // 3) 랭킹 기간(from 시점) 계산
-        LocalDateTime from = LocalDateTime.now().minusDays(period.getDays());
+        // ALLTIME인 경우부터는 from을 쓰지 않음
+        LocalDateTime from = (period == RankingPeriod.ALLTIME
+                       ? null
+                       : LocalDateTime.now().minusDays(period.getDays()));
 
         // 4) 정렬 기준에 따라 리뷰 집계 또는 조회 집계 호출
-        Page<?> rawPage = (sort == SortType.REVIEWS)
-                ? reviewRepo.findTopMoviesByReviewCount(from, pageable)   // Page<ReviewCountProjection>
-                : viewRepo  .findTopMoviesByViewCount(from, pageable);    // Page<ViewCountProjection>
+        Page<?> rawPage;
+           if (sort == SortType.REVIEWS) {
+                   rawPage = (period == RankingPeriod.ALLTIME)
+                               ? reviewRepo.findTopMoviesByReviewCountAllTime(pageable)
+                               : reviewRepo.findTopMoviesByReviewCount(from, pageable);
+               } else {
+                   rawPage = (period == RankingPeriod.ALLTIME)
+                               ? viewRepo.findTopMoviesByViewCountAllTime(pageable)
+                               : viewRepo.findTopMoviesByViewCount(from, pageable);
+               }
 
         // 5) 전역 순위 계산을 위한 시작 번호
         int startRank = pageable.getPageNumber() * pageable.getPageSize() + 1;

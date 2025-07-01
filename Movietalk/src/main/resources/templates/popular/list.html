@@ -4,24 +4,80 @@
 <head>
     <meta charset="UTF-8"/>
     <title>인기 영화 TOP</title>
+
+    <!-- 1) 스타일 추가 -->
+    <style>
+
+        /* 페이지 네비게이션용 컨트롤 */
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .pagination-controls button,
+  .pagination-controls input[type="number"] {
+    font-size: 1.1rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .pagination-controls button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .pagination-controls button:hover {
+    background-color: #0056b3;
+  }
+  .pagination-controls input[type="number"] {
+    width: 3rem;
+    text-align: center;
+  }
+
+        /* 필터 폼 감싸는 영역 */
+        .filter-controls {
+          margin-bottom: 1rem;
+        }
+
+        /* 셀렉트 박스 공통 스타일 */
+        .filter-controls select {
+          font-size: 1.1rem;       /* 폰트 크기 키우기 */
+          padding: 0.4rem 0.8rem;  /* 세로·가로 패딩 추가 */
+          margin-right: 0.5rem;    /* 요소 간 간격 */
+        }
+
+        /* 버튼 공통 스타일 */
+        .filter-controls button {
+          font-size: 1.1rem;
+          padding: 0.45rem 1rem;
+          cursor: pointer;
+          background-color: #007bff;
+          border: none;
+          color: white;
+          border-radius: 4px;
+        }
+
+        .filter-controls button:hover {
+          background-color: #0056b3;
+        }
+    </style>
 </head>
 <body
         th:with="
-      currentPeriod=${param.period != null ? param.period[0] : 'DAILY'},
-      currentSort=${param.sort   != null ? param.sort[0]   : 'VIEWS'}">
+        currentPeriod=${param.period != null ? param.period[0] : 'DAILY'},
+        currentSort=${param.sort   != null ? param.sort[0]   : 'VIEWS'}">
 
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 
-<!-- 헤드라인도 currentSort 로 분기하면 좋습니다 -->
 <h1 th:text="${currentSort=='REVIEWS'}
-                ? '인기 영화 TOP - 리뷰수'
-                : '인기 영화 TOP - 조회수'">
+                  ? '인기 영화 TOP - 리뷰수'
+                  : '인기 영화 TOP - 조회수'">
     인기 영화 TOP
 </h1>
 
-<!-- 기간·정렬 폼 -->
-<form method="get" th:action="@{/popular}">
-    <!-- period select -->
+<form method="get" th:action="@{/popular}" class="filter-controls">
     <select name="period">
         <option value="DAILY"   th:selected="${currentPeriod=='DAILY'}">일간</option>
         <option value="WEEKLY"  th:selected="${currentPeriod=='WEEKLY'}">주간</option>
@@ -29,11 +85,11 @@
         <option value="ALLTIME" th:selected="${currentPeriod=='ALLTIME'}">전체</option>
     </select>
 
-    <!-- sort select -->
     <select name="sort">
         <option value="VIEWS"   th:selected="${currentSort=='VIEWS'}">조회수</option>
         <option value="REVIEWS" th:selected="${currentSort=='REVIEWS'}">리뷰수</option>
     </select>
+
     <button type="submit">적용</button>
 </form>
 <hr/>
@@ -80,22 +136,41 @@
 </table>
 
 <!-- 페이징 -->
-<div style="margin-top:1rem;">
-    <a th:if="${resp.meta.page>0}"
-       th:href="@{|/popular?page=${resp.meta.page-1}
-                       &size=${resp.meta.size}
-                       &period=${currentPeriod}
-                       &sort=${currentSort}|}">
+
+<form method="get" th:action="@{/popular}" class="pagination-controls">
+    <!-- 기존 파라미터 유지 -->
+    <input type="hidden" name="size"   th:value="${resp.meta.size}" />
+    <input type="hidden" name="period" th:value="${currentPeriod}" />
+    <input type="hidden" name="sort"   th:value="${currentSort}" />
+
+    <!-- Prev 버튼 -->
+    <button type="submit"
+            name="page"
+            th:value="${resp.meta.page-1}"
+            th:if="${resp.meta.page>0}">
         &laquo; Prev
-    </a>
-    <span th:text="${resp.meta.page+1} + ' / ' + ${resp.meta.totalPages}">1 / 3</span>
-    <a th:if="${resp.meta.page+1 < resp.meta.totalPages}"
-       th:href="@{|/popular?page=${resp.meta.page+1}
-                       &size=${resp.meta.size}
-                       &period=${currentPeriod}
-                       &sort=${currentSort}|}">
+    </button>
+
+    <!-- 직접 입력 가능한 페이지 넘버 -->
+    <input type="number"
+           name="page"
+           min="1"
+           th:attr="max=${resp.meta.totalPages}"
+           th:value="${resp.meta.page+1}" />
+
+    <!-- 총 페이지 수 표시 -->
+    <span>/ <span th:text="${resp.meta.totalPages}">3</span></span>
+
+    <!-- 입력 후 바로 이동 -->
+    <button type="submit">Go</button>
+
+    <!-- Next 버튼 -->
+    <button type="submit"
+            name="page"
+            th:value="${resp.meta.page+1}"
+            th:if="${resp.meta.page+1 < resp.meta.totalPages}">
         Next &raquo;
-    </a>
-</div>
+    </button>
+</form>
 </body>
 </html>

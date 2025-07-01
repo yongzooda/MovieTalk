@@ -1,4 +1,3 @@
-// com/sec/movietalk/popular/repository/MovieViewAggregationRepository.java
 package com.sec.movietalk.popular.repository;
 
 import com.sec.movietalk.common.domain.movie.MovieViews;
@@ -20,11 +19,25 @@ public interface MovieViewAggregationRepository
     @Query("""
            SELECT  mv.movieId       AS movieId,
                    COUNT(mv)        AS cnt
-           FROM    MovieViews mv
-           WHERE   mv.viewedAt >= :from
-           GROUP BY mv.movieId
-           ORDER BY cnt DESC
+             FROM  MovieViews mv
+            WHERE  mv.viewedAt >= :from
+            GROUP  BY mv.movieId
+            ORDER  BY cnt DESC
            """)
-    Page<ViewCountProjection> findTopMoviesByViewCount(@Param("from") LocalDateTime from,
-                                                       Pageable pageable);
+    Page<ViewCountProjection> findTopMoviesByViewCount(
+            @Param("from") LocalDateTime from,
+            Pageable pageable
+    );
+
+    /**
+     * 전체 기간(ALLTIME) 조회 수 TOP N 영화 집계
+     */
+    @Query("""
+           SELECT  mv.movieId       AS movieId,
+                   COUNT(mv)        AS cnt
+             FROM  MovieViews mv
+            GROUP  BY mv.movieId
+            ORDER  BY cnt DESC
+           """)
+    Page<ViewCountProjection> findTopMoviesByViewCountAllTime(Pageable pageable);
 }
