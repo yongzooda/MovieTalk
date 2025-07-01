@@ -11,14 +11,16 @@ import java.time.LocalDateTime;
 public class ReviewListResponse {
     private Long id;
     private Integer movieId;
+    private String movieTitle; // ✅ 추가
     private Long userId;
     private String content;
     private LocalDateTime createdAt;
 
-    public static ReviewListResponse fromEntity(Review review) {
+    public static ReviewListResponse fromEntity(Review review, String movieTitle) {
         return new ReviewListResponse(
                 review.getId(),
                 review.getMovieId(),
+                movieTitle,
                 review.getUserId(),
                 review.getContent(),
                 review.getCreatedAt()
