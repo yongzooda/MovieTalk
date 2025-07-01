@@ -17,8 +17,17 @@ public class ReviewResponse {
     private int dislikeCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    // 추가
+    private String author;
+    private String movieTitle;
+    private String moviePosterUrl;
 
-    public static ReviewResponse fromEntity(Review review) {
+    public static ReviewResponse fromEntity(
+            Review review,
+            String author,
+            String movieTitle,
+            String moviePosterUrl
+    ) {
         return new ReviewResponse(
                 review.getId(),
                 review.getMovieId(),
@@ -27,10 +36,14 @@ public class ReviewResponse {
                 review.getLikeCount(),
                 review.getDislikeCount(),
                 review.getCreatedAt(),
-                review.getUpdatedAt()
+                review.getUpdatedAt(),
+                author,
+                movieTitle,
+                moviePosterUrl
         );
     }
 }
+
 
 
 

@@ -1,4 +1,3 @@
-<!-- templates/review/reviewDetail.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -50,6 +49,12 @@
       gap: 1rem;
       margin-top: 1rem;
     }
+    .review-actions form {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin: 0;
+    }
     .action-btn {
       background-color: #68d391;
       border: none;
@@ -60,6 +65,20 @@
     }
     .action-btn:hover {
       background-color: #48bb78;
+    }
+    .like-count {
+      color: #22543d;
+      font-weight: bold;
+      font-size: 1rem;
+      min-width: 24px;
+      text-align: left;
+    }
+    .dislike-count {
+      color: #c53030;
+      font-weight: bold;
+      font-size: 1rem;
+      min-width: 24px;
+      text-align: left;
     }
     .comment-section {
       background-color: white;
@@ -116,14 +135,16 @@
 
   <!-- 좋아요 / 싫어요 / 신고 -->
   <div class="review-actions">
-    <form th:action="@{'/review/' + ${review.id} + '/like'}" method="post">
-      <button class="action-btn">👍 좋아요</button>
+    <form th:action="@{'/reviews/' + ${review.id} + '/like'}" method="post">
+      <button class="action-btn" type="submit">👍 좋아요</button>
+      <span class="like-count" th:text="${review.likeCount}">0</span>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/dislike'}" method="post">
-      <button class="action-btn">👎 싫어요</button>
+    <form th:action="@{'/reviews/' + ${review.id} + '/dislike'}" method="post">
+      <button class="action-btn" type="submit">👎 싫어요</button>
+      <span class="dislike-count" th:text="${review.dislikeCount}">0</span>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/report'}" method="post">
-      <button class="action-btn">🚨 신고</button>
+    <form th:action="@{'/reviews/' + ${review.id} + '/report'}" method="post">
+      <button class="action-btn" type="submit">🚨 신고</button>
     </form>
   </div>
 
@@ -137,7 +158,7 @@
     </div>
 
     <!-- 댓글 작성 -->
-    <form class="comment-form" th:action="@{'/review/' + ${review.id} + '/comment'}" method="post">
+    <form class="comment-form" th:action="@{'/reviews/' + ${review.id} + '/comment'}" method="post">
       <textarea name="content" rows="2" placeholder="댓글을 입력하세요..."></textarea>
       <button type="submit">등록</button>
     </form>

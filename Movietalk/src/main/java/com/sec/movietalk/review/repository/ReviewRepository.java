@@ -16,6 +16,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
         WHERE LOWER(m.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)
     List<Review> searchByMovieTitleInCache(@Param("keyword") String keyword);
+
+    List<Review> findAllByMovieIdIn(List<Integer> movieIds);
 }
 
 
