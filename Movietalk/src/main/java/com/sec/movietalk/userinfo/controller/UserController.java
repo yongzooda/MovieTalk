@@ -7,6 +7,7 @@ import com.sec.movietalk.home.service.HomeService;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.response.MyCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.security.CurrentUserDetails;
 import com.sec.movietalk.userinfo.service.MyDataService;
@@ -14,7 +15,6 @@ import com.sec.movietalk.userinfo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Objects;
+
 
 import static com.sec.movietalk.common.util.UserUtil.extractUserId;
 
@@ -171,16 +171,12 @@ public class UserController {
 
         Object principal = authentication.getPrincipal();
 
-        Long userId;
+        Long userId = extractUserId(principal);
 
-        if (principal instanceof CurrentUserDetails currentUser) {
-            userId = currentUser.getUserId();
-        } else if (principal instanceof OAuth2User oAuth2User) {
-            userId = Long.valueOf(Objects.requireNonNull(oAuth2User.getAttribute("userId")).toString());
-        } else {
-            // 로그인 정보가 없거나 알 수 없는 타입일 때 처리
+        if (userId == null) {
             return "redirect:/login";
         }
+
 
         UserInfoResponseDto info = userService.getUserInfo(userId);
 
@@ -195,17 +191,9 @@ public class UserController {
 
 
     @GetMapping("/mypage/reviews")
-    public String myReviews(Authentication authentication, Model model) {
-        Long userId = null;
+    public String myReviews(@AuthenticationPrincipal Object principal, Model model) {
 
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof CurrentUserDetails currentUser) {
-            userId = currentUser.getUserId();
-        } else if (principal instanceof OAuth2User oAuth2User) {
-            Object socialId = oAuth2User.getAttribute("userId"); // 또는 "id"
-            if (socialId != null) userId = Long.valueOf(socialId.toString());
-        }
+        Long userId = extractUserId(principal);
 
         if (userId == null) {
             return "redirect:/login";
@@ -214,6 +202,21 @@ public class UserController {
         List<ReviewResponse> myReviews = mydataService.getReviewsByUserId(userId);
         model.addAttribute("reviewList", myReviews);
         return "mypage/my_review";
+    }
+
+    @GetMapping("/mypage/comments")
+    public String myComments(@AuthenticationPrincipal Object principal, Model model) {
+
+        Long userId = extractUserId(principal);
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        List<MyCommentResponseDto> myComments = mydataService.getCommentsByUserId(userId);
+        model.addAttribute("commentList", myComments);
+        return "mypage/my_comment";
+
     }
 
 

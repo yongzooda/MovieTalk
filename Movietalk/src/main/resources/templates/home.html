@@ -1,8 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <title>홈</title>
     <meta charset="UTF-8">
+
+    <style>
+        .profile-card {
+            width: 230px;
+            min-width: 180px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(50, 70, 90, 0.08);
+            border: none;
+            padding: 28px 24px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .profile-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+            color: #25564b;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .profile-nickname {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #28826d;
+            margin-bottom: 6px;
+        }
+        .profile-counts {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 8px;
+            font-size: 0.97em;
+            color: #444;
+        }
+        .profile-counts b {
+            font-size: 1.08em;
+            color: #32b09e;
+        }
+        .logout-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #38a169 60%, #2f855a 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            padding: 9px 0 8px 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: background 0.18s, box-shadow 0.18s;
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.05);
+        }
+        .logout-btn:hover {
+            background: linear-gradient(90deg, #2f855a 50%, #38a169 100%);
+            box-shadow: 0 4px 16px rgba(56, 161, 105, 0.12);
+        }
+    </style>
+
 </head>
 <body>
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
@@ -11,16 +70,16 @@
 <div style="display: flex; justify-content: flex-start; align-items: flex-start; gap:48px; max-width: 1400px; margin: 36px auto 64px;">
 
     <!-- 1. 왼쪽: 회원 정보 -->
-    <div style="width: 220px; min-width: 180px; flex-shrink: 0;">
-        <div style="border:1px solid #ddd; border-radius:14px; padding:24px;">
-            <h3>회원 정보</h3>
-            <div><span th:text="${nickname}"></span></div>
-            <div>나의 리뷰 수: <span th:text="${reviewCnt}"></span></div>
-            <div>나의 댓글 수: <span th:text="${commentCnt}"></span></div>
-            <form th:action="@{/logout}" method="post" style="width:100%;">
-                <button type="submit" class="logout-btn">로그아웃</button>
-            </form>
+    <div class="profile-card">
+        <h3>회원 정보</h3>
+        <div class="profile-nickname" th:text="${nickname}">닉네임</div>
+        <div class="profile-counts">
+            <span>리뷰 <b th:text="${reviewCnt}">0</b></span>
+            <span>댓글 <b th:text="${commentCnt}">0</b></span>
         </div>
+        <form th:action="@{/logout}" method="post" style="width:100%;">
+            <button type="submit" class="logout-btn">로그아웃</button>
+        </form>
     </div>
 
 
@@ -39,7 +98,7 @@
                      onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
                      onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
                 >
-                    <img th:src="${movie.posterUrl}" style="border-radius:10px; width:140px; height:210px;"><br>
+                    <img th:src="${movie.posterUrl}" style="border-radius:10px; width:140px; height:210px;" alt="url"><br>
                     <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${movie.title}"></span>
                 </div>
 
