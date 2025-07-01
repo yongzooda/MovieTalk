@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -95,7 +96,7 @@
         </tr>
         <tr th:each="review : ${reviews}">
             <td>
-                <a th:href="@{'/reviews/' + ${review.id}}"
+                <a th:href="@{/reviews/{id}(id=${review.id})}"
                    th:text="${review.movieTitle}"
                    class="review-link">영화 제목</a>
             </td>
