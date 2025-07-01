@@ -1,95 +1,96 @@
+<!-- templates/review/reviewList.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>리뷰 목록</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 2rem;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 2rem;
-    }
-    .review-list {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .review-item {
-      display: flex;
-      align-items: center;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: box-shadow 0.2s;
-    }
-    .review-item:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    .poster {
-      width: 100px;
-      height: 140px;
-      object-fit: cover;
-      background-color: #ccc;
-    }
-    .review-info {
-      flex: 1;
-      padding: 1rem;
-    }
-    .review-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 0.4rem;
-    }
-    .review-meta {
-      font-size: 0.9rem;
-      color: #666;
-    }
-    .review-actions {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
-    }
-    .review-actions a {
-      margin: 0.2rem 0;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .review-actions a:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>리뷰 목록 | MovieTalk</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', sans-serif;
+          background-color: #f0f4f2;
+          margin: 0;
+          padding: 2rem;
+        }
+        .container {
+          max-width: 900px;
+          margin: auto;
+        }
+        h2 {
+          color: #2f855a;
+          margin-bottom: 1.5rem;
+        }
+        .btn-write {
+          background-color: #38a169;
+          color: white;
+          border: none;
+          padding: 0.6rem 1.2rem;
+          border-radius: 6px;
+          cursor: pointer;
+          float: right;
+          margin-bottom: 1rem;
+        }
+        .btn-write:hover {
+          background-color: #2f855a;
+        }
+        .review-table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+        }
+        .review-table th, .review-table td {
+          padding: 1rem;
+          border-bottom: 1px solid #e2e8f0;
+          text-align: left;
+        }
+        .review-table th {
+          background-color: #c6f6d5;
+          color: #22543d;
+        }
+        .review-table tr:hover {
+          background-color: #f0fff4;
+        }
+        .review-link {
+          color: #2f855a;
+          text-decoration: none;
+          font-weight: bold;
+        }
+        .review-link:hover {
+          text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>🎬 영화 리뷰 게시판</h1>
-<div class="review-list">
-  <div class="review-item" th:each="review : ${reviews}">
-    <img class="poster" th:src="${review.moviePosterUrl}" alt="포스터">
-    <div class="review-info">
-      <div class="review-title" th:text="${review.movieTitle}">영화 제목</div>
-      <div class="review-meta">
-        작성자: <span th:text="${review.author}">닉네임</span> | <span th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">2025-06-27</span>
-      </div>
-    </div>
-    <div class="review-actions">
-      <a th:href="@{'/reviews/' + ${review.id}}">상세보기</a>
-      <a th:href="@{'/reviews/edit/' + ${review.id}}">수정</a>
-    </div>
-  </div>
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
+
+<div class="container">
+    <h2>영화 리뷰 게시판</h2>
+    <a th:href="@{/reviews/new}">
+        <button class="btn-write">리뷰 작성</button>
+    </a>
+
+    <table class="review-table">
+        <thead>
+        <tr>
+            <th>영화 제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review : ${review}">
+            <td>
+                <a th:href="@{'/review/' + ${review.id}}"
+                   th:text="${review.movieTitle}"
+                   class="review-link">영화 제목</a>
+            </td>
+            <td th:text="${review.author}">작성자</td>
+            <td th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
