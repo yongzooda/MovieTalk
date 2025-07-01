@@ -1,4 +1,6 @@
-<!-- templates/review/reviewForm.html -->
+
+<!-- templates/review/review_form.html -->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -53,15 +55,18 @@
 <body>
 <div class="container">
   <h2>리뷰 작성</h2>
-  <form th:action="@{/review}" method="post" th:object="${review}">
+  <form th:action="@{/reviews}" method="post" th:object="${review}">
     <label for="movieTitle">영화 제목</label>
-    <input type="text" id="movieTitle" name="movieTitle" th:field="*{movieId}" required />
+    <input type="text" id="movieTitle" th:field="*{movieId}" required />
 
     <label for="content">리뷰 내용</label>
-    <textarea id="content" name="content" rows="8" th:field="*{content}" required></textarea>
+    <textarea id="content" rows="8" th:field="*{content}" required></textarea>
 
     <button type="submit">작성 완료</button>
   </form>
 </div>
 </body>
 </html>
+
+
+

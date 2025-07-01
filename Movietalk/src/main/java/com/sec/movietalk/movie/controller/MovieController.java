@@ -7,11 +7,13 @@ import com.sec.movietalk.movie.dto.MovieResponseDto;
 import com.sec.movietalk.movie.dto.MovieSearchResultDto;
 import com.sec.movietalk.movie.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +23,14 @@ import java.util.Optional;
 public class MovieController {
 
     private final MovieService movieService;
-   // private final TmdbClient tmdbClient;
+    private final TmdbClient tmdbClient;
 
     @GetMapping("/movies")
-    public String showMovieList(Model model) {
-        List<MovieResponseDto> movies = movieService.getAllMoviesSortedByReleaseDate();
-        model.addAttribute("movies", movies);
+    public String showMovieList(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<MovieResponseDto> movies = movieService.getPagedMovies(page);
+        model.addAttribute("movies", movies.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", movies.getTotalPages());
         return "movie/list";
     }
 
@@ -64,10 +68,17 @@ public class MovieController {
     }
 
     @GetMapping("/movies/search")
-    public String searchMovies(@RequestParam String keyword, Model model) {
-        List<MovieSearchResultDto> results = movieService.searchMoviesFromTmdb(keyword);
-        model.addAttribute("movies", results);
+    public String searchMovies(@RequestParam String keyword,
+                               @RequestParam(defaultValue = "0") int page,
+                               Model model) {
+        Page<MovieSearchResultDto> results = movieService.searchMoviesFromTmdb(keyword, page);
+        int resultCount = movieService.getSearchResultCount(keyword); // ✅ 추가된 부분
+
+        model.addAttribute("movies", results.getContent());
         model.addAttribute("keyword", keyword);
+        model.addAttribute("resultCount", resultCount); // ✅ 검색 결과 개수
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", results.getTotalPages());
         return "movie/list";
     }
 }

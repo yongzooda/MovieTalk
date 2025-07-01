@@ -67,6 +67,16 @@
 
 <div class="container">
     <h2>영화 리뷰 게시판</h2>
+
+
+    <form th:action="@{/reviews/search}" method="get" style="margin-bottom: 1rem;">
+        <input type="text" name="keyword" placeholder="영화 제목 검색"
+               style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;">
+        <button type="submit"
+                style="padding: 0.5rem 1rem; border: none; background-color: #38a169; color: white; border-radius: 4px; cursor: pointer;">
+            검색
+        </button>
+    </form>
     <a th:href="@{/reviews/new}">
         <button class="btn-write">리뷰 작성</button>
     </a>
@@ -77,10 +87,14 @@
             <th>영화 제목</th>
             <th>작성자</th>
             <th>작성일</th>
+            <th>좋아요</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="review : ${review}">
+        <tr th:if="${#lists.isEmpty(reviews)}">
+            <td colspan="4" style="text-align: center; color: #888;">검색 결과가 없습니다.</td>
+        </tr>
+        <tr th:each="review : ${reviews}">
             <td>
                 <a th:href="@{'/review/' + ${review.id}}"
                    th:text="${review.movieTitle}"
@@ -88,9 +102,13 @@
             </td>
             <td th:text="${review.author}">작성자</td>
             <td th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+
+            <td th:text="${review.likeCount}">좋아요</td>
         </tr>
         </tbody>
     </table>
 </div>
 </body>
 </html>
+
+

@@ -1,6 +1,9 @@
 spring:
+  profiles:
+    include: oauth
   config:
-    import: optional:file:.env
+    import:
+      - optional:file:.env
 
   datasource:
     url: jdbc:mysql://localhost:3306/${DB_NAME}
