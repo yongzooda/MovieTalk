@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder    // 추가: 편리한 빌더 생성용
 public class Comment {
 
     @Id
@@ -41,6 +42,12 @@ public class Comment {
     @Column(name = "dislike_cnt", columnDefinition = "int default 0")
     private Integer dislikeCnt;
 
+    @Column(name = "accepted", nullable = false, columnDefinition = "boolean default false")
+    private Boolean accepted = false;
+
+    @Column(name = "accepted_at")
+    private LocalDateTime acceptedAt;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -56,5 +63,11 @@ public class Comment {
     @PreUpdate
     public void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    /** 리뷰 작성자가 댓글 채택 시 호출 **/
+    public void markAsAccepted() {
+        this.accepted = true;
+        this.acceptedAt = LocalDateTime.now();
     }
 }

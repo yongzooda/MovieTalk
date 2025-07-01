@@ -1,4 +1,3 @@
-<!-- templates/review/reviewDetail.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -66,36 +65,7 @@
       padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .comment {
-      border-bottom: 1px solid #e2e8f0;
-      padding: 0.8rem 0;
-    }
-    .comment:last-child {
-      border-bottom: none;
-    }
-    .comment-form {
-      display: flex;
-      margin-top: 1rem;
-      gap: 0.5rem;
-    }
-    .comment-form textarea {
-      flex-grow: 1;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #cbd5e0;
-      resize: none;
-    }
-    .comment-form button {
-      background-color: #38a169;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .comment-form button:hover {
-      background-color: #2f855a;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
@@ -127,20 +97,9 @@
     </form>
   </div>
 
-  <!-- 댓글 섹션 -->
-  <div class="comment-section">
-    <h3>댓글</h3>
-    <div th:each="comment : ${commentList}" class="comment">
-      <p><strong th:text="${comment.author}">작성자</strong></p>
-      <p th:text="${comment.content}">댓글 내용</p>
-      <p th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
-    </div>
-
-    <!-- 댓글 작성 -->
-    <form class="comment-form" th:action="@{'/review/' + ${review.id} + '/comment'}" method="post">
-      <textarea name="content" rows="2" placeholder="댓글을 입력하세요..."></textarea>
-      <button type="submit">등록</button>
-    </form>
+  <!-- 댓글 섹션: fragments/commentSection.html 의 프래그먼트 호출 -->
+  <div class="comment-section"
+       th:replace="fragments/commentSection :: commentSection(${commentList}, ${review.id})">
   </div>
 </div>
 </body>
