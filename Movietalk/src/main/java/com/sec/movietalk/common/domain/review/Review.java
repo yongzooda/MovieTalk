@@ -60,6 +60,11 @@ public class Review {
         return this.reviewId;
     }
 
+    // ★ 추가! createdAt setter
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -73,6 +78,7 @@ public class Review {
         this.dislikeCount = dislikeCount;
     }
 }
+
 
 
 

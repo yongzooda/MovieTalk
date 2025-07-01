@@ -1,89 +1,49 @@
 package com.sec.movietalk.review.controller;
 
-import com.sec.movietalk.review.dto.ReviewCreateRequest;
-import com.sec.movietalk.review.dto.ReviewUpdateRequest;
-import com.sec.movietalk.review.dto.ReviewListResponse;
-import com.sec.movietalk.review.dto.ReviewResponse;
-import com.sec.movietalk.review.service.ReviewService;
 import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.review.dto.ReviewReactionRequest;
+import com.sec.movietalk.review.dto.ReviewReactionResponse;
+import com.sec.movietalk.review.service.ReviewService;
+import com.sec.movietalk.userinfo.security.CurrentUserDetails;
+import com.sec.movietalk.userinfo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import com.sec.movietalk.userinfo.security.CurrentUserDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
-@Controller
+@RestController
+@RequestMapping("/review")
 @RequiredArgsConstructor
-@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final UserService userService; // ★★★★★ 추가!
 
-    @GetMapping
-    public String listReviews(Model model) {
-        List<ReviewListResponse> reviews = reviewService.getAllReviews();
-        model.addAttribute("reviews", reviews);
-        return "review/review_list";
+    // 좋아요/싫어요 토글 (Ajax)
+    @PostMapping("/{reviewId}/reaction")
+    public ReviewReactionResponse toggleReaction(
+            @PathVariable Long reviewId,
+            @RequestBody ReviewReactionRequest request,
+            @AuthenticationPrincipal CurrentUserDetails userDetails
+    ) {
+        // 인증객체에서 userId 추출 후, UserService로 User 엔티티 획득
+        if (userDetails == null) throw new RuntimeException("로그인 후 이용하세요");
+        Long userId = userDetails.getUserId();
+        User user = userService.getUserEntityById(userId);
+
+        return reviewService.toggleReaction(reviewId, user, request.getReaction());
     }
 
-    @GetMapping("/search")
-    public String searchReviews(@RequestParam("keyword") String keyword, Model model) {
-        List<ReviewListResponse> results = reviewService.searchByMovieTitle(keyword);
-        model.addAttribute("reviews", results);
-        return "review/review_list";
-    }
-
-    @GetMapping("/{reviewId}")
-    public String getReview(@PathVariable Long reviewId, Model model) {
-        ReviewResponse review = reviewService.getReviewById(reviewId);
-        model.addAttribute("review", review);
-        return "review/review_detail";
-    }
-
-    @GetMapping("/new")
-    public String createForm(Model model) {
-        model.addAttribute("review", new ReviewCreateRequest());
-        return "review/review_form";
-    }
-
-    @PostMapping
-    public String createReview(@ModelAttribute ReviewCreateRequest request,
-                               @AuthenticationPrincipal CurrentUserDetails userDetails) {
-        if (userDetails == null) {
-            return "redirect:/login";
+    // 리뷰 반응 상태 조회 (Ajax)
+    @GetMapping("/{reviewId}/reaction")
+    public ReviewReactionResponse getReactionStatus(
+            @PathVariable Long reviewId,
+            @AuthenticationPrincipal CurrentUserDetails userDetails
+    ) {
+        User user = null;
+        if (userDetails != null) {
+            user = userService.getUserEntityById(userDetails.getUserId());
         }
-        request.setUserId(userDetails.getUserId());
-        reviewService.createReview(request);
-        return "redirect:/reviews";
-    }
-
-    @PutMapping
-    @ResponseBody
-    public void updateReview(@RequestBody ReviewUpdateRequest request) {
-        reviewService.updateReview(request);
-    }
-
-    @DeleteMapping("/{reviewId}")
-    @ResponseBody
-    public void deleteReview(@PathVariable Long reviewId) {
-        reviewService.deleteReview(reviewId);
-    }
-
-    // 좋아요/싫어요 추가
-    @PostMapping("/{reviewId}/like")
-    public String likeReview(@PathVariable Long reviewId) {
-        reviewService.increaseLike(reviewId);
-        return "redirect:/reviews/" + reviewId;
-    }
-
-    @PostMapping("/{reviewId}/dislike")
-    public String dislikeReview(@PathVariable Long reviewId) {
-        reviewService.increaseDislike(reviewId);
-        return "redirect:/reviews/" + reviewId;
+        return reviewService.getReactionStatus(reviewId, user);
     }
 }
 

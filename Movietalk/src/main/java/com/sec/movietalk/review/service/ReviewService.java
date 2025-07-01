@@ -1,149 +1,105 @@
 package com.sec.movietalk.review.service;
 
 import com.sec.movietalk.common.domain.review.Review;
+import com.sec.movietalk.common.domain.review.ReviewReactions;
+import com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType;
 import com.sec.movietalk.common.domain.user.User;
-import com.sec.movietalk.common.domain.movie.MovieCache;
-import com.sec.movietalk.recommendation.repository.MovieCacheRepository;
-import com.sec.movietalk.review.dto.ReviewCreateRequest;
-import com.sec.movietalk.review.dto.ReviewUpdateRequest;
-import com.sec.movietalk.review.dto.ReviewListResponse;
-import com.sec.movietalk.review.dto.ReviewResponse;
+import com.sec.movietalk.review.dto.ReviewReactionRequest;
+import com.sec.movietalk.review.dto.ReviewReactionResponse;
+import com.sec.movietalk.review.repository.ReviewReactionsRepository;
 import com.sec.movietalk.review.repository.ReviewRepository;
-import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final UserRepository userRepository;
-    private final MovieCacheRepository movieCacheRepository;
+    private final ReviewReactionsRepository reviewReactionsRepository;
 
-    @Transactional(readOnly = true)
-    public List<ReviewListResponse> getAllReviews() {
-        List<Review> reviews = reviewRepository.findAll();
-
-        Map<Integer, String> titleMap = movieCacheRepository.findAllById(
-                        reviews.stream().map(Review::getMovieId).toList()
-                ).stream()
-                .collect(Collectors.toMap(MovieCache::getMovieId, MovieCache::getTitle));
-
-        Map<Long, String> userMap = userRepository.findAllById(
-                        reviews.stream().map(Review::getUserId).toList()
-                ).stream()
-                .collect(Collectors.toMap(User::getId, User::getNickname));
-
-        return reviews.stream()
-                .map(r -> {
-                    String movieTitle = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
-                    String author = userMap.getOrDefault(r.getUserId(), "알 수 없음");
-                    return ReviewListResponse.fromEntity(r, movieTitle, author);
-                })
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<ReviewListResponse> searchByMovieTitle(String keyword) {
-        List<MovieCache> matchedMovies = movieCacheRepository.findAllByTitleContainingIgnoreCase(keyword);
-        List<Integer> matchedMovieIds = matchedMovies.stream()
-                .map(MovieCache::getMovieId)
-                .toList();
-
-        List<Review> reviews = reviewRepository.findAllByMovieIdIn(matchedMovieIds);
-
-        Map<Integer, String> titleMap = matchedMovies.stream()
-                .collect(Collectors.toMap(MovieCache::getMovieId, MovieCache::getTitle));
-
-        Map<Long, String> userMap = userRepository.findAllById(
-                        reviews.stream().map(Review::getUserId).toList()
-                ).stream()
-                .collect(Collectors.toMap(User::getId, User::getNickname));
-
-        return reviews.stream()
-                .map(r -> {
-                    String movieTitle = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
-                    String author = userMap.getOrDefault(r.getUserId(), "알 수 없음");
-                    return ReviewListResponse.fromEntity(r, movieTitle, author);
-                })
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public ReviewResponse getReviewById(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-
-        String author = userRepository.findById(review.getUserId())
-                .map(User::getNickname)
-                .orElse("알 수 없음");
-
-        String movieTitle = movieCacheRepository.findById(review.getMovieId())
-                .map(MovieCache::getTitle)
-                .orElse("제목 없음");
-        String moviePosterUrl = movieCacheRepository.findById(review.getMovieId())
-                .map(MovieCache::getPosterUrl)
-                .orElse("");
-
-        return ReviewResponse.fromEntity(review, author, movieTitle, moviePosterUrl);
-    }
-
-    @Transactional
-    public void createReview(ReviewCreateRequest request) {
-        LocalDateTime now = LocalDateTime.now();
-
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
-
-        Review review = Review.builder()
-                .movieId(request.getMovieId())
-                .user(user)
-                .content(request.getContent())
-                .createdAt(now)
-                .updatedAt(now)
-                .likeCount(0)
-                .dislikeCount(0)
-                .build();
-
+    // 1. 리뷰 저장
+    public void saveReview(Review review) {
         reviewRepository.save(review);
     }
 
-    @Transactional
-    public void updateReview(ReviewUpdateRequest request) {
-        Review review = reviewRepository.findById(request.getId())
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-
-        review.setContent(request.getContent());
-        review.setUpdatedAt(LocalDateTime.now());
+    // 2. 리뷰 전체 목록 조회
+    public List<Review> getReviewList() {
+        return reviewRepository.findAll();
     }
 
-    @Transactional
-    public void deleteReview(Long reviewId) {
-        reviewRepository.deleteById(reviewId);
+    // 3. 리뷰 상세 조회 (예시)
+    public Review getReviewDetail(Long id) {
+        return reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
     }
 
-    // 좋아요/싫어요 기능
+    // 4. 댓글 목록 조회 (예시)
+    public List<Object> getComments(Long reviewId) {
+        // 댓글 기능 구현 안 했으면 빈 리스트 반환하거나 생략해도 됨
+        return List.of();
+    }
+
+    // 좋아요/싫어요 토글
     @Transactional
-    public void increaseLike(Long reviewId) {
+    public ReviewReactionResponse toggleReaction(Long reviewId, User user, String reactionStr) {
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-        review.setLikeCount(review.getLikeCount() + 1);
+                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+        ReactionType reactionType = ReactionType.valueOf(reactionStr);
+
+        ReviewReactions reaction = reviewReactionsRepository.findByReviewAndUser(review, user).orElse(null);
+
+        if (reaction != null) {
+            // 같은 반응이면 삭제(토글 OFF)
+            if (reaction.getReaction() == reactionType) {
+                reviewReactionsRepository.delete(reaction);
+            } else {
+                reaction.setReaction(reactionType);
+                reviewReactionsRepository.save(reaction);
+            }
+        } else {
+            // 처음이면 생성
+            ReviewReactions newReaction = ReviewReactions.builder()
+                    .user(user)
+                    .review(review)
+                    .reaction(reactionType)
+                    .build();
+            reviewReactionsRepository.save(newReaction);
+        }
+
+        long likeCount = reviewReactionsRepository.countByReviewAndReaction(review, ReactionType.like);
+        long dislikeCount = reviewReactionsRepository.countByReviewAndReaction(review, ReactionType.dislike);
+
+        // 내 반응
+        String myReaction = reviewReactionsRepository.findByReviewAndUser(review, user)
+                .map(r -> r.getReaction().name())
+                .orElse(null);
+
+        return new ReviewReactionResponse(likeCount, dislikeCount, myReaction);
     }
 
-    @Transactional
-    public void increaseDislike(Long reviewId) {
+    @Transactional(readOnly = true)
+    public ReviewReactionResponse getReactionStatus(Long reviewId, User user) {
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-        review.setDislikeCount(review.getDislikeCount() + 1);
+                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+
+        long likeCount = reviewReactionsRepository.countByReviewAndReaction(review, ReactionType.like);
+        long dislikeCount = reviewReactionsRepository.countByReviewAndReaction(review, ReactionType.dislike);
+
+        String myReaction = null;
+        if (user != null) {
+            myReaction = reviewReactionsRepository.findByReviewAndUser(review, user)
+                    .map(r -> r.getReaction().name())
+                    .orElse(null);
+        }
+        return new ReviewReactionResponse(likeCount, dislikeCount, myReaction);
     }
 }
+
+
 
 
 

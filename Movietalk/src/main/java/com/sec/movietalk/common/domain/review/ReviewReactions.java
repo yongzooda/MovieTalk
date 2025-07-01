@@ -6,14 +6,17 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "review_reactions",
-        uniqueConstraints = @UniqueConstraint(name = "uniq_review_user", columnNames = {"review_id", "user_id"}),
-        indexes = @Index(name = "idx_review_reaction", columnList = "review_id, reaction"))
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(
+        name = "review_reactions",
+        uniqueConstraints = @UniqueConstraint(name = "uniq_review_user", columnNames = {"review_id", "user_id"}),
+        indexes = @Index(name = "idx_review_reaction", columnList = "review_id, reaction")
+)
 public class ReviewReactions {
 
     @Id
@@ -44,3 +47,4 @@ public class ReviewReactions {
         like, dislike
     }
 }
+

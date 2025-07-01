@@ -23,7 +23,7 @@ public class UserService {
         }
 
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 사용자명입니다.");
+            throw new IllegalArgumentException("이미 가입한 이메일입니다.");
         }
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
@@ -33,23 +33,23 @@ public class UserService {
         user.setNickname(dto.getNickname());
         user.setPassword(encodedPassword);
 
-        userRepository.save(user); // 비밀번호 암호화는 추후에 추가 가능
+        userRepository.save(user);
     }
 
     public void resetPassword(PasswordResetRequestDto dto) {
-        // 1. email, nickname 일치 회원 찾기
         User user = userRepository.findByEmailAndNickname(dto.getEmail(), dto.getNickname())
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 회원이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("닉네임과 이메일이 정보와 일치하는 회원이 없습니다."));
 
-        // 2. 새 비밀번호, 확인값 일치 체크
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("소셜 로그인 회원입니다 !");
+        }
+
         if (!dto.getNewPassword().equals(dto.getNewPasswordConfirm())) {
             throw new IllegalArgumentException("새 비밀번호와 확인값이 일치하지 않습니다.");
         }
 
         String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
-
-        // 4. 비밀번호 변경
-        user.setPassword(encodedPassword); // 보통 여기서 암호화 필요 (예: BCrypt)
+        user.setPassword(encodedPassword);
         userRepository.save(user);
     }
 
@@ -59,14 +59,18 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return new UserInfoResponseDto(
-
                 user.getId(),
                 user.getEmail(),
                 user.getNickname(),
                 user.getCommentCnt() != null ? user.getCommentCnt() : 0,
                 user.getReviewCnt() != null ? user.getReviewCnt() : 0
-
         );
     }
 
+
+    public User getUserEntityById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
 }
+

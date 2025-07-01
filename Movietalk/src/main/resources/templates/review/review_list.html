@@ -4,60 +4,22 @@
     <meta charset="UTF-8">
     <title>리뷰 목록 | MovieTalk</title>
     <style>
-        body {
-          font-family: 'Segoe UI', sans-serif;
-          background-color: #f0f4f2;
-          margin: 0;
-          padding: 2rem;
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f2; margin: 0; padding: 2rem; }
+        .container { max-width: 900px; margin: auto; }
+        h2 { color: #2f855a; margin-bottom: 1.5rem; }
+        .btn-write { background-color: #38a169; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; float: right; margin-bottom: 1rem; }
+        .btn-write:hover { background-color: #2f855a; }
+        .review-table { width: 100%; border-collapse: collapse; background-color: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .review-table th, .review-table td { padding: 1rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        .review-table th { background-color: #c6f6d5; color: #22543d; }
+        .review-table tr:hover { background-color: #f0fff4; }
+        .review-link { color: #2f855a; text-decoration: none; font-weight: bold; }
+        .review-link:hover { text-decoration: underline; }
+        .like-btn, .dislike-btn {
+          border: none; background: transparent; font-size: 1.1em; cursor: pointer; margin: 0 4px;
         }
-        .container {
-          max-width: 900px;
-          margin: auto;
-        }
-        h2 {
-          color: #2f855a;
-          margin-bottom: 1.5rem;
-        }
-        .btn-write {
-          background-color: #38a169;
-          color: white;
-          border: none;
-          padding: 0.6rem 1.2rem;
-          border-radius: 6px;
-          cursor: pointer;
-          float: right;
-          margin-bottom: 1rem;
-        }
-        .btn-write:hover {
-          background-color: #2f855a;
-        }
-        .review-table {
-          width: 100%;
-          border-collapse: collapse;
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-        }
-        .review-table th, .review-table td {
-          padding: 1rem;
-          border-bottom: 1px solid #e2e8f0;
-          text-align: left;
-        }
-        .review-table th {
-          background-color: #c6f6d5;
-          color: #22543d;
-        }
-        .review-table tr:hover {
-          background-color: #f0fff4;
-        }
-        .review-link {
-          color: #2f855a;
-          text-decoration: none;
-          font-weight: bold;
-        }
-        .review-link:hover {
-          text-decoration: underline;
+        .like-btn.active, .dislike-btn.active {
+          color: #38a169; font-weight: bold;
         }
     </style>
 </head>
@@ -83,10 +45,10 @@
     <table class="review-table">
         <thead>
         <tr>
-            <th>영화 제목</th>
+            <th>영화 ID</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th>좋아요</th>
+            <th>좋아요/싫어요</th>
         </tr>
         </thead>
         <tbody>
@@ -96,17 +58,23 @@
         <tr th:each="review : ${reviews}">
             <td>
                 <a th:href="@{'/reviews/' + ${review.id}}"
-                   th:text="${review.movieTitle}"
-                   class="review-link">영화 제목</a>
+                   th:text="${review.movieId}"
+                   class="review-link">영화 ID</a>
             </td>
-            <td th:text="${review.author}">작성자</td>
+            <td th:text="${review.user != null ? review.user.nickname : '알수없음'}">작성자</td>
             <td th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
-            <td th:text="${review.likeCount}">좋아요</td>
+            <td>
+                <span th:text="${review.likeCount}">0</span>
+                /
+                <span th:text="${review.dislikeCount}">0</span>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+<!-- 좋아요/싫어요 JS는 myReaction을 내려주는 DTO가 있을 때만 활성화 가능 -->
 </body>
 </html>
+
 
 
