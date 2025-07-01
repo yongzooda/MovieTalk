@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Objects;
+
+import static com.sec.movietalk.common.util.UserUtil.extractUserId;
 
 
 @Controller
@@ -76,15 +79,8 @@ public class UserController {
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal Object principal, Model model) {
 
-        Long userId = null;
-
-        if (principal instanceof CurrentUserDetails userDetails) {
-            userId = userDetails.getUserId();
-        } else if (principal instanceof org.springframework.security.oauth2.core.user.OAuth2User oAuth2User) {
-            Object idObj = oAuth2User.getAttribute("userId");
-            if (idObj instanceof Long) userId = (Long) idObj;
-            else if (idObj instanceof Integer) userId = ((Integer) idObj).longValue();
-        } else {
+        Long userId = extractUserId(principal);
+        if (userId == null) {
             return "redirect:/login";
         }
 
@@ -92,7 +88,6 @@ public class UserController {
 
         model.addAttribute("nickname", info.getNickname());
         model.addAttribute("userId", info.getUserId());
-        model.addAttribute("email", info.getEmail());
         model.addAttribute("commentCnt", info.getCommentCnt());
         model.addAttribute("reviewCnt", info.getReviewCnt());
 
@@ -110,6 +105,7 @@ public class UserController {
 
     @GetMapping("/mypage")
     public String mypage(Authentication authentication, Model model) {
+
         String nickname = null;
         String email = null;
         Long userId = null;
@@ -130,8 +126,8 @@ public class UserController {
         }
         // 2. 소셜 로그인
         else if (principal instanceof org.springframework.security.oauth2.core.user.OAuth2User oAuth2User) {
-            nickname = (String) oAuth2User.getAttribute("nickname");
-            email = (String) oAuth2User.getAttribute("email");
+            nickname = oAuth2User.getAttribute("nickname");
+            email = oAuth2User.getAttribute("email");
             Object idObj = oAuth2User.getAttribute("userId");
             if (idObj instanceof Long) userId = (Long) idObj;
             else if (idObj instanceof Integer) userId = ((Integer) idObj).longValue();
@@ -175,18 +171,12 @@ public class UserController {
 
         Object principal = authentication.getPrincipal();
 
-        Long userId = null;
-        String nickname = null;
-        String email = null;
+        Long userId;
 
         if (principal instanceof CurrentUserDetails currentUser) {
             userId = currentUser.getUserId();
-            nickname = currentUser.getNickname();
-            email = currentUser.getEmail();
         } else if (principal instanceof OAuth2User oAuth2User) {
-            userId = Long.valueOf(oAuth2User.getAttribute("userId").toString());
-            nickname = oAuth2User.getAttribute("nickname");
-            email = oAuth2User.getAttribute("email");
+            userId = Long.valueOf(Objects.requireNonNull(oAuth2User.getAttribute("userId")).toString());
         } else {
             // 로그인 정보가 없거나 알 수 없는 타입일 때 처리
             return "redirect:/login";
