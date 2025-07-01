@@ -1,10 +1,7 @@
 package com.sec.movietalk.review.controller;
 
-import com.sec.movietalk.review.dto.ReviewCreateRequest;
-import com.sec.movietalk.review.dto.ReviewListResponse;
-import com.sec.movietalk.review.dto.ReviewResponse;
-import com.sec.movietalk.review.dto.ReviewUpdateRequest;
-import com.sec.movietalk.review.dto.CommentResponse;
+import com.sec.movietalk.common.util.UserUtil;
+import com.sec.movietalk.review.dto.*;
 import com.sec.movietalk.review.service.ReviewService;
 import com.sec.movietalk.review.service.CommentService;
 import com.sec.movietalk.common.domain.user.User;
@@ -56,6 +53,27 @@ public class ReviewController {
         return "review/review_detail";
     }
 
+    /** (추가) 댓글 등록 처리 — 뷰의 form POST 를 이쪽으로 받음 */
+    @PostMapping("/{reviewId}/comments")
+    public String addComment(
+            @PathVariable Long reviewId,
+            @RequestParam String content,
+            @AuthenticationPrincipal Object principal
+    ) {
+        // 1) CommentRequest DTO 생성
+        CommentRequest payload = new CommentRequest(
+                reviewId,
+                null,
+                content
+        );
+        // 2) 현재 로그인 유저 엔티티 (id 만 필요)
+        User user = new User(UserUtil.extractUserId(principal));
+        // 3) 서비스 호출
+        commentService.addComment(payload, user);
+        // 4) 상세페이지로 리다이렉트
+        return "redirect:/reviews/" + reviewId;
+    }
+
     /** 리뷰 작성 폼 */
     @GetMapping("/new")
     public String createForm(Model model) {
@@ -66,8 +84,10 @@ public class ReviewController {
     /** 리뷰 작성 처리 */
     @PostMapping
     public String createReview(@ModelAttribute ReviewCreateRequest request,
-                               @AuthenticationPrincipal CurrentUserDetails currentUser) {
-        request.setUserId(currentUser.getUserId());
+                               @AuthenticationPrincipal Object principal) {
+        Long userId = UserUtil.extractUserId(principal);
+
+        request.setUserId(userId);
         reviewService.createReview(request);
         return "redirect:/reviews";
     }

@@ -6,7 +6,7 @@ import java.util.List;
 // 댓글 반환용
 public record CommentResponse(
         Long id,
-        String author,
+        String authorName,
         String content,
         LocalDateTime createdAt,
         Integer likeCnt,

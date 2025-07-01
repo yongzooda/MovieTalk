@@ -1,3 +1,4 @@
+<!-- src/main/resources/templates/review/review_detail.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -73,11 +74,11 @@
 <div class="container">
   <!-- 영화 정보 + 포스터 -->
   <div class="movie-info">
-    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster" />
+    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster"/>
     <div class="movie-meta">
       <h2 th:text="${review.movieTitle}">영화 제목</h2>
       <p th:text="'작성자: ' + ${review.author}">작성자</p>
-      <p th:text="'작성일: ' + ${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+      <p th:text="'작성일: ' + ${#temporals.format(review.createdAt,'yyyy-MM-dd HH:mm')}">작성일</p>
     </div>
   </div>
 
@@ -86,20 +87,21 @@
 
   <!-- 좋아요 / 싫어요 / 신고 -->
   <div class="review-actions">
-    <form th:action="@{'/review/' + ${review.id} + '/like'}" method="post">
+    <form th:action="@{/reviews/{id}/like(id=${review.id})}" method="post">
       <button class="action-btn">👍 좋아요</button>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/dislike'}" method="post">
+    <form th:action="@{/reviews/{id}/dislike(id=${review.id})}" method="post">
       <button class="action-btn">👎 싫어요</button>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/report'}" method="post">
+    <form th:action="@{/reviews/{id}/report(id=${review.id})}" method="post">
       <button class="action-btn">🚨 신고</button>
     </form>
   </div>
 
-  <!-- 댓글 섹션: fragments/commentSection.html 의 프래그먼트 호출 -->
-  <div class="comment-section"
-       th:replace="fragments/commentSection :: commentSection(${commentList}, ${review.id})">
+  <!-- 댓글 섹션(fragment) 삽입:
+       경로를 "review/commentSection" 으로 바꿔주세요 -->
+  <div th:replace="~{review/commentSection :: commentSection(${commentList}, ${review.id})}"
+       class="comment-section">
   </div>
 </div>
 </body>
