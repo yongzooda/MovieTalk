@@ -8,7 +8,9 @@ import com.sec.movietalk.review.dto.CommentResponse;
 import com.sec.movietalk.review.service.ReviewService;
 import com.sec.movietalk.review.service.CommentService;
 import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.userinfo.security.CurrentUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +66,8 @@ public class ReviewController {
     /** 리뷰 작성 처리 */
     @PostMapping
     public String createReview(@ModelAttribute ReviewCreateRequest request,
-                               @SessionAttribute("loginUser") User sessionUser) {
-        request.setUserId(sessionUser.getId());
+                               @AuthenticationPrincipal CurrentUserDetails currentUser) {
+        request.setUserId(currentUser.getUserId());
         reviewService.createReview(request);
         return "redirect:/reviews";
     }

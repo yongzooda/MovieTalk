@@ -62,22 +62,34 @@ public class ReviewService {
     }
 
     @Transactional
-    public void createReview(ReviewCreateRequest request) {
-        LocalDateTime now = LocalDateTime.now();
+    public void createReview(ReviewCreateRequest req) {
+        // 1) 제목으로 캐시에서 찾아오기 (Contains → Exact match 우선)
+        List<MovieCache> movies = movieCacheRepository
+                .findAllByTitleContainingIgnoreCase(req.getMovieTitle());
 
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        if (movies.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "등록된 영화가 아닙니다: " + req.getMovieTitle());
+        }
 
+        // 정확히 일치하는 영화가 있으면 그걸, 없으면 첫 번째
+        MovieCache movie = movies.stream()
+                .filter(m -> m.getTitle().equalsIgnoreCase(req.getMovieTitle()))
+                .findFirst()
+                .orElse(movies.get(0));
+
+        // 2) Review 엔티티에 movieId, userId, content 세팅
         Review review = Review.builder()
-                .movieId(request.getMovieId())
-                .user(user)
-                .content(request.getContent())
-                .createdAt(now)
-                .updatedAt(now)
+                .movieId(movie.getMovieId())
+                .user(new User(req.getUserId()))      // User 생성자 혹은 조회
+                .content(req.getContent())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         reviewRepository.save(review);
     }
+
 
     @Transactional
     public void updateReview(ReviewUpdateRequest request) {
