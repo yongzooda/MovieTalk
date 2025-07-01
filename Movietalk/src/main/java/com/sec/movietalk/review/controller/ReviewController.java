@@ -53,7 +53,7 @@ public class ReviewController {
         model.addAttribute("commentList", commentList);
 
         // 프래그먼트 호출용
-        return "review/reviewDetail";
+        return "review/review_detail";
     }
 
     /** 리뷰 작성 폼 */

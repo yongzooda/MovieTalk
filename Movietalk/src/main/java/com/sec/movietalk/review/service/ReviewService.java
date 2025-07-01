@@ -37,7 +37,14 @@ public class ReviewService {
                 .collect(Collectors.toMap(MovieCache::getMovieId, MovieCache::getTitle));
 
         return reviews.stream()
-                .map(r -> ReviewListResponse.fromEntity(r, titleMap.getOrDefault(r.getMovieId(), "제목 없음")))
+                .map(r -> {
+                    // userId로 유저를 조회해서 닉네임(author)을 가져옴
+                    User user = userRepository.findById(r.getUserId())
+                            .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+                    String author = user.getNickname();
+                    String movieTitle = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
+                    return ReviewListResponse.fromEntity(r, movieTitle, author);
+                })
                 .toList();
     }
 
@@ -50,15 +57,33 @@ public class ReviewService {
                 .collect(Collectors.toMap(MovieCache::getMovieId, MovieCache::getTitle));
 
         return reviews.stream()
-                .map(r -> ReviewListResponse.fromEntity(r, titleMap.getOrDefault(r.getMovieId(), "제목 없음")))
+                .map(r -> {
+                    String movieTitle = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
+                    User user = userRepository.findById(r.getUserId())
+                            .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+                    String author = user.getNickname();
+                    return ReviewListResponse.fromEntity(r, movieTitle, author);
+                })
                 .toList();
+
     }
 
     @Transactional(readOnly = true)
     public ReviewResponse getReviewById(Long reviewId) {
+
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-        return ReviewResponse.fromEntity(review);
+        User user = userRepository.findById(review.getUserId())
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        MovieCache movie = movieCacheRepository.findById(review.getMovieId())
+                .orElseThrow(() -> new RuntimeException("영화를 찾을 수 없습니다."));
+
+        return ReviewResponse.fromEntity(
+                review,
+                user.getNickname(),         // 작성자 닉네임
+                movie.getTitle(),           // 영화 제목
+                movie.getPosterUrl()        // 영화 포스터
+        );
     }
 
     @Transactional
