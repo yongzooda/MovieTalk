@@ -87,11 +87,12 @@
             <th>영화 제목</th>
             <th>작성자</th>
             <th>작성일</th>
+            <th>좋아요</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(reviews)}">
-            <td colspan="3" style="text-align: center; color: #888;">검색 결과가 없습니다.</td>
+            <td colspan="4" style="text-align: center; color: #888;">검색 결과가 없습니다.</td>
         </tr>
         <tr th:each="review : ${reviews}">
             <td>
@@ -101,10 +102,12 @@
             </td>
             <td th:text="${review.author}">작성자</td>
             <td th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+            <td th:text="${review.likeCount}">좋아요</td>
         </tr>
         </tbody>
     </table>
 </div>
 </body>
 </html>
+
 
