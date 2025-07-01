@@ -2,7 +2,6 @@ package com.sec.movietalk.review.service;
 
 import com.sec.movietalk.common.domain.review.Review;
 import com.sec.movietalk.common.domain.user.User;
-
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.recommendation.repository.MovieCacheRepository; //
 import com.sec.movietalk.review.dto.ReviewCreateRequest;
@@ -17,10 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -64,21 +61,6 @@ public class ReviewService {
         return ReviewResponse.fromEntity(review);
     }
 
-    @Transactional(readOnly = true)
-    public List<ReviewListResponse> getAllReviews() {
-        return reviewRepository.findAll()
-                .stream()
-                .map(ReviewListResponse::fromEntity)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public ReviewResponse getReviewById(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-        return ReviewResponse.fromEntity(review);
-    }
-
     @Transactional
     public void createReview(ReviewCreateRequest request) {
         LocalDateTime now = LocalDateTime.now();
@@ -92,7 +74,6 @@ public class ReviewService {
                 .content(request.getContent())
                 .createdAt(now)
                 .updatedAt(now)
-
                 .build();
 
         reviewRepository.save(review);
@@ -112,6 +93,12 @@ public class ReviewService {
         reviewRepository.deleteById(reviewId);
     }
 }
+
+
+
+
+
+
 
 
 

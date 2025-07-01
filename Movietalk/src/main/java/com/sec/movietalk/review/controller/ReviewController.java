@@ -71,17 +71,14 @@ public class ReviewController {
         return "redirect:/reviews";
     }
 
-
     /**
      * 리뷰 수정
      */
-
     @PutMapping
     @ResponseBody
     public void updateReview(@RequestBody ReviewUpdateRequest request) {
         reviewService.updateReview(request);
     }
-
 
     /**
      * 리뷰 삭제
@@ -92,6 +89,8 @@ public class ReviewController {
         reviewService.deleteReview(reviewId);
     }
 }
+
+
 
 
 

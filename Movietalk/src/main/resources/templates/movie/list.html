@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>영화 목록</title>
@@ -8,8 +8,8 @@
 <body>
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 
-
 <div class="container my-5">
+
     <!-- 🔍 검색창 -->
     <form th:action="@{/movies/search}" method="get" class="d-flex justify-content-end mb-4" style="gap: 0.5rem;">
         <select name="category" class="form-select w-auto" disabled>

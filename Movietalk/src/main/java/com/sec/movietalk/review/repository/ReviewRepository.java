@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
-}
+import java.util.List;
 
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("""
         SELECT r FROM Review r
@@ -17,7 +17,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     """)
     List<Review> searchByMovieTitleInCache(@Param("keyword") String keyword);
 }
-
 
 
 

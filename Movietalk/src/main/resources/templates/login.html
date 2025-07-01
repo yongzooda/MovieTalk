@@ -70,9 +70,7 @@
             justify-content: space-between;
             gap: 8px;
             margin-top: 18px;
-
             margin-bottom: 18px;
-
         }
         .form-links button {
             width: 49%;
@@ -132,6 +130,8 @@
         </a>
 
     </div>
+
+
 
     <p th:if="${param.error}" class="msg">로그인 실패: 이메일 또는 비밀번호를 확인하세요.</p>
     <p th:if="${param.logout}" style="color:#388e3c" class="msg">로그아웃 완료</p>
