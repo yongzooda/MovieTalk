@@ -103,7 +103,7 @@
         <th>개봉일</th>
         <th th:text="${currentSort=='REVIEWS'} ? '리뷰수' : '조회수'">메트릭</th>
         <th>배우</th>
-        <th>액션</th>
+        <th>해당 영화 관련</th>
     </tr>
     </thead>
     <tbody>
@@ -129,7 +129,10 @@
         </td>
         <td>
             <button type="button">리뷰 보러가기</button>
-            <button type="button">상세보기</button>
+            <button type="button"
+                    th:onclick="|location.href='@{/movies/{id}(id=${card.movieId})}'|">
+                상세보기
+            </button>
         </td>
     </tr>
     </tbody>
