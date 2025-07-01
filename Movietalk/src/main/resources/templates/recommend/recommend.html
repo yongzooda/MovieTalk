@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 추천</title>
+    <style>
+        .card{width:160px;margin:10px;padding:12px;border:1px solid #ddd;border-radius:12px;text-align:center;}
+        .card img{width:100%;border-radius:8px;}
+    </style>
+</head>
+<body>
+<!-- 상단 네비 -->
+<div th:replace="fragments/top-nav :: topNav"></div>
+
+<h2 style="margin:24px;">🎬 추천 영화</h2>
+<div id="box" style="display:flex;flex-wrap:wrap;gap:20px;margin:24px;"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const user_id = [[${user_id}]];
+    const box = document.getElementById('box');
+
+    // 즐겨찾기 개수 체크 → 추천 or 온보딩 분기
+    fetch(`/api/recommendations/check/${user_id}`)
+        .then(r => r.json())
+        .then(({has_favorite}) => {
+            if(!has_favorite){
+                location.href = '/onboarding';
+                return;
+            }
+            // 추천 리스트 호출
+            fetch(`/api/recommendations/${user_id}`)
+                .then(r => r.json())
+                .then(list => {
+                    if(list.length===0){
+                        box.innerHTML = '<p>추천할 영화가 없습니다.</p>';
+                        return;
+                    }
+                    list.forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'card';
+                        div.innerHTML = `
+                      <img src="${m.poster_path}" alt="${m.title}">
+                      <p>${m.title}</p>
+                    `;
+                        box.appendChild(div);
+                    });
+                })
+                .catch(e => box.innerHTML = '<p>추천 호출 실패: '+e+'</p>');
+        })
+        .catch(e => box.innerHTML = '<p>상태 확인 실패: '+e+'</p>');
+    /*]]>*/
+</script>
+</body>
+</html>
