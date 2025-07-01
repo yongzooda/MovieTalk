@@ -27,49 +27,25 @@
     <!-- 2. 가운데: 인기 영화 + 인기 배우 (더 큼) -->
     <div style="flex:1; display: flex; flex-direction: column; align-items: center;">
 
-        <!-- 인기 영화 박스 (세로 더 큼) -->
+
         <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
             <h2 style="margin-bottom:30px; font-size:2em;">🔥 인기 영화</h2>
             <div style="display: flex; gap: 40px; justify-content: center;">
 
-                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     onclick="alert('상세페이지 준비중입니다!')"
+
+                <div th:each="movie : ${popularMovies}"
+                     style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     th:onclick="|window.location.href='/movies/${movie.movieId}'|"
                      onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
                      onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
                 >
-                    <img src="https://via.placeholder.com/140x210?text=포스터1" alt="포스터1" style="border-radius:10px;"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목1</span>
+                    <img th:src="${movie.posterUrl}" style="border-radius:10px; width:140px; height:210px;"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${movie.title}"></span>
                 </div>
 
-
-                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     onclick="alert('상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/140x210?text=포스터2" alt="포스터2" style="border-radius:10px;"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목2</span>
-                </div>
-
-                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     onclick="alert('상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/140x210?text=포스터3" alt="포스터3" style="border-radius:10px;"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목3</span>
-                </div>
-
-                <div style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     onclick="alert('상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/140x210?text=포스터4" alt="포스터4" style="border-radius:10px;"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;">영화제목4</span>
-                </div>
             </div>
         </div>
+
 
         <!-- 인기 배우 박스 (세로 더 큼) -->
         <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">

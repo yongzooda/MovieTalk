@@ -1,5 +1,7 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.home.dto.HomeMovieDto;
+import com.sec.movietalk.home.service.HomeMovieService;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
@@ -15,11 +17,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
 
+    private final HomeMovieService homeMovieService;
     private final UserService userService;
 
     @GetMapping("/register")
@@ -84,6 +89,9 @@ public class UserController {
         model.addAttribute("email", info.getEmail());
         model.addAttribute("commentCnt", info.getCommentCnt());
         model.addAttribute("reviewCnt", info.getReviewCnt());
+
+        List<HomeMovieDto> popularMovies = homeMovieService.getTop4MoviesByViews();
+        model.addAttribute("popularMovies", popularMovies);
 
         return "home";
     }
