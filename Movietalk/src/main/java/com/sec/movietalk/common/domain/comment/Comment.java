@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "comment",
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder    // 추가: 편리한 빌더 생성용
+@Builder
 public class Comment {
 
     @Id
@@ -29,6 +31,10 @@ public class Comment {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
+    // 자식 댓글(대댓글)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> replies = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -36,17 +42,23 @@ public class Comment {
     @Lob
     private String content;
 
-    @Column(name = "like_cnt", columnDefinition = "int default 0")
+    @Column(name = "like_cnt", nullable = false, columnDefinition = "int default 0")
     private Integer likeCnt;
 
-    @Column(name = "dislike_cnt", columnDefinition = "int default 0")
+    @Column(name = "dislike_cnt", nullable = false, columnDefinition = "int default 0")
     private Integer dislikeCnt;
 
     @Column(name = "accepted", nullable = false, columnDefinition = "boolean default false")
-    private Boolean accepted = false;
+    private Boolean accepted;
 
     @Column(name = "accepted_at")
     private LocalDateTime acceptedAt;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommentReactions> reactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommentReports> reports = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -56,16 +68,18 @@ public class Comment {
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
+        if (this.accepted == null) this.accepted = false;
+        if (this.likeCnt == null) this.likeCnt = 0;
+        if (this.dislikeCnt == null) this.dislikeCnt = 0;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    /** 리뷰 작성자가 댓글 채택 시 호출 **/
     public void markAsAccepted() {
         this.accepted = true;
         this.acceptedAt = LocalDateTime.now();

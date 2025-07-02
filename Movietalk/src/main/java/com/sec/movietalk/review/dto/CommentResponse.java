@@ -5,8 +5,9 @@ import java.util.List;
 
 // 댓글 반환용
 public record CommentResponse(
-        Long id,
-        String authorName,
+        Long id,                 // 댓글 ID
+        Long authorId,           // ← 추가: 댓글 작성자 ID
+        String authorName,       // 작성자 이름
         String content,
         LocalDateTime createdAt,
         Integer likeCnt,
