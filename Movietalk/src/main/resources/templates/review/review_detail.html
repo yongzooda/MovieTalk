@@ -1,8 +1,7 @@
-<!-- src/main/resources/templates/review/review_detail.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"/>
   <title>리뷰 상세 | MovieTalk</title>
   <style>
     body {
@@ -98,11 +97,24 @@
     </form>
   </div>
 
-  <!-- 댓글 섹션(fragment) 삽입:
-       경로를 "review/commentSection" 으로 바꿔주세요 -->
-  <div th:replace="~{review/commentSection :: commentSection(${commentList}, ${review.id})}"
+  <!-- 댓글 섹션(fragment) 삽입: 인자 네 개를 모두 전달 -->
+  <div th:replace="~{review/commentSection :: commentSection(
+                          ${commentList},
+                          ${review.id},
+                          ${currentUserId},
+                          ${reviewAuthorId}
+                        )}"
        class="comment-section">
   </div>
 </div>
+
+<!-- JS 변수 선언 -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const reviewId       = /*[[${review.id}]]*/ 0;
+  const currentUserId  = /*[[${currentUserId}]]*/ 0;
+  const reviewAuthorId = /*[[${reviewAuthorId}]]*/ 0;
+  /*]]>*/
+</script>
 </body>
 </html>
