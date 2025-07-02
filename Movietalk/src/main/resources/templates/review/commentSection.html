@@ -157,37 +157,62 @@
     </script>
 
     <script>
+        // 공통 JSON 전송 함수 (POST)
+        function postJson(url, data) {
+            return fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+        }
+
+        // 수정 전용 JSON 전송 함수 (PATCH)
+        function patchJson(url, data) {
+            return fetch(url, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+        }
+
         // 댓글/대댓글 이벤트 처리
         document.querySelectorAll('.comment').forEach(el => {
             const cid = el.dataset.commentId;
-            // 신고 버튼: 성공 시 새로고침, 실패 시 메시지
+
+            // 신고 버튼
             el.querySelector('.btn-report')?.addEventListener('click', () => {
                 const reason = prompt('신고 사유를 입력하세요:');
                 if (!reason) return;
-                fetch(`/api/comments/${cid}/reports`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ reason })
-                })
-                .then(res => {
-                    if (res.ok) {
-                        location.reload();
-                    } else {
-                        return res.text().then(msg => alert(msg));
-                    }
-                });
+                postJson(`/api/comments/${cid}/reports`, { reason })
+                    .then(res => res.ok ? location.reload() : res.text().then(msg => alert(msg)));
             });
 
-            // 기타 버튼들은 기존처럼 리로드
-            el.querySelector('.btn-like')?.addEventListener('click', () => postJson(`/api/comments/${cid}/reactions`, { reactionType: 'like' }).then(() => location.reload()));
-            el.querySelector('.btn-dislike')?.addEventListener('click', () => postJson(`/api/comments/${cid}/reactions`, { reactionType: 'dislike' }).then(() => location.reload()));
-            el.querySelector('.btn-adopt')?.addEventListener('click', () => postJson(`/api/comments/${cid}/adopt`, {}).then(() => location.reload()));
+            // 좋아요 / 싫어요 / 채택
+            el.querySelector('.btn-like')?.addEventListener('click', () =>
+                postJson(`/api/comments/${cid}/reactions`, { reactionType: 'like' }).then(() => location.reload())
+            );
+            el.querySelector('.btn-dislike')?.addEventListener('click', () =>
+                postJson(`/api/comments/${cid}/reactions`, { reactionType: 'dislike' }).then(() => location.reload())
+            );
+            el.querySelector('.btn-adopt')?.addEventListener('click', () =>
+                postJson(`/api/comments/${cid}/adopt`, {}).then(() => location.reload())
+            );
+
+            // 수정 버튼 (PATCH)
             el.querySelector('.btn-edit')?.addEventListener('click', () => {
                 const text = prompt('수정할 내용을 입력하세요:');
-                if (text) postJson(`/api/reviews/${reviewId}/comments/${cid}`, { commentId: cid, content: text }).then(() => location.reload());
+                if (!text) return;
+                patchJson(
+                    `/api/reviews/${reviewId}/comments/${cid}`,
+                    { commentId: cid, content: text }
+                ).then(() => location.reload());
             });
+
+            // 삭제 버튼
             el.querySelector('.btn-delete')?.addEventListener('click', () => {
-                if (confirm('정말 삭제하시겠습니까?')) fetch(`/api/reviews/${reviewId}/comments/${cid}`, { method: 'DELETE' }).then(r => r.ok ? location.reload() : alert('삭제에 실패했습니다.'));
+                if (!confirm('정말 삭제하시겠습니까?')) return;
+                fetch(`/api/reviews/${reviewId}/comments/${cid}`, { method: 'DELETE' })
+                    .then(r => r.ok ? location.reload() : alert('삭제에 실패했습니다.'));
             });
         });
 
@@ -220,10 +245,5 @@
                 .then(() => location.reload())
                 .catch(() => alert('등록 실패'));
         });
-
-        // 공통 JSON 전송 함수
-        function postJson(url, data) {
-            return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-        }
     </script>
 </div>
