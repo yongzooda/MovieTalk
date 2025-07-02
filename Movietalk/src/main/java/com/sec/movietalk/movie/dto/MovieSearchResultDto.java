@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MovieSearchResultDto {
 
-    private Long id;              // ✅ TMDB 영화 ID (상세 페이지 이동용)
+    private Integer id;              // ✅ TMDB 영화 ID (상세 페이지 이동용)
     private String title;         // 영화 제목
     private String overview;      // 줄거리 요약
     private String posterPath;    // 포스터 이미지 경로

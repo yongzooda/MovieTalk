@@ -85,9 +85,10 @@
 
     <!-- 🔘 버튼 영역 -->
     <div class="d-flex justify-content-center mt-5 mb-5 gap-3">
-        <a th:if="${movie != null}"
-           th:href="@{/reviews/new(movieId=${movie.movieId})}"
+        <a th:if="${detail != null}"
+           th:href="@{/reviews/new(movieId=${movie != null ? movie.movieId : detail.tmdbId})}"
            class="btn btn-primary">리뷰 작성하기</a>
+
         <a th:href="@{/movies}" class="btn btn-secondary">목록으로 돌아가기</a>
     </div>
 </div>

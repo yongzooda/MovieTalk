@@ -10,15 +10,16 @@ import java.util.List;
 @Setter
 public class MovieDetailDto {
 
-    private String title;
+    @JsonProperty("id") // ✅ TMDB의 'id' → tmdbId로 매핑
+    private Integer tmdbId;
 
+    private String title;
     private String overview;
 
     @JsonProperty("release_date")
     private String releaseDate;
 
     private int runtime;
-
     private String tagline;
 
     @JsonProperty("original_language")
@@ -28,25 +29,21 @@ public class MovieDetailDto {
     private String posterPath;
 
     private double popularity;
-
     private double voteAverage;
-
     private int voteCount;
 
     private List<Genre> genres;
-
     private List<CastMember> cast;
 
     @JsonProperty("production_countries")
     private List<ProductionCountry> productionCountries;
 
-    // ✅ 추가된 필드
     @JsonProperty("adult")
     private boolean adult;
 
     private boolean restricted = false;
 
-    // 내부 클래스: 장르
+    // ⬇️ 내부 클래스: 장르
     @Getter
     @Setter
     public static class Genre {
@@ -54,7 +51,7 @@ public class MovieDetailDto {
         private String name;
     }
 
-    // 내부 클래스: 국가
+    // ⬇️ 내부 클래스: 국가
     @Getter
     @Setter
     public static class ProductionCountry {
