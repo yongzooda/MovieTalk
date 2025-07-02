@@ -1,15 +1,44 @@
-<!-- templates/review/commentSection.html -->
+<!-- src/main/resources/templates/review/commentSection.html -->
 <div xmlns:th="http://www.thymeleaf.org"
-     th:fragment="commentSection (commentList, reviewId)"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+     th:fragment="commentSection (commentList, reviewId, reviewAuthorId)"
      class="comment-section">
+
     <h3>댓글</h3>
-    <div th:each="comment : ${commentList}" class="comment">
+
+    <div th:each="comment : ${commentList}"
+         class="comment"
+         th:attr="data-comment-id=${comment.id}">
+
         <p><strong th:text="${comment.authorName}">작성자</strong></p>
         <p th:text="${comment.content}">댓글 내용</p>
         <p th:text="${#temporals.format(comment.createdAt,'yyyy-MM-dd HH:mm')}">작성일</p>
+
+        <div class="comment-actions">
+            <button class="action-btn" data-action="like">
+                👍 (<span class="likeCount" th:text="${comment.likeCnt}">0</span>)
+            </button>
+            <button class="action-btn" data-action="dislike">
+                👎 (<span class="dislikeCount" th:text="${comment.dislikeCnt}">0</span>)
+            </button>
+            <button class="action-btn report-comment-btn">🚨 신고</button>
+        </div>
+
+        <!-- 1) 이미 채택된 댓글 -->
+        <button th:if="${comment.accepted}"
+                class="action-btn adopted-label"
+                disabled>
+            ✔️ 채택됨
+        </button>
+
+        <!-- 2) 리뷰 작성자이면서, 아직 채택되지 않은 댓글에만 노출 -->
+        <button class="action-btn adopt-comment-btn"
+                sec:authorize="authentication.principal.id == ${reviewAuthorId} and !${comment.accepted}">
+            ✅ 채택
+        </button>
+
     </div>
 
-    <!-- 여기를 /reviews/{id}/comments 로 바꿔야 MVC 핸들러가 잡습니다 -->
     <form th:action="@{/reviews/{id}/comments(id=${reviewId})}"
           method="post"
           class="comment-form">
@@ -20,4 +49,3 @@
         <button type="submit">등록</button>
     </form>
 </div>
-</html>

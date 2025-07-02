@@ -2,13 +2,18 @@ package com.sec.movietalk.review.service;
 
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.common.domain.review.Review;
+import com.sec.movietalk.common.domain.review.ReviewReactions;
+import com.sec.movietalk.common.domain.review.ReviewReports;
 import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.recommendation.repository.MovieCacheRepository;
 import com.sec.movietalk.review.dto.ReviewCreateRequest;
 import com.sec.movietalk.review.dto.ReviewListResponse;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.review.dto.ReviewUpdateRequest;
+import com.sec.movietalk.review.repository.ReviewReactionsRepository;
+import com.sec.movietalk.review.repository.ReviewReportsRepository;
 import com.sec.movietalk.review.repository.ReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,9 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MovieCacheRepository movieCacheRepository;
+
+    private final ReviewReactionsRepository reactionsRepo;
+    private final ReviewReportsRepository reportsRepo;
 
     @Transactional(readOnly = true)
     public List<ReviewListResponse> getAllReviews() {
@@ -119,4 +127,51 @@ public class ReviewService {
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
     }
+
+    @Transactional
+    public void reactReview(Long reviewId, String reactionType, User user) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰가 없습니다. id=" + reviewId));
+
+        // 기존 반응 조회
+        var existing = reactionsRepo
+                .findByReview_ReviewIdAndUser_UserId(reviewId, user.getId());
+
+        // 토글 로직
+        if (existing.isPresent() && existing.get().getReaction().name().equals(reactionType)) {
+            reactionsRepo.delete(existing.get());
+        } else {
+            existing.ifPresent(reactionsRepo::delete);
+            ReviewReactions rr = new ReviewReactions();
+            rr.setReview(review);
+            rr.setUser(user);
+            rr.setReaction(ReviewReactions.ReactionType.valueOf(reactionType));
+            reactionsRepo.save(rr);
+        }
+
+        // 최신 카운트를 다시 집계해서 Review 엔티티에 반영
+        int likes    = reactionsRepo.countByReview_ReviewIdAndReaction(reviewId, ReviewReactions.ReactionType.like);
+        int dislikes = reactionsRepo.countByReview_ReviewIdAndReaction(reviewId, ReviewReactions.ReactionType.dislike);
+        review.setLikeCount(likes);
+        review.setDislikeCount(dislikes);
+    }
+    @Transactional
+    public void reportReview(Long reviewId, String reason, User user) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰가 없습니다. id=" + reviewId));
+
+        // 중복 신고 방지
+        if (reportsRepo.existsByReview_ReviewIdAndUser_UserId(reviewId, user.getId())) {
+            throw new IllegalStateException("이미 신고하셨습니다.");
+        }
+
+        ReviewReports rpt = ReviewReports.builder()
+                .review(review)
+                .user(user)
+                .reason(reason)
+                .build();
+        reportsRepo.save(rpt);
+    }
+
+
 }

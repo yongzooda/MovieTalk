@@ -19,9 +19,7 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-
-    private final UserRepository userRepository;  // ← User 엔티티 조회용
-
+    private final UserRepository userRepository;  // User 엔티티 조회용
 
     /** 1) 해당 리뷰의 댓글 리스트 조회 */
     @GetMapping
@@ -33,35 +31,36 @@ public class CommentController {
     @PostMapping
     public CommentResponse add(
             @PathVariable Long reviewId,
-            @RequestBody    CommentRequest     req,
-            @AuthenticationPrincipal CurrentUserDetails currentUser
+            @RequestBody CommentRequest req,
+            @AuthenticationPrincipal CurrentUserDetails currentUser  // UserDetails로 받기
     ) {
-        // 1) PrincipalDetails → 실제 User 엔티티 로딩
+        // UserDetails → 실제 User 엔티티 로딩
         User user = userRepository.findById(currentUser.getUserId())
-                .orElseThrow(() -> new UsernameNotFoundException("사용자 못 찾음"));
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다. id=" + currentUser.getUserId()));
 
-        // 2) payload 준비
-        CommentRequest payload = new CommentRequest(
-                reviewId,
-                null,
-                req.content()
+        // 서비스 호출
+        return commentService.addComment(
+                new CommentRequest(reviewId, null, req.content()),
+                user
         );
-
-        // 3) 서비스 호출
-        return commentService.addComment(payload, user);
     }
 
     /** 3) 대댓글 작성 */
     @PostMapping("/{parentId}/reply")
-    public CommentResponse reply(@PathVariable Long reviewId,
-                                 @PathVariable Long parentId,
-                                 @RequestBody CommentRequest req,
-                                 @AuthenticationPrincipal User currentUser) {
-        CommentRequest payload = new CommentRequest(
-                reviewId,
-                parentId,
-                req.content()
+    public CommentResponse reply(
+            @PathVariable Long reviewId,
+            @PathVariable Long parentId,
+            @RequestBody CommentRequest req,
+            @AuthenticationPrincipal CurrentUserDetails currentUser  // UserDetails로 받기
+    ) {
+        // UserDetails → 도메인 User로 변환
+        User user = userRepository.findById(currentUser.getUserId())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다. id=" + currentUser.getUserId()));
+
+        // 서비스 호출
+        return commentService.reply(
+                new CommentRequest(reviewId, parentId, req.content()),
+                user
         );
-        return commentService.reply(payload, currentUser);
     }
 }

@@ -1,80 +1,32 @@
-<!-- src/main/resources/templates/review/review_detail.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>리뷰 상세 | MovieTalk</title>
+  <!-- CSRF 히든 필드 자동 생성 -->
+  <sec:csrfInput />
+
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f7f9f9;
-      margin: 0;
-      padding: 2rem;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
-    .movie-info {
-      display: flex;
-      align-items: flex-start;
-      background-color: white;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      margin-bottom: 1.5rem;
-    }
-    .poster {
-      width: 150px;
-      height: auto;
-      border-radius: 8px;
-      margin-right: 1rem;
-    }
-    .movie-meta h2 {
-      margin: 0 0 0.5rem;
-      color: #2f855a;
-    }
-    .movie-meta p {
-      margin: 0.2rem 0;
-      color: #4a5568;
-    }
-    .review-content {
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .review-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .action-btn {
-      background-color: #68d391;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
-    }
-    .action-btn:hover {
-      background-color: #48bb78;
-    }
-    .comment-section {
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      margin-top: 1.5rem;
-    }
+    /* 기존 CSS 유지 */
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f7f9f9; margin: 0; padding: 2rem; }
+    .container { max-width: 900px; margin: auto; }
+    .movie-info { display: flex; align-items: flex-start; background-color: white; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+    .poster { width: 150px; height: auto; border-radius: 8px; margin-right: 1rem; }
+    .movie-meta h2 { margin: 0 0 0.5rem; color: #2f855a; }
+    .movie-meta p { margin: 0.2rem 0; color: #4a5568; }
+    .review-content { background-color: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .review-actions { display: flex; gap: 1rem; margin-top: 1rem; }
+    .action-btn { background-color: #68d391; border: none; padding: 0.5rem 1rem; border-radius: 6px; color: white; cursor: pointer; }
+    .action-btn:hover { background-color: #48bb78; }
+    .comment-section { background-color: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 1.5rem; }
   </style>
 </head>
 <body>
 <div class="container">
   <!-- 영화 정보 + 포스터 -->
   <div class="movie-info">
-    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster"/>
+    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster" />
     <div class="movie-meta">
       <h2 th:text="${review.movieTitle}">영화 제목</h2>
       <p th:text="'작성자: ' + ${review.author}">작성자</p>
@@ -87,22 +39,100 @@
 
   <!-- 좋아요 / 싫어요 / 신고 -->
   <div class="review-actions">
-    <form th:action="@{/reviews/{id}/like(id=${review.id})}" method="post">
-      <button class="action-btn">👍 좋아요</button>
-    </form>
-    <form th:action="@{/reviews/{id}/dislike(id=${review.id})}" method="post">
-      <button class="action-btn">👎 싫어요</button>
-    </form>
-    <form th:action="@{/reviews/{id}/report(id=${review.id})}" method="post">
-      <button class="action-btn">🚨 신고</button>
-    </form>
+    <button class="action-btn" data-action="like">
+      👍 좋아요 (<span id="likeCount" th:text="${review.likeCount}">0</span>)
+    </button>
+    <button class="action-btn" data-action="dislike">
+      👎 싫어요 (<span id="dislikeCount" th:text="${review.dislikeCount}">0</span>)
+    </button>
+    <button class="action-btn" id="reportReviewBtn">🚨 신고</button>
   </div>
 
-  <!-- 댓글 섹션(fragment) 삽입:
-       경로를 "review/commentSection" 으로 바꿔주세요 -->
-  <div th:replace="~{review/commentSection :: commentSection(${commentList}, ${review.id})}"
-       class="comment-section">
-  </div>
+  <!-- 댓글 섹션(fragment) 삽입: reviewId, reviewAuthorId 추가 전달 -->
+  <div th:replace="~{review/commentSection :: commentSection(
+                        ${commentList},
+                        ${review.id},
+                        ${review.userId}
+                      )}"
+       class="comment-section"></div>
 </div>
+
+<!-- JavaScript -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  document.addEventListener('DOMContentLoaded', () => {
+    const reviewId   = /*[[${review.id}]]*/ 0;
+    const csrfToken  = document.querySelector('input[name="_csrf"]').value;
+    const csrfHeader = document.querySelector('input[name="_csrf_header"]').value;
+
+    async function postJson(url, body) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
+        },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) throw new Error('요청 실패: ' + res.status);
+      return res;
+    }
+
+    // 리뷰 좋아요/싫어요
+    document.querySelectorAll('.review-actions [data-action]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const action = btn.dataset.action;
+        await postJson(`/api/reviews/${reviewId}/reactions`, { reactionType: action });
+        const span = document.getElementById(action + 'Count');
+        span.textContent = parseInt(span.textContent) + 1;
+      });
+    });
+
+    // 리뷰 신고
+    document.getElementById('reportReviewBtn').addEventListener('click', async () => {
+      const reason = prompt('신고 사유를 입력하세요:');
+      if (!reason) return;
+      await postJson(`/api/reviews/${reviewId}/reports`, { reason });
+      alert('신고가 접수되었습니다');
+    });
+
+    // 댓글 좋아요/싫어요
+    document.querySelectorAll('.comment-actions [data-action]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cid = btn.closest('.comment').dataset.commentId;
+        const action = btn.dataset.action;
+        await postJson(`/api/comments/${cid}/reactions`, { reactionType: action });
+        const span = btn.querySelector(`.${action}Count`);
+        span.textContent = parseInt(span.textContent) + 1;
+      });
+    });
+
+    // 댓글 신고
+    document.querySelectorAll('.report-comment-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cid    = btn.closest('.comment').dataset.commentId;
+        const reason = prompt('신고 사유를 입력하세요:');
+        if (!reason) return;
+        await postJson(`/api/comments/${cid}/reports`, { reason });
+        alert('신고가 접수되었습니다');
+      });
+    });
+
+    // 댓글 채택 (리뷰 작성자 전용)
+    document.querySelectorAll('.adopt-comment-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cid = btn.closest('.comment').dataset.commentId;
+        await postJson(`/api/comments/${cid}/adopt`, {});
+        // 채택됨 레이블로 교체
+        const done = document.createElement('button');
+        done.className = 'action-btn adopted-label';
+        done.disabled = true;
+        done.textContent = '✔️ 채택됨';
+        btn.replaceWith(done);
+      });
+    });
+  });
+  /*]]>*/
+</script>
 </body>
 </html>
