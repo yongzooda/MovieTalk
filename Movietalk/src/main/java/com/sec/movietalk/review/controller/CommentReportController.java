@@ -6,6 +6,7 @@ import com.sec.movietalk.review.dto.ReportRequest;
 import com.sec.movietalk.review.service.CommentService;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +21,25 @@ public class CommentReportController {
 
     /** 5) 댓글 신고 **/
     @PostMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)   // 성공 시 204 반환
     public void report(
             @PathVariable Long commentId,
             @RequestBody ReportRequest req,
             @AuthenticationPrincipal Object principal
     ) {
-        // 1) Principal 에서 사용자 ID 추출
         Long userId = UserUtil.extractUserId(principal);
-
-        // 2) User 엔티티 조회
         User currentUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
-        // 3) 서비스 호출
         commentService.report(commentId, req.reason(), currentUser);
+    }
+
+    /**
+     * IllegalArgumentException → 400 Bad Request 처리
+     * (예: 이미 신고했거나, 대댓글 답글 금지 예외)
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleBadRequest(IllegalArgumentException ex) {
+        return ex.getMessage();
     }
 }
