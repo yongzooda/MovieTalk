@@ -97,7 +97,19 @@
     </form>
   </div>
 
-  <!-- 댓글 섹션(fragment) 삽입: 인자 네 개를 모두 전달 (한 줄로!) -->
+  <!-- 수정 / 삭제 버튼 (작성자만 보임) -->
+  <div th:if="${currentUserId != null and currentUserId == reviewAuthorId}" class="review-actions">
+    <a th:href="@{/reviews/edit/{id}(id=${review.id})}">
+      <button class="action-btn" style="background-color: #f0ad4e;">✏️ 수정</button>
+    </a>
+    <form th:action="@{/reviews/delete/{id}(id=${review.id})}" method="post"
+          style="display: inline;"
+          onsubmit="return confirm('정말 삭제하시겠습니까?');">
+      <button type="submit" class="action-btn" style="background-color: #d9534f;">🗑 삭제</button>
+    </form>
+  </div>
+
+  <!-- 댓글 섹션(fragment) 삽입 -->
   <div th:replace="~{review/commentSection :: commentSection(${commentList}, ${review.id}, ${currentUserId}, ${reviewAuthorId})}"
        class="comment-section">
   </div>

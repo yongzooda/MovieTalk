@@ -1,4 +1,3 @@
-<!-- templates/review/reviewEditForm.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -53,16 +52,20 @@
 <body>
 <div class="container">
   <h2>리뷰 수정</h2>
-  <form th:action="@{'/review/' + ${review.id} + '/edit'}" method="post" th:object="${review}">
+  <form th:action="@{'/reviews/review/' + ${review.reviewId} + '/edit'}"
+        method="post"
+        th:object="${review}">
     <label for="movieTitle">영화 제목</label>
-    <input type="text" id="movieTitle" name="movieTitle" th:field="*{movieTitle}" required />
+    <input type="text" id="movieTitle" th:field="*{movieTitle}" required />
 
     <label for="content">리뷰 내용</label>
-    <textarea id="content" name="content" rows="8" th:field="*{content}" required></textarea>
+    <textarea id="content" th:field="*{content}" rows="8" required></textarea>
 
     <button type="submit">수정 완료</button>
   </form>
 </div>
 </body>
 </html>
+
+
 
