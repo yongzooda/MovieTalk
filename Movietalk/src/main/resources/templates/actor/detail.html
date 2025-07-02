@@ -205,19 +205,19 @@
 
             <p class="comment-text" th:text="${comment.actorContent}" th:id="'content-'+${comment.actorCommentId}">댓글 내용</p>
 
-            <!-- 수정 폼 -->
-            <form th:id="'edit-form-'+${comment.actorCommentId}" class="edit-form"
+            <!-- 수정 폼 (기본 숨김) -->
+            <form th:id="'edit-form-' + ${comment.actorCommentId}"
                   th:action="@{'/actors/' + ${actor.id} + '/comment/' + ${comment.actorCommentId} + '/edit'}"
-                  method="post">
-                <textarea name="content" th:text="${comment.actorContent}"></textarea>
+                  method="post" style="display:none;">
+                <textarea name="content" rows="3" style="width:100%;">[[${comment.actorContent}]]</textarea>
                 <div class="comment-actions">
                     <button type="submit">💾 저장</button>
-                    <button type="button" onclick="cancelEdit([[${comment.actorCommentId}]])">❌ 취소</button>
+                    <button type="button" th:onclick="'cancelEdit(' + ${comment.actorCommentId} + ')'">❌ 취소</button>
                 </div>
             </form>
 
-            <!-- 원래 수정/삭제 버튼들 -->
-            <div class="comment-actions" th:id="'buttons-'+${comment.actorCommentId}" th:if="${currentUserId == comment.user.id}">
+            <!-- 수정/삭제 버튼 -->
+            <div th:id="'buttons-' + ${comment.actorCommentId}" class="comment-actions" th:if="${currentUserId == comment.user.id}">
                 <button type="button" th:onclick="'showEditForm(' + ${comment.actorCommentId} + ')'">✏ 수정</button>
                 <form th:action="@{'/actors/' + ${actor.id} + '/comment/' + ${comment.actorCommentId} + '/delete'}"
                       method="post" style="display:inline;">
@@ -229,16 +229,16 @@
 </div>
 
 <script>
-    function showEditForm(id) {
-        document.getElementById('content-' + id).style.display = 'none';
-        document.getElementById('edit-form-' + id).style.display = 'block';
-        document.getElementById('buttons-' + id).style.display = 'none';
+    function showEditForm(commentId) {
+        document.getElementById('content-' + commentId).style.display = 'none';
+        document.getElementById('edit-form-' + commentId).style.display = 'block';
+        document.getElementById('buttons-' + commentId).style.display = 'none';
     }
 
-    function cancelEdit(id) {
-        document.getElementById('content-' + id).style.display = 'block';
-        document.getElementById('edit-form-' + id).style.display = 'none';
-        document.getElementById('buttons-' + id).style.display = 'block';
+    function cancelEdit(commentId) {
+        document.getElementById('content-' + commentId).style.display = 'block';
+        document.getElementById('edit-form-' + commentId).style.display = 'none';
+        document.getElementById('buttons-' + commentId).style.display = 'block';
     }
 </script>
 
