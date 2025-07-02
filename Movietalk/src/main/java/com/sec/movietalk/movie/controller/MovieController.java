@@ -2,7 +2,7 @@ package com.sec.movietalk.movie.controller;
 
 import com.sec.movietalk.client.TmdbClient;
 //import com.sec.movietalk.common.domain.movie.MovieCache;
-import com.sec.movietalk.movie.entity.MovieEntityCache;
+import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.movie.dto.MovieDetailDto;
 import com.sec.movietalk.movie.dto.MovieResponseDto;
 import com.sec.movietalk.movie.dto.MovieSearchResultDto;
@@ -37,10 +37,10 @@ public class MovieController {
 
     @GetMapping("/movies/{id}")
     public String getMovieDetail(@PathVariable Integer id, Model model) {
-        Optional<MovieEntityCache> movieOpt = movieService.findMovieEntityById(id);
+        Optional<MovieCache> movieOpt = movieService.findMovieEntityById(id);
 
         if (movieOpt.isPresent()) {
-            MovieEntityCache movie = movieOpt.get();
+            MovieCache movie = movieOpt.get();
             MovieResponseDto movieDto = MovieResponseDto.fromEntity(movie);
             MovieDetailDto detail = movieService.getMovieDetailFromTmdb((movie.getMovieId()));
 

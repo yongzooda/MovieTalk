@@ -2,7 +2,7 @@ package com.sec.movietalk.movie.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sec.movietalk.client.TmdbClient;
-import com.sec.movietalk.movie.entity.MovieEntityCache;
+import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.movie.dto.CastMember;
 import com.sec.movietalk.movie.dto.MovieDetailDto;
 import com.sec.movietalk.movie.dto.MovieResponseDto;
@@ -31,7 +31,7 @@ public class MovieService {
 
     public Page<MovieResponseDto> getPagedMovies(int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("releaseDate").descending());
-        Page<MovieEntityCache> moviePage = movieRepository.findAll(pageable);
+        Page<MovieCache> moviePage = movieRepository.findAll(pageable);
         List<MovieResponseDto> dtoList = moviePage.stream()
                 .map(MovieResponseDto::fromEntity)
                 .collect(Collectors.toList());
@@ -39,17 +39,17 @@ public class MovieService {
     }
 
     public MovieResponseDto getMovieById(Integer id) {
-        MovieEntityCache movie = movieRepository.findById(id)
+        MovieCache movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다"));
         return MovieResponseDto.fromEntity(movie);
     }
 
-    public Optional<MovieEntityCache> findMovieEntityById(Integer id) {
+    public Optional<MovieCache> findMovieEntityById(Integer id) {
         return movieRepository.findById(id);
     }
 
     public MovieDetailDto getMovieDetailFromTmdb(Integer id) {
-        MovieEntityCache movie = movieRepository.findById(id)
+        MovieCache movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다"));
         Integer tmdbId = movie.getMovieId();
 

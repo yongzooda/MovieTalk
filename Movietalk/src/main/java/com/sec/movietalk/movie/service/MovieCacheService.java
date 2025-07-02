@@ -1,7 +1,7 @@
 package com.sec.movietalk.movie.service;
 
+import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.movie.dto.MovieDetailDto;
-import com.sec.movietalk.movie.entity.MovieEntityCache;
 import com.sec.movietalk.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class MovieCacheService {
         Integer movieId = detailDto.getTmdbId();
 
         if (!movieRepository.existsById(movieId)) {
-            MovieEntityCache entity = MovieEntityCache.builder()
+            MovieCache entity = MovieCache.builder()
                     .movieId(movieId)
                     .title(detailDto.getTitle())
                     .posterUrl("https://image.tmdb.org/t/p/w500" + detailDto.getPosterPath())
