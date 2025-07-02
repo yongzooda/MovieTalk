@@ -20,7 +20,6 @@ public class RecommendationPageController {
     public String recommendPage(Authentication authentication,
                                 Model model) {
         Long user_id = extractUserId(authentication != null ? authentication.getPrincipal() : null);
-
         if (user_id == null) {
             // 비로그인 상태: 로그인 페이지로 리다이렉트
             return "redirect:/login";
@@ -36,6 +35,7 @@ public class RecommendationPageController {
         model.addAttribute("user_id", user_id);    // recommend/list.html 에서 JS로 쓸 값
         return "recommend/recommend";                   // templates/recommend/list.html
     }
+
     @GetMapping("/onboarding")
     public String onboardingPage(Authentication authentication, Model model) {
         Long userId = extractUserId(authentication != null ? authentication.getPrincipal() : null);
