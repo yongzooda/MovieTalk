@@ -1,10 +1,13 @@
 package com.sec.movietalk.common.domain.review;
 
+import com.sec.movietalk.common.domain.comment.Comment;
 import com.sec.movietalk.common.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "review")
@@ -20,6 +23,9 @@ public class Review {
     private Long reviewId;
 
     private Integer movieId;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
