@@ -108,9 +108,8 @@ public class ReviewService {
 
     @Transactional
     public void updateReview(ReviewUpdateRequest request) {
-        Review review = reviewRepository.findById(request.getReviewId())
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다. id=" + request.getReviewId()));
-
+        Review review = reviewRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다. id=" + request.getId()));
 
         review.setContent(request.getContent());
         review.setUpdatedAt(LocalDateTime.now());
@@ -121,4 +120,3 @@ public class ReviewService {
         reviewRepository.deleteById(reviewId);
     }
 }
-

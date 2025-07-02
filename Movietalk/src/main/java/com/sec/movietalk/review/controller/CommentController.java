@@ -1,7 +1,6 @@
 package com.sec.movietalk.review.controller;
 
 import com.sec.movietalk.common.domain.user.User;
-import com.sec.movietalk.common.util.UserUtil;
 import com.sec.movietalk.review.dto.CommentRequest;
 import com.sec.movietalk.review.dto.CommentResponse;
 import com.sec.movietalk.review.service.CommentService;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,12 +34,10 @@ public class CommentController {
     public CommentResponse add(
             @PathVariable Long reviewId,
             @RequestBody    CommentRequest     req,
-            @AuthenticationPrincipal Object principal
+            @AuthenticationPrincipal CurrentUserDetails currentUser
     ) {
-
-        Long userId = UserUtil.extractUserId(principal);
         // 1) PrincipalDetails → 실제 User 엔티티 로딩
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(currentUser.getUserId())
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 못 찾음"));
 
         // 2) payload 준비
@@ -60,18 +56,12 @@ public class CommentController {
     public CommentResponse reply(@PathVariable Long reviewId,
                                  @PathVariable Long parentId,
                                  @RequestBody CommentRequest req,
-                                 @AuthenticationPrincipal Object principal) {
-
-        Long userId = UserUtil.extractUserId(principal);
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자 못 찾음"));
-
+                                 @AuthenticationPrincipal User currentUser) {
         CommentRequest payload = new CommentRequest(
                 reviewId,
                 parentId,
                 req.content()
         );
-        return commentService.reply(payload, user);
+        return commentService.reply(payload, currentUser);
     }
 }
