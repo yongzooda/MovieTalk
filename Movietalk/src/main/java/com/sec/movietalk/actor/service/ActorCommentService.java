@@ -32,7 +32,7 @@ public class ActorCommentService {
     public void updateComment(Long commentId, String newContent, Long userId) {
         ActorComment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
-        if (!comment.getUser().equals(userId)) {
+        if (!comment.getUser().getId().equals(userId)) {
             throw new AccessDeniedException("수정 권한이 없습니다.");
         }
         comment.setActorContent(newContent);
@@ -42,7 +42,7 @@ public class ActorCommentService {
     public void deleteComment(Long commentId, Long userId) {
         ActorComment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
-        if (!comment.getUser().equals(userId)) {
+        if (!comment.getUser().getId().equals(userId)) {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
         comment.setDeleted(true);

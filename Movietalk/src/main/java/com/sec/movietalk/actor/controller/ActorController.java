@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.sec.movietalk.common.util.UserUtil.extractUserId;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/actors")
@@ -51,7 +53,7 @@ public class ActorController {
     // 배우 상세 정보
     @GetMapping("/{actorId}")
     public String actorDetail(@PathVariable int actorId, Model model,
-                              @AuthenticationPrincipal CurrentUserDetails user) {
+                              @AuthenticationPrincipal Object principal) {
 
         ActorDto actor = tmdbClient.getActorDetail(actorId);
         model.addAttribute("actor", actor);
@@ -59,8 +61,10 @@ public class ActorController {
         List<ActorComment> comments = commentService.getComments((long) actorId);
         model.addAttribute("comments", comments);
 
-        if (user != null) {
-            model.addAttribute("currentUserId", user.getUserId());
+        Long userId = extractUserId(principal);
+
+        if (userId != null) {
+            model.addAttribute("currentUserId", userId);
         }
 
         return "actor/detail";
@@ -81,8 +85,11 @@ public class ActorController {
     @PostMapping("/{actorId}/comment")
     public String postComment(@PathVariable Long actorId,
                               @RequestParam String content,
-                              @AuthenticationPrincipal CurrentUserDetails user) {
-        commentService.addComment(user.getUserId(), new ActorCommentRequest(actorId, content)); // ❌ 여기가 문제
+                              @AuthenticationPrincipal Object principal) {
+
+        Long userId = extractUserId(principal);
+
+        commentService.addComment(userId, new ActorCommentRequest(actorId, content)); // ❌ 여기가 문제
         return "redirect:/actors/" + actorId;
     }
 
@@ -90,16 +97,20 @@ public class ActorController {
     public String editComment(@PathVariable Long actorId,
                               @PathVariable Long commentId,
                               @RequestParam String content,
-                              @AuthenticationPrincipal CurrentUserDetails user) {
-        commentService.updateComment(commentId, content, user.getUserId());
+                              @AuthenticationPrincipal Object principal) {
+
+        Long userId = extractUserId(principal);
+        commentService.updateComment(commentId, content, userId);
         return "redirect:/actors/" + actorId;
     }
 
     @PostMapping("/{actorId}/comment/{commentId}/delete")
     public String deleteComment(@PathVariable Long actorId,
                                 @PathVariable Long commentId,
-                                @AuthenticationPrincipal CurrentUserDetails user) {
-        commentService.deleteComment(commentId, user.getUserId());
+                                @AuthenticationPrincipal Object principal) {
+
+        Long userId = extractUserId(principal);
+        commentService.deleteComment(commentId, userId);
         return "redirect:/actors/" + actorId;
     }
 }
