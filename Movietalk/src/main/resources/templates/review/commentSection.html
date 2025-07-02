@@ -4,30 +4,60 @@
 
     <!-- 스타일 추가 -->
     <style>
-        /* 댓글 헤더: 작성자/날짜 폰트 더 작게, 색상 연하게 */
+        /* 댓글 헤더: 작성자/날짜 폰트 크기 조정 */
         .comment-header {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
+            gap: 0.4rem;
+            font-size: 0.75rem;
             color: #555;
         }
+        .comment-header strong {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
         .comment-date {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #888;
         }
-        /* 댓글 본문 폰트 및 마진 */
+
+        /* 댓글 본문 */
         .comment-body p {
             font-size: 1rem;
-            margin: 0.5rem 0;
+            margin: 0.4rem 0;
         }
-        /* 대댓글 들여쓰기 및 배경 */
+
+        /* accepted 표시 */
+        .comment-accepted {
+            display: inline-block;
+            background-color: #38a169;
+            color: white;
+            padding: 0.15rem 0.3rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 0.2rem;
+        }
+
+        /* 버튼들 크기 추가 축소 */
+        .comment-actions button {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.3rem;
+            margin-right: 0.2rem;
+            min-width: auto;
+        }
+        .comment-actions button:last-child {
+            margin-right: 0;
+        }
+
+        /* 대댓글 */
         .comment.reply {
             margin-left: 2rem;
             background-color: #f9f9f9;
-            padding: 0.5rem;
+            padding: 0.4rem;
             border-radius: 4px;
         }
+
         /* 댓글 간 간격 */
         .comment {
             margin-bottom: 1rem;
@@ -56,7 +86,7 @@
             <button type="button" class="btn-dislike">👎 <span th:text="${comment.dislikeCnt}">0</span></button>
             <button type="button" class="btn-report">🚨 신고</button>
 
-            <!-- 답글 버튼 (최상위만 순회하므로 추가 조건 불필요) -->
+            <!-- 답글 버튼 -->
             <button type="button" class="btn-reply" th:data-comment-id="${comment.id}">💬 답글</button>
 
             <!-- 채택 버튼 -->
@@ -72,7 +102,7 @@
         </div>
 
         <!-- 채택됨 표시 -->
-        <div th:if="${comment.accepted}" class="comment-accepted">[채택됨]</div>
+        <div th:if="${comment.accepted}" class="comment-accepted">채택됨</div>
 
         <!-- 대댓글 목록 -->
         <div class="replies" th:if="${comment.replies}" th:each="reply : ${comment.replies}">
@@ -98,7 +128,7 @@
                         <button type="button" class="btn-delete" th:data-comment-id="${reply.id}">🗑️ 삭제</button>
                     </span>
                 </div>
-                <div th:if="${reply.accepted}" class="comment-accepted">[채택됨]</div>
+                <div th:if="${reply.accepted}" class="comment-accepted">채택됨</div>
             </div>
         </div>
 
