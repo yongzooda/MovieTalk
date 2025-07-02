@@ -47,27 +47,21 @@ public class ReviewController {
     public String getReview(
             @PathVariable Long reviewId,
             Model model,
-            @AuthenticationPrincipal Object principal   // 현재 로그인 정보
+            @AuthenticationPrincipal Object principal
     ) {
-        // 리뷰 데이터
         ReviewResponse review = reviewService.getReviewById(reviewId);
-
-        // 댓글 리스트
         List<CommentResponse> commentList = commentService.getComments(reviewId);
-
-        // 현재 로그인 유저 ID
         Long currentUserId = UserUtil.extractUserId(principal);
 
-        // 뷰에 필요한 모델 속성 설정
         model.addAttribute("review", review);
         model.addAttribute("commentList", commentList);
-        model.addAttribute("currentUserId", currentUserId);         // 로그인한 사용자
-        model.addAttribute("reviewAuthorId", review.getUserId());   // 리뷰 작성자
+        model.addAttribute("currentUserId", currentUserId);
+        model.addAttribute("reviewAuthorId", review.getUserId());
 
         return "review/review_detail";
     }
 
-    /** 4) 댓글 등록 처리 (폼 POST) */
+    /** 4) 댓글 등록 처리 */
     @PostMapping("/{reviewId}/comments")
     public String addComment(
             @PathVariable Long reviewId,
@@ -112,4 +106,43 @@ public class ReviewController {
     public void deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
     }
+
+    /** 9) 리뷰 삭제 (form POST 요청용) */
+    @PostMapping("/delete/{reviewId}")
+    public String deleteReviewForm(@PathVariable Long reviewId) {
+        reviewService.deleteReview(reviewId);
+        return "redirect:/reviews";
+    }
+
+    /** 10) 리뷰 수정 폼 이동 */
+    @GetMapping("/edit/{reviewId}")
+    public String editForm(@PathVariable Long reviewId, Model model) {
+        ReviewResponse review = reviewService.getReviewById(reviewId);
+
+        // ReviewResponse → ReviewUpdateRequest로 변환
+        ReviewUpdateRequest form = ReviewUpdateRequest.builder()
+                .reviewId(review.getId())
+                .movieTitle(review.getMovieTitle())
+                .content(review.getContent())
+                .build();
+
+        model.addAttribute("review", form);
+        return "review/review_edit";
+    }
+
+    /** 11) 리뷰 수정 처리 (form POST) */
+    @PostMapping("/review/{reviewId}/edit")
+    public String updateReviewForm(
+            @PathVariable Long reviewId,
+            @ModelAttribute("review") ReviewUpdateRequest formData,
+            @AuthenticationPrincipal Object principal
+    ) {
+        Long userId = UserUtil.extractUserId(principal);
+        formData.setReviewId(reviewId);
+        formData.setUserId(userId);
+
+        reviewService.updateReview(formData);
+        return "redirect:/reviews/" + reviewId;
+    }
 }
+
