@@ -1,17 +1,19 @@
 package com.sec.movietalk.actor.controller;
 
+import com.sec.movietalk.actor.dto.ActorCommentRequest;
+import com.sec.movietalk.common.domain.comment.ActorComment;
 import com.sec.movietalk.actor.dto.ActorDto;
 import com.sec.movietalk.actor.dto.FilmographyDto;
 import com.sec.movietalk.actor.external.TmdbService;
+import com.sec.movietalk.actor.service.ActorCommentService;
 import com.sec.movietalk.client.TmdbClient;
+import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.userinfo.security.CurrentUserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class ActorController {
 
     private final TmdbClient tmdbClient; //TMDB API와 통신하기 위해 가져온 클라이언트 객체
     private final TmdbService tmdbService;
+
+    private final ActorCommentService commentService;
 
     // tmdbClient를 스프링이 자동으로 주입할 수 있도록 만든 생성자 기반 의존성 주입
     //public ActorController(TmdbClient tmdbClient) {
@@ -45,11 +49,19 @@ public class ActorController {
     }
 
     // 배우 상세 정보
-    @GetMapping("/{id}")
-    public String actorDetail(@PathVariable("id") int id, Model model) {
+    @GetMapping("/{actorId}")
+    public String actorDetail(@PathVariable int actorId, Model model,
+                              @AuthenticationPrincipal CurrentUserDetails user) {
 
-        ActorDto actor = tmdbClient.getActorDetail(id); // 배우 상세 정보를 TMDB API에서 가져옴
+        ActorDto actor = tmdbClient.getActorDetail(actorId);
         model.addAttribute("actor", actor);
+
+        List<ActorComment> comments = commentService.getComments((long) actorId);
+        model.addAttribute("comments", comments);
+
+        if (user != null) {
+            model.addAttribute("currentUserId", user.getUserId());
+        }
 
         return "actor/detail";
     }
@@ -63,5 +75,31 @@ public class ActorController {
         model.addAttribute("filmography", filmography);
         model.addAttribute("actor", actor); // model에 담아주기
         return "actor/filmography"; // ← html 파일명
+    }
+
+
+    @PostMapping("/{actorId}/comment")
+    public String postComment(@PathVariable Long actorId,
+                              @RequestParam String content,
+                              @AuthenticationPrincipal CurrentUserDetails user) {
+        commentService.addComment(user.getUserId(), new ActorCommentRequest(actorId, content)); // ❌ 여기가 문제
+        return "redirect:/actors/" + actorId;
+    }
+
+    @PostMapping("/{actorId}/comment/{commentId}/edit")
+    public String editComment(@PathVariable Long actorId,
+                              @PathVariable Long commentId,
+                              @RequestParam String content,
+                              @AuthenticationPrincipal CurrentUserDetails user) {
+        commentService.updateComment(commentId, content, user.getUserId());
+        return "redirect:/actors/" + actorId;
+    }
+
+    @PostMapping("/{actorId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long actorId,
+                                @PathVariable Long commentId,
+                                @AuthenticationPrincipal CurrentUserDetails user) {
+        commentService.deleteComment(commentId, user.getUserId());
+        return "redirect:/actors/" + actorId;
     }
 }

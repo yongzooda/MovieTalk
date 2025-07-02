@@ -65,7 +65,7 @@ public class TmdbClient {
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<>() {}
+                new ParameterizedTypeReference<ActorDto>() {}
         );
 
         return response.getBody();
