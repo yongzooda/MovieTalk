@@ -1,6 +1,7 @@
 package com.sec.movietalk.movie.dto;
 
 import com.sec.movietalk.common.domain.movie.MovieCache;
+import com.sec.movietalk.movie.entity.MovieEntityCache;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ public class MovieResponseDto {
     private String posterUrl;
     private LocalDate releaseDate;
 
-    public static MovieResponseDto fromEntity(MovieCache movie) {
+    public static MovieResponseDto fromEntity(MovieEntityCache movie) {
         return MovieResponseDto.builder()
                 .movieId(movie.getMovieId())
                 .title(movie.getTitle())
