@@ -70,6 +70,7 @@
             justify-content: space-between;
             gap: 8px;
             margin-top: 18px;
+            margin-bottom: 18px;
         }
         .form-links button {
             width: 49%;
@@ -106,6 +107,31 @@
         <button type="button" onclick="location.href='/register'">회원가입</button>
         <button type="button" onclick="location.href='/findpassword'">비밀번호 재설정</button>
     </div>
+
+
+    <div style="display: flex; gap: 24px; justify-content: center; align-items: center;">
+
+        <!-- 구글 로그인 -->
+        <a th:href="@{/oauth2/authorization/google}" style="display: inline-block; width: 48px; height: 48px;">
+            <img src="/icons-google.svg"
+                 alt="구글 로그인" style="width: 48px; height: 48px; object-fit: contain;">
+        </a>
+
+        <!-- 네이버 로그인 -->
+        <a th:href="@{/oauth2/authorization/naver}" style="display: inline-block; width: 48px; height: 48px;">
+            <img src="/icons-naver.svg"
+                 alt="네이버 로그인" style="width: 48px; height: 48px; object-fit: contain;">
+        </a>
+
+        <!-- 카카오 로그인 -->
+        <a th:href="@{/oauth2/authorization/kakao}" style="display: inline-block; width: 48px; height: 48px;">
+            <img src="/icons-kakaotalk.svg"
+                 alt="카카오 로그인" style="width: 48px; height: 48px; object-fit: contain;">
+        </a>
+
+    </div>
+
+
 
     <p th:if="${param.error}" class="msg">로그인 실패: 이메일 또는 비밀번호를 확인하세요.</p>
     <p th:if="${param.logout}" style="color:#388e3c" class="msg">로그아웃 완료</p>

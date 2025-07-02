@@ -7,11 +7,6 @@ import lombok.Setter;
 @Setter
 public class ReviewCreateRequest {
     private Long userId;
-    private Integer movieId;
+    private String movieTitle;   // Integer movieId → String movieTitle 로 변경
     private String content;
 }
-
-
-
-
-

@@ -6,9 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewUpdateRequest {
+
     private Long reviewId;
     private String content;
+
+
 }
+
 
 
 

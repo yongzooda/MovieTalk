@@ -1,8 +1,7 @@
-<!-- templates/review/reviewDetail.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"/>
   <title>리뷰 상세 | MovieTalk</title>
   <style>
     body {
@@ -66,36 +65,7 @@
       padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .comment {
-      border-bottom: 1px solid #e2e8f0;
-      padding: 0.8rem 0;
-    }
-    .comment:last-child {
-      border-bottom: none;
-    }
-    .comment-form {
-      display: flex;
-      margin-top: 1rem;
-      gap: 0.5rem;
-    }
-    .comment-form textarea {
-      flex-grow: 1;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #cbd5e0;
-      resize: none;
-    }
-    .comment-form button {
-      background-color: #38a169;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .comment-form button:hover {
-      background-color: #2f855a;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
@@ -103,11 +73,11 @@
 <div class="container">
   <!-- 영화 정보 + 포스터 -->
   <div class="movie-info">
-    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster" />
+    <img th:src="${review.moviePosterUrl}" alt="포스터" class="poster"/>
     <div class="movie-meta">
       <h2 th:text="${review.movieTitle}">영화 제목</h2>
       <p th:text="'작성자: ' + ${review.author}">작성자</p>
-      <p th:text="'작성일: ' + ${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+      <p th:text="'작성일: ' + ${#temporals.format(review.createdAt,'yyyy-MM-dd HH:mm')}">작성일</p>
     </div>
   </div>
 
@@ -116,32 +86,35 @@
 
   <!-- 좋아요 / 싫어요 / 신고 -->
   <div class="review-actions">
-    <form th:action="@{'/review/' + ${review.id} + '/like'}" method="post">
+    <form th:action="@{/reviews/{id}/like(id=${review.id})}" method="post">
       <button class="action-btn">👍 좋아요</button>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/dislike'}" method="post">
+    <form th:action="@{/reviews/{id}/dislike(id=${review.id})}" method="post">
       <button class="action-btn">👎 싫어요</button>
     </form>
-    <form th:action="@{'/review/' + ${review.id} + '/report'}" method="post">
+    <form th:action="@{/reviews/{id}/report(id=${review.id})}" method="post">
       <button class="action-btn">🚨 신고</button>
     </form>
   </div>
 
-  <!-- 댓글 섹션 -->
-  <div class="comment-section">
-    <h3>댓글</h3>
-    <div th:each="comment : ${commentList}" class="comment">
-      <p><strong th:text="${comment.author}">작성자</strong></p>
-      <p th:text="${comment.content}">댓글 내용</p>
-      <p th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
-    </div>
-
-    <!-- 댓글 작성 -->
-    <form class="comment-form" th:action="@{'/review/' + ${review.id} + '/comment'}" method="post">
-      <textarea name="content" rows="2" placeholder="댓글을 입력하세요..."></textarea>
-      <button type="submit">등록</button>
-    </form>
+  <!-- 댓글 섹션(fragment) 삽입: 인자 네 개를 모두 전달 -->
+  <div th:replace="~{review/commentSection :: commentSection(
+                          ${commentList},
+                          ${review.id},
+                          ${currentUserId},
+                          ${reviewAuthorId}
+                        )}"
+       class="comment-section">
   </div>
 </div>
+
+<!-- JS 변수 선언 -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const reviewId       = /*[[${review.id}]]*/ 0;
+  const currentUserId  = /*[[${currentUserId}]]*/ 0;
+  const reviewAuthorId = /*[[${reviewAuthorId}]]*/ 0;
+  /*]]>*/
+</script>
 </body>
 </html>
