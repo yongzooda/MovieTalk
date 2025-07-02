@@ -1,6 +1,6 @@
 package com.sec.movietalk.review.repository;
 
-import com.sec.movietalk.review.entity.User;
+import com.sec.movietalk.common.domain.user.User;
 
 import java.util.Optional;
 
