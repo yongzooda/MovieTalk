@@ -15,8 +15,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +26,18 @@ public class CommentService {
     private final CommentReactionsRepository reactRepo;
     private final CommentReportsRepository reportRepo;
 
-    /** 1. 특정 리뷰의 최상위 댓글 모두 가져오기 **/
+    /** 신고 누적 기준 **/
+    private static final int MAX_REPORTS = 5;
+
+    /** 1. 특정 리뷰의 최상위 댓글(숨김되지 않은) + 대댓글 포함 트리 조회 **/
     @Transactional(readOnly = true)
     public List<CommentResponse> getComments(Long reviewId) {
         return commentRepo
-                .findByReview_ReviewIdAndParentIsNullOrderByCreatedAt(reviewId)
-                .stream()
+                .findByReview_ReviewIdAndParentIsNullOrderByCreatedAt(reviewId).stream()
+                // 신고 많은 댓글은 화면에서만 걸러냄
+                .filter(c -> c.getReports().size() < MAX_REPORTS)
                 .map(this::toDtoWithReplies)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /** 2. 새 댓글 작성 **/
@@ -49,11 +53,17 @@ public class CommentService {
         return toDtoWithReplies(c);
     }
 
-    /** 3. 대댓글 작성 **/
+    /** 3. 대댓글 작성 (단, 최상위 댓글에만 허용) **/
     @Transactional
     public CommentResponse reply(CommentRequest req, User currentUser) {
         Comment parent = commentRepo.findById(req.parentId())
                 .orElseThrow(() -> new RuntimeException("부모 댓글을 찾을 수 없습니다."));
+
+        // ▶ 대댓글에는 추가 답글 금지
+        if (parent.getParent() != null) {
+            throw new IllegalArgumentException("대댓글에는 답글을 달 수 없습니다.");
+        }
+
         Comment c = Comment.builder()
                 .review(parent.getReview())
                 .parent(parent)
@@ -67,39 +77,49 @@ public class CommentService {
     /** 4. 좋아요/싫어요 반응 처리 **/
     @Transactional
     public void react(Long commentId, CommentReactions.ReactionType reactionType, User currentUser) {
-        // 1) 댓글 조회
         Comment comment = commentRepo.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
 
-        // 2) 기존 반응이 있으면 삭제
+        // 기존 반응 제거
         reactRepo.findByComment_CommentIdAndUser_UserId(commentId, currentUser.getUserId())
                 .ifPresent(reactRepo::delete);
 
-        // 3) 새 반응 저장
+        // 새 반응 저장
         CommentReactions r = new CommentReactions();
         r.setComment(comment);
         r.setUser(currentUser);
         r.setReaction(reactionType);
         reactRepo.save(r);
 
-        // 4) 카운트 동기화
-        int likes = (int) reactRepo.countByComment_CommentIdAndReaction(commentId, CommentReactions.ReactionType.like);
-        int dislikes = (int) reactRepo.countByComment_CommentIdAndReaction(commentId, CommentReactions.ReactionType.dislike);
+        // 카운트 동기화
+        int likes = (int) reactRepo.countByComment_CommentIdAndReaction(
+                commentId, CommentReactions.ReactionType.like);
+        int dislikes = (int) reactRepo.countByComment_CommentIdAndReaction(
+                commentId, CommentReactions.ReactionType.dislike);
         comment.setLikeCnt(likes);
         comment.setDislikeCnt(dislikes);
     }
 
-    /** 5. 댓글 신고 처리 **/
+    /** 5. 댓글 신고 처리 (DB 삭제 없이 숨김만) **/
     @Transactional
     public void report(Long commentId, String reason, User currentUser) {
         Comment c = commentRepo.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
+
+        // 중복 신고 방지
+        if (reportRepo.findByComment_CommentIdAndUser_UserId(commentId, currentUser.getUserId()).isPresent()) {
+            throw new RuntimeException("이미 신고한 댓글입니다.");
+        }
+
+        // 신고 저장
         CommentReports rpt = CommentReports.builder()
                 .comment(c)
                 .user(currentUser)
                 .reason(reason)
                 .build();
         reportRepo.save(rpt);
+
+        // ▶ 삭제 로직 제거: DB에는 그대로 두고, getComments() 필터로만 숨김 처리
     }
 
     /** 6. 댓글 채택 처리 (리뷰 작성자만) **/
@@ -138,19 +158,18 @@ public class CommentService {
         commentRepo.delete(c);
     }
 
-    /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함 **/
+    /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함(신고 많은 자식 숨김) **/
     private CommentResponse toDtoWithReplies(Comment c) {
         List<CommentResponse> replies = commentRepo
-                .findByParent_CommentIdOrderByCreatedAt(c.getCommentId())
-                .stream()
+                .findByParent_CommentIdOrderByCreatedAt(c.getCommentId()).stream()
+                .filter(child -> child.getReports().size() < MAX_REPORTS)
                 .map(this::toDtoWithReplies)
-                .toList();
+                .collect(Collectors.toList());
 
-        // ↙ 여기에 authorId 추가
         return new CommentResponse(
-                c.getCommentId(),              // id
-                c.getUser().getUserId(),       // authorId  ← 추가
-                c.getUser().getNickname(),     // authorName
+                c.getCommentId(),
+                c.getUser().getUserId(),
+                c.getUser().getNickname(),
                 c.getContent(),
                 c.getCreatedAt(),
                 c.getLikeCnt(),
@@ -159,5 +178,4 @@ public class CommentService {
                 replies
         );
     }
-
 }
