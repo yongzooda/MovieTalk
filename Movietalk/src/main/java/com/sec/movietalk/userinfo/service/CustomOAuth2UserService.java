@@ -80,7 +80,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> customAttributes = Map.of(
                 "email", user.getEmail(),
                 "nickname", user.getNickname(),
-                "userId", user.getId()
+                "userId", user.getId(),
+                "role",user.getRole()
         );
 
         return new DefaultOAuth2User(

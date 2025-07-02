@@ -3,6 +3,7 @@ package com.sec.movietalk.userinfo.security;
 import com.sec.movietalk.common.domain.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ public class CurrentUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final String nickname;
+    private final String role;
 
     public CurrentUserDetails(User user) {
 
@@ -22,11 +24,12 @@ public class CurrentUserDetails implements UserDetails {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
+        this.role = user.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(); // 권한 없으면 빈 리스트
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role));
     }
 
     @Override
@@ -50,4 +53,5 @@ public class CurrentUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
 }
