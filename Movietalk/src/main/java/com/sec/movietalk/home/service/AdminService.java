@@ -10,10 +10,12 @@ import com.sec.movietalk.review.repository.CommentReportsRepository;
 import com.sec.movietalk.review.repository.CommentRepository;
 import com.sec.movietalk.review.repository.ReviewRepository;
 import com.sec.movietalk.userinfo.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -51,9 +53,18 @@ public class AdminService {
         return commentReportsRepository.findAll(PageRequest.of(page, size));
     }
 
+    @Transactional
     public void deleteReview(Long ReviewId) {
 
+        Review review = reviewRepository.findById(ReviewId)
+                .orElseThrow(() -> new EntityNotFoundException("삭제할 리뷰가 없습니다: " + ReviewId));
+        Long authorId = review.getUser().getUserId();
+        // 2) 리뷰 삭제
+
         reviewRepository.deleteById(ReviewId);
+
+        // 3) 작성자 reviewCnt 감소
+        userRepository.incrementReviewCount(authorId, -1);
     }
 
     public void deleteUser(Long UserId) {
@@ -61,9 +72,17 @@ public class AdminService {
         userRepository.deleteById(UserId);
     }
 
+    @Transactional
     public void deleteComment(Long CommentId) {
 
+        Comment comment = commentRepository.findById(CommentId)
+                .orElseThrow(() -> new EntityNotFoundException("삭제할 리뷰가 없습니다: " + CommentId));
+        Long authorId = comment.getUser().getUserId();
+
+
         commentRepository.deleteById(CommentId);
+
+        userRepository.incrementCommentCount(authorId, -1);
     }
 
     public void deleteCommentReport(Long commentReportId) {

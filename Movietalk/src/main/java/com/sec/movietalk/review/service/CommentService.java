@@ -10,6 +10,7 @@ import com.sec.movietalk.review.dto.CommentResponse;
 import com.sec.movietalk.review.repository.CommentReactionsRepository;
 import com.sec.movietalk.review.repository.CommentReportsRepository;
 import com.sec.movietalk.review.repository.CommentRepository;
+import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class CommentService {
     private final CommentRepository commentRepo;
     private final CommentReactionsRepository reactRepo;
     private final CommentReportsRepository reportRepo;
+    private final UserRepository userRepo;
 
     /** 신고 누적 기준 **/
     private static final int MAX_REPORTS = 5;
@@ -50,6 +52,11 @@ public class CommentService {
                 .content(req.content())
                 .build();
         commentRepo.save(c);
+
+        Long userId = currentUser.getId();
+
+        userRepo.incrementCommentCount(userId, 1);
+
         return toDtoWithReplies(c);
     }
 
@@ -150,12 +157,22 @@ public class CommentService {
     public void deleteComment(Long reviewId, Long commentId, Long userId) {
         Comment c = commentRepo.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
+
+        Long commentAuthorId = c.getUser().getUserId();
+
         boolean isCommentAuthor = c.getUser().getUserId().equals(userId);
         boolean isReviewAuthor  = c.getReview().getUser().getUserId().equals(userId);
         if (!(isCommentAuthor || isReviewAuthor)) {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
+
+
+
+
         commentRepo.delete(c);
+
+        userRepo.incrementCommentCount(commentAuthorId, -1);
+
     }
 
     /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함(신고 많은 자식 숨김) **/
