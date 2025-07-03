@@ -118,9 +118,6 @@ public class ReviewService {
     @Transactional
     public void createReview(ReviewCreateRequest req) {
 
-        List<MovieCache> movies = movieCacheRepository
-                .findAllByTitleContainingIgnoreCase(req.getMovieTitle());
-
         Integer movieId = req.getMovieId();
 
 
