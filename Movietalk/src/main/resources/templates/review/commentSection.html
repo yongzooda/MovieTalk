@@ -156,6 +156,7 @@
         /*]]>*/
     </script>
 
+
     <script>
         // 공통 JSON 전송 함수 (POST)
         function postJson(url, data) {
@@ -216,6 +217,7 @@
                 if (!text) return;
                 patchJson(`/api/reviews/${reviewId}/comments/${cid}`, { commentId: cid, content: text })
                     .then(() => location.reload());
+
                 return;
             }
 
