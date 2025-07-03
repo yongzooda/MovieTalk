@@ -1,5 +1,9 @@
 package com.sec.movietalk.userinfo.service;
 
+import com.sec.movietalk.actor.repository.ActorCacheRepository;
+import com.sec.movietalk.actor.repository.ActorCommentRepository;
+import com.sec.movietalk.common.domain.actor.ActorCache;
+import com.sec.movietalk.common.domain.comment.ActorComment;
 import com.sec.movietalk.common.domain.comment.Comment;
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.common.domain.review.Review;
@@ -8,6 +12,7 @@ import com.sec.movietalk.recommendation.repository.MovieCacheRepository;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.review.repository.CommentRepository;
 import com.sec.movietalk.review.repository.ReviewRepository;
+import com.sec.movietalk.userinfo.dto.response.MyActorCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.MyCommentResponseDto;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +30,8 @@ public class MyDataService {
     private final UserRepository userRepository;
     private final MovieCacheRepository movieCacheRepository; // 기존 r
     private final CommentRepository commentRepository;
+    private final ActorCommentRepository actorCommentRepository;
+    private final ActorCacheRepository actorCacheRepository;
 
     @Transactional(readOnly = true)
     public List<ReviewResponse> getReviewsByUserId(Long userId) {
@@ -57,6 +64,28 @@ public class MyDataService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    public List<MyActorCommentResponseDto> getActorCommentsByUserId(Long userId) {
+        List<ActorComment> actorcomments = actorCommentRepository.findByUser_UserIdAndIsDeletedFalse(userId);
+
+        return actorcomments.stream()
+                .map(comment -> {
+
+                    String actorName = actorCacheRepository.findById(comment.getActorId())
+                            .map(ActorCache::getName)
+                            .orElse("알 수 없음");
+                    return new MyActorCommentResponseDto(
+                            comment.getActorCommentId(),
+                            comment.getActorId(),
+                            comment.getActorContent(),
+                            actorName,
+                            comment.getCreatedAt()
+                    );
+                })
+                .collect(Collectors.toList());
+
+    }
+
 
 
 

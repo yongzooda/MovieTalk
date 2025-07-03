@@ -8,6 +8,7 @@ import com.sec.movietalk.home.service.HomeService;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.response.MyActorCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.MyCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.security.CurrentUserDetails;
@@ -220,6 +221,21 @@ public class UserController {
         List<MyCommentResponseDto> myComments = mydataService.getCommentsByUserId(userId);
         model.addAttribute("commentList", myComments);
         return "mypage/my_comment";
+
+    }
+
+    @GetMapping("/mypage/actorcomments")
+    public String myActorComments(@AuthenticationPrincipal Object principal, Model model) {
+
+        Long userId = extractUserId(principal);
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        List<MyActorCommentResponseDto> myActorComments = mydataService.getActorCommentsByUserId(userId);
+        model.addAttribute("actorCommentList", myActorComments);
+        return "mypage/my_actorcomment";
 
     }
 

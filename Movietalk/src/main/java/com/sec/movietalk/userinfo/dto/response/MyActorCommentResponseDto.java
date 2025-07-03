@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
 public class MyActorCommentResponseDto {
 
     private Long actorCommentId;
-    private String actorContent;
     private Long actorId;
+    private String actorContent;
+    private String actorName;
     private LocalDateTime createdAt;
 
 
