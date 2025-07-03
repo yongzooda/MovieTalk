@@ -12,6 +12,7 @@ import com.sec.movietalk.review.repository.CommentReportsRepository;
 import com.sec.movietalk.review.repository.CommentRepository;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -155,28 +157,31 @@ public class CommentService {
     /** 8. 댓글 삭제 (작성자 또는 리뷰 작성자) **/
     @Transactional
     public void deleteComment(Long reviewId, Long commentId, Long userId) {
+        log.info("deleteComment called reviewId={} commentId={} userId={}", reviewId, commentId, userId);
+
         Comment c = commentRepo.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
 
-        Long commentAuthorId = c.getUser().getUserId();
+        // 권한 검사 로그
+        log.info("commentAuthor={} reviewAuthor={}",
+                c.getUser().getUserId(),
+                c.getReview().getUser().getUserId());
 
-        boolean isCommentAuthor = c.getUser().getUserId().equals(userId);
-        boolean isReviewAuthor  = c.getReview().getUser().getUserId().equals(userId);
-        if (!(isCommentAuthor || isReviewAuthor)) {
+        // 권한 체크
+        if (!c.getUser().getUserId().equals(userId) &&
+                !c.getReview().getUser().getUserId().equals(userId)) {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
 
-        // 대댓글들의 작성자 카운트 감소 (cascade로 함께 삭제되기 때문)
-        c.getReplies().forEach(reply -> {
-            userRepo.incrementCommentCount(reply.getUser().getUserId(), -1);
-        });
+        // 작성자 카운트 감소
+        userRepo.incrementCommentCount(c.getUser().getUserId(), -1);
 
-        // 메인 댓글 삭제 (cascade로 대댓글, 반응, 신고도 함께 삭제됨)
-        commentRepo.delete(c);
+        // JPA cascade + DB CASCADE 로 한 번에 삭제
+        commentRepo.deleteById(commentId);
 
-        // 메인 댓글 작성자 카운트 감소
-        userRepo.incrementCommentCount(commentAuthorId, -1);
+        log.info("deleteComment success commentId={}", commentId);
     }
+
 
     /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함(신고 많은 자식 숨김) **/
     private CommentResponse toDtoWithReplies(Comment c) {
