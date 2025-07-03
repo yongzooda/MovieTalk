@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/findpassword","/oauth2/**", "/css/**", "/js/**", "/images/**", "/icons-*.svg", "/favicon.ico").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // 모든 요청 허용
                 )
                 .formLogin(form -> form

@@ -19,4 +19,15 @@ public class UserUtil {
         }
         return null;
     }
+
+    public static String extractRole(Object principal) {
+        if (principal instanceof CurrentUserDetails userDetails) {
+            return userDetails.getRole();
+        } else if (principal instanceof OAuth2User oAuth2User) {
+            Object roleObj = oAuth2User.getAttribute("role");
+            return (roleObj != null) ? roleObj.toString() : null;
+        }
+        return null;
+    }
+
 }
