@@ -108,43 +108,20 @@
 
         <!-- 인기 배우 박스 (세로 더 큼) -->
         <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
-            <h2 style="margin-bottom:30px; font-size:2em;">🌟 인기 배우</h2>
+            <h2 style="margin-bottom:30px; font-size:2em;">🔥 인기 배우</h2>
             <div style="display: flex; gap: 40px; justify-content: center;">
 
-                <div style="width: 170px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow:0 3px 12px rgba(60,60,60,0.07); transition:box-shadow 0.18s;"
-                     onclick="alert('배우 상세페이지 준비중입니다!')"
+
+                <div th:each="actor : ${topActors}"
+                     style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
+                     th:onclick="|window.location.href='/actors/${actor.actorId}'|"
                      onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
                      onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
                 >
-                    <img src="https://via.placeholder.com/120x160?text=배우1" alt="배우1" style="border-radius:18px;"><br>
-                    <span style="display:block; margin:18px 0 8px 0; font-size:1.07em; font-weight:500;">배우이름1</span>
+                    <img th:src="${actor.profilePath}" style="border-radius:10px; width:140px; height:210px;" alt="url"><br>
+                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${actor.name}"></span>
                 </div>
 
-
-                <div style="width: 170px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow:0 3px 12px rgba(60,60,60,0.07); transition:box-shadow 0.18s;"
-                     onclick="alert('배우 상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/120x160?text=배우2" alt="배우2" style="border-radius:18px;"><br>
-                    <span style="display:block; margin:18px 0 8px 0; font-size:1.07em; font-weight:500;">배우이름2</span>
-                </div>
-                <div style="width: 170px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow:0 3px 12px rgba(60,60,60,0.07); transition:box-shadow 0.18s;"
-                     onclick="alert('배우 상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/120x160?text=배우3" alt="배우3" style="border-radius:18px;"><br>
-                    <span style="display:block; margin:18px 0 8px 0; font-size:1.07em; font-weight:500;">배우이름3</span>
-                </div>
-                <div style="width: 170px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow:0 3px 12px rgba(60,60,60,0.07); transition:box-shadow 0.18s;"
-                     onclick="alert('배우 상세페이지 준비중입니다!')"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img src="https://via.placeholder.com/120x160?text=배우4" alt="배우4" style="border-radius:18px;"><br>
-                    <span style="display:block; margin:18px 0 8px 0; font-size:1.07em; font-weight:500;">배우이름4</span>
-                </div>
             </div>
         </div>
 
