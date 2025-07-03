@@ -3,6 +3,8 @@ package com.sec.movietalk.review.controller;
 import com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType;
 import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.common.util.UserUtil;
+import com.sec.movietalk.movie.dto.MovieDetailDto;        // TMDB 상세 DTO import
+import com.sec.movietalk.movie.service.MovieService;      // MovieService import
 import com.sec.movietalk.review.dto.CommentRequest;
 import com.sec.movietalk.review.dto.CommentResponse;
 import com.sec.movietalk.review.dto.ReviewCreateRequest;
@@ -28,6 +30,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final CommentService commentService;
+    private final MovieService movieService; // 반드시 추가!!
 
     /** 1) 전체 리뷰 목록 조회 */
     @GetMapping
@@ -53,16 +56,20 @@ public class ReviewController {
             @AuthenticationPrincipal Object principal,
             @ModelAttribute("reportError") String reportError
     ) {
-        // 리뷰 + 댓글
+        // 기존 리뷰 정보
         ReviewResponse review = reviewService.getReviewById(reviewId);
+
+        // **TMDB 영화 상세정보 가져오기**
+        MovieDetailDto movie = movieService.getMovieDetailFromTmdbId(review.getMovieId());
+
         List<CommentResponse> commentList = commentService.getComments(reviewId);
         Long currentUserId = UserUtil.extractUserId(principal);
 
-        // 유저의 기존 반응 조회 (없으면 empty)
         Optional<ReactionType> userReaction =
                 reviewService.getUserReaction(reviewId, currentUserId);
 
         model.addAttribute("review", review);
+        model.addAttribute("movie", movie); // 영화 상세정보 모델에 추가
         model.addAttribute("commentList", commentList);
         model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("reviewAuthorId", review.getUserId());
@@ -185,5 +192,4 @@ public class ReviewController {
         );
         return "redirect:/reviews/" + reviewId;
     }
-
 }
