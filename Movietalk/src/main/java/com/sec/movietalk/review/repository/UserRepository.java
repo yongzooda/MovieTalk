@@ -5,6 +5,7 @@ import com.sec.movietalk.common.domain.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
+
     Optional<User> findByNickname(String nickname);
 
     void incrementReviewCount(Long userId, int i);

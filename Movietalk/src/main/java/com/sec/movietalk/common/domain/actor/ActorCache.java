@@ -1,4 +1,4 @@
-package com.sec.movietalk.actor.dto;
+package com.sec.movietalk.common.domain.actor;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

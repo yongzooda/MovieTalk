@@ -3,6 +3,7 @@ package com.sec.movietalk.actor.controller;
 import com.sec.movietalk.actor.dto.*;
 import com.sec.movietalk.actor.repository.ActorCacheRepository;
 import com.sec.movietalk.actor.service.ActorCacheService;
+import com.sec.movietalk.common.domain.actor.ActorCache;
 import com.sec.movietalk.common.domain.comment.ActorComment;
 import com.sec.movietalk.actor.external.TmdbService;
 import com.sec.movietalk.actor.service.ActorCommentService;

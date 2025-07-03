@@ -1,5 +1,6 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.home.dto.HomeActorDto;
 import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
 import com.sec.movietalk.home.dto.HomeReviewDto;
@@ -100,6 +101,9 @@ public class UserController {
         List<HomeCommentDto> topComments = homeService.getTop3Comments();
         model.addAttribute("topComments", topComments);
 
+        List<HomeActorDto> topActors = homeService.getTop4ActorsByCommentCount();
+        model.addAttribute("topActors", topActors);
+
         return "home";
     }
 
@@ -111,7 +115,7 @@ public class UserController {
         Long userId = null;
 
         if (authentication == null) {
-            // 비로그인 접근 시 리다이렉트 등
+
             return "redirect:/login";
         }
 
