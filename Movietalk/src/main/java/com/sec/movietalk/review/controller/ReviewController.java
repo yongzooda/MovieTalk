@@ -119,10 +119,10 @@ public class ReviewController {
     public String editForm(@PathVariable Long reviewId, Model model) {
         ReviewResponse review = reviewService.getReviewById(reviewId);
 
-        // ReviewResponse → ReviewUpdateRequest로 변환
+        // movieTitle 제거 → movieId 유지
         ReviewUpdateRequest form = ReviewUpdateRequest.builder()
                 .reviewId(review.getId())
-                .movieTitle(review.getMovieTitle())
+                .movieId(review.getMovieId())
                 .content(review.getContent())
                 .build();
 
@@ -145,4 +145,3 @@ public class ReviewController {
         return "redirect:/reviews/" + reviewId;
     }
 }
-

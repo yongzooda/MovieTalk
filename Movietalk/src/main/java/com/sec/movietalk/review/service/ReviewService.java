@@ -3,6 +3,8 @@ package com.sec.movietalk.review.service;
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.common.domain.review.Review;
 import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.movie.dto.MovieDetailDto;
+import com.sec.movietalk.movie.service.MovieService;
 import com.sec.movietalk.recommendation.repository.MovieCacheRepository;
 import com.sec.movietalk.review.dto.ReviewCreateRequest;
 import com.sec.movietalk.review.dto.ReviewListResponse;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,12 +26,12 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MovieCacheRepository movieCacheRepository;
+    private final MovieService movieService;
 
     @Transactional(readOnly = true)
     public List<ReviewListResponse> getAllReviews() {
         List<Review> reviews = reviewRepository.findAll();
 
-        // movieId → 영화 제목 맵 생성
         Map<Integer, String> titleMap = movieCacheRepository
                 .findAllById(reviews.stream()
                         .map(Review::getMovieId)
@@ -36,10 +39,9 @@ public class ReviewService {
                 .stream()
                 .collect(Collectors.toMap(MovieCache::getMovieId, MovieCache::getTitle));
 
-        // DTO 변환
         return reviews.stream()
                 .map(r -> {
-                    String title  = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
+                    String title = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
                     String author = r.getUser().getNickname();
                     return ReviewListResponse.fromEntity(r, title, author);
                 })
@@ -57,7 +59,7 @@ public class ReviewService {
 
         return reviews.stream()
                 .map(r -> {
-                    String title  = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
+                    String title = titleMap.getOrDefault(r.getMovieId(), "제목 없음");
                     String author = r.getUser().getNickname();
                     return ReviewListResponse.fromEntity(r, title, author);
                 })
@@ -69,31 +71,37 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다. id=" + reviewId));
 
-        // 영화 제목·포스터 URL 조회
         MovieCache cache = movieCacheRepository.findById(review.getMovieId())
                 .orElseThrow(() -> new RuntimeException("영화 정보를 찾을 수 없습니다. id=" + review.getMovieId()));
 
-        String title       = cache.getTitle();
-        String posterUrl   = cache.getPosterUrl();   // MovieCache 엔티티에 정의된 필드명 사용
-        String author      = review.getUser().getNickname();
+        String title = cache.getTitle();
+        String posterUrl = cache.getPosterUrl();
+        String author = review.getUser().getNickname();
 
         return ReviewResponse.fromEntity(review, author, title, posterUrl);
     }
 
     @Transactional
     public void createReview(ReviewCreateRequest req) {
-        // 제목으로 영화 캐시 조회 (부분 일치 → 정확 일치 우선)
-        List<MovieCache> movies = movieCacheRepository
-                .findAllByTitleContainingIgnoreCase(req.getMovieTitle());
+        Integer movieId = req.getMovieId();
 
-        if (movies.isEmpty()) {
-            throw new IllegalArgumentException("등록된 영화가 아닙니다: " + req.getMovieTitle());
+        // 캐시에 영화 정보가 없으면 TMDB에서 가져와 직접 저장
+        if (!movieCacheRepository.existsById(movieId)) {
+            MovieDetailDto dto = movieService.getMovieDetailFromTmdbId(movieId);
+
+            MovieCache movie = MovieCache.builder()
+                    .movieId(movieId)
+                    .title(dto.getTitle())
+                    .posterUrl("https://image.tmdb.org/t/p/w500" + dto.getPosterPath())
+                    .overview(dto.getOverview())
+                    .releaseDate(LocalDate.parse(dto.getReleaseDate()))
+                    .build();
+
+            movieCacheRepository.save(movie);
         }
 
-        MovieCache movie = movies.stream()
-                .filter(m -> m.getTitle().equalsIgnoreCase(req.getMovieTitle()))
-                .findFirst()
-                .orElse(movies.get(0));
+        MovieCache movie = movieCacheRepository.findById(movieId)
+                .orElseThrow(() -> new RuntimeException("영화 정보를 찾을 수 없습니다. id=" + movieId));
 
         Review review = Review.builder()
                 .movieId(movie.getMovieId())

@@ -11,12 +11,7 @@ public class ReviewUpdateRequest {
 
     private Long reviewId;
     private Long userId;
-    private String movieTitle;
+    private Integer movieId;       // TMDB 영화 ID
     private String content;
+    private String movieTitle;
 }
-
-
-
-
-
-
