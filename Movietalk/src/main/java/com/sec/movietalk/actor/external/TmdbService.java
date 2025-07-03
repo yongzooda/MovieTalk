@@ -30,6 +30,7 @@ public class TmdbService {
                         Comparator.nullsLast(Comparator.naturalOrder())
                 ).reversed())
                 .map(c -> new FilmographyDto(
+                        c.getId(),
                         c.getTitle(),
                         c.getCharacter(),
                         c.getReleaseDate(),

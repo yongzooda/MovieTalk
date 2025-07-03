@@ -7,9 +7,7 @@ import com.sec.movietalk.common.domain.comment.ActorComment;
 import com.sec.movietalk.actor.external.TmdbService;
 import com.sec.movietalk.actor.service.ActorCommentService;
 import com.sec.movietalk.client.TmdbClient;
-import com.sec.movietalk.common.domain.user.User;
-import com.sec.movietalk.userinfo.security.CurrentUserDetails;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,14 +56,17 @@ public class ActorController {
 
     // 배우 상세 정보
     @GetMapping("/{actorId}")
-    public String actorDetail(@PathVariable int actorId, Model model,
+    public String actorDetail(@PathVariable int actorId, @RequestParam(defaultValue = "0") int page,Model model,
+                              @RequestParam(defaultValue = "10") int size,
                               @AuthenticationPrincipal Object principal) {
 
         ActorDto actor = tmdbClient.getActorDetail(actorId);
         model.addAttribute("actor", actor);
 
-        List<ActorComment> comments = commentService.getComments((long) actorId);
+        Page<ActorComment> comments = commentService.getComments((long) actorId, page, size);
         model.addAttribute("comments", comments);
+        model.addAttribute("currentPage", comments.getNumber());
+        model.addAttribute("totalPages", comments.getTotalPages());
 
         Long userId = extractUserId(principal);
 
@@ -115,7 +116,7 @@ public class ActorController {
 
         Long userId = extractUserId(principal);
 
-        commentService.addComment(userId, new ActorCommentRequest(actorId, content)); // ❌ 여기가 문제
+        commentService.addComment(userId, new ActorCommentRequest(actorId, content));
         return "redirect:/actors/" + actorId;
     }
 

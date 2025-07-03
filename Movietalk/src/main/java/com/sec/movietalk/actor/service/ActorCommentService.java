@@ -5,6 +5,10 @@ import com.sec.movietalk.common.domain.comment.ActorComment;
 import com.sec.movietalk.actor.repository.ActorCommentRepository;
 import com.sec.movietalk.common.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +55,12 @@ public class ActorCommentService {
 
     public List<ActorComment> getComments(Long actorId) {
         return commentRepository.findByActorIdAndIsDeletedFalseOrderByCreatedAtDesc(actorId);
+    }
+
+
+    public Page<ActorComment> getComments(Long actorId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return commentRepository.findByActorIdAndIsDeletedFalse(actorId, pageable);
     }
 }
 
