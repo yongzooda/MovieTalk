@@ -1,5 +1,7 @@
 package com.sec.movietalk.review.controller;
 
+import com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType;
+import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.common.util.UserUtil;
 import com.sec.movietalk.review.dto.CommentRequest;
 import com.sec.movietalk.review.dto.CommentResponse;
@@ -9,14 +11,15 @@ import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.review.dto.ReviewUpdateRequest;
 import com.sec.movietalk.review.service.CommentService;
 import com.sec.movietalk.review.service.ReviewService;
-import com.sec.movietalk.common.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,16 +50,24 @@ public class ReviewController {
     public String getReview(
             @PathVariable Long reviewId,
             Model model,
-            @AuthenticationPrincipal Object principal
+            @AuthenticationPrincipal Object principal,
+            @ModelAttribute("reportError") String reportError
     ) {
+        // 리뷰 + 댓글
         ReviewResponse review = reviewService.getReviewById(reviewId);
         List<CommentResponse> commentList = commentService.getComments(reviewId);
         Long currentUserId = UserUtil.extractUserId(principal);
+
+        // 유저의 기존 반응 조회 (없으면 empty)
+        Optional<ReactionType> userReaction =
+                reviewService.getUserReaction(reviewId, currentUserId);
 
         model.addAttribute("review", review);
         model.addAttribute("commentList", commentList);
         model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("reviewAuthorId", review.getUserId());
+        model.addAttribute("userReaction", userReaction.orElse(null));
+        model.addAttribute("reportError", reportError);
 
         return "review/review_detail";
     }
@@ -68,9 +79,8 @@ public class ReviewController {
             @RequestParam String content,
             @AuthenticationPrincipal Object principal
     ) {
-        CommentRequest payload = new CommentRequest(reviewId, null, content);
         User user = new User(UserUtil.extractUserId(principal));
-        commentService.addComment(payload, user);
+        commentService.addComment(new CommentRequest(reviewId, null, content), user);
         return "redirect:/reviews/" + reviewId;
     }
 
@@ -87,8 +97,7 @@ public class ReviewController {
             @ModelAttribute ReviewCreateRequest request,
             @AuthenticationPrincipal Object principal
     ) {
-        Long userId = UserUtil.extractUserId(principal);
-        request.setUserId(userId);
+        request.setUserId(UserUtil.extractUserId(principal));
         reviewService.createReview(request);
         return "redirect:/reviews";
     }
@@ -119,13 +128,12 @@ public class ReviewController {
     public String editForm(@PathVariable Long reviewId, Model model) {
         ReviewResponse review = reviewService.getReviewById(reviewId);
 
-        // movieTitle 제거 → movieId 유지
         ReviewUpdateRequest form = ReviewUpdateRequest.builder()
                 .reviewId(review.getId())
                 .movieId(review.getMovieId())
+                .movieTitle(review.getMovieTitle())
                 .content(review.getContent())
                 .build();
-
         model.addAttribute("review", form);
         return "review/review_edit";
     }
@@ -137,11 +145,45 @@ public class ReviewController {
             @ModelAttribute("review") ReviewUpdateRequest formData,
             @AuthenticationPrincipal Object principal
     ) {
-        Long userId = UserUtil.extractUserId(principal);
         formData.setReviewId(reviewId);
-        formData.setUserId(userId);
-
+        formData.setUserId(UserUtil.extractUserId(principal));
         reviewService.updateReview(formData);
         return "redirect:/reviews/" + reviewId;
     }
+
+    /** 12) 리뷰 신고 (form POST 요청용) */
+    @PostMapping("/{reviewId}/reports")
+    public String reportReviewForm(
+            @PathVariable Long reviewId,
+            @RequestParam("reason") String reason,
+            @AuthenticationPrincipal Object principal,
+            RedirectAttributes redirectAttrs
+    ) {
+        try {
+            reviewService.report(
+                    reviewId,
+                    reason,
+                    new User(UserUtil.extractUserId(principal))
+            );
+        } catch (IllegalArgumentException ex) {
+            redirectAttrs.addFlashAttribute("reportError", ex.getMessage());
+        }
+        return "redirect:/reviews/" + reviewId;
+    }
+
+    /** 13) 리뷰 좋아요/싫어요 처리 (폼 POST) */
+    @PostMapping("/{reviewId}/reactions")
+    public String reactReview(
+            @PathVariable Long reviewId,
+            @RequestParam("reactionType") ReactionType reactionType,
+            @AuthenticationPrincipal Object principal
+    ) {
+        reviewService.react(
+                reviewId,
+                reactionType,
+                new User(UserUtil.extractUserId(principal))
+        );
+        return "redirect:/reviews/" + reviewId;
+    }
+
 }
