@@ -35,11 +35,11 @@ public class User {
     @Column(length = 60)
     private String password;
 
-    @Column(columnDefinition = "int default 0")
-    private Integer commentCnt;
+    @Column(columnDefinition = "int default 0", nullable = false)
+    private Integer commentCnt = 0;
 
-    @Column(columnDefinition = "int default 0")
-    private Integer reviewCnt;
+    @Column(columnDefinition = "int default 0", nullable = false)
+    private Integer reviewCnt  = 0;
 
     @Column(columnDefinition = "varchar(20) default 'USER'")
     private String role = "USER";

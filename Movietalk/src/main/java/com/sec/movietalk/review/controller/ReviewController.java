@@ -127,8 +127,10 @@ public class ReviewController {
     @GetMapping("/edit/{reviewId}")
     public String editForm(@PathVariable Long reviewId, Model model) {
         ReviewResponse review = reviewService.getReviewById(reviewId);
+
         ReviewUpdateRequest form = ReviewUpdateRequest.builder()
                 .reviewId(review.getId())
+                .movieId(review.getMovieId())
                 .movieTitle(review.getMovieTitle())
                 .content(review.getContent())
                 .build();
@@ -183,4 +185,5 @@ public class ReviewController {
         );
         return "redirect:/reviews/" + reviewId;
     }
+
 }
