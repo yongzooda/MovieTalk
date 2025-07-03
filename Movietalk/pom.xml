@@ -128,7 +128,6 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<scope>provided</scope>
 							<version>1.18.30</version>
 						</path>
 					</annotationProcessorPaths>
