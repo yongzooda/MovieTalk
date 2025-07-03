@@ -11,6 +11,7 @@ import com.sec.movietalk.review.dto.ReviewListResponse;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.review.dto.ReviewUpdateRequest;
 import com.sec.movietalk.review.repository.ReviewRepository;
+import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MovieCacheRepository movieCacheRepository;
     private final MovieService movieService;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<ReviewListResponse> getAllReviews() {
@@ -111,6 +113,8 @@ public class ReviewService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
+        userRepository.incrementReviewCount(req.getUserId(), 1);
+
         reviewRepository.save(review);
     }
 
@@ -125,6 +129,12 @@ public class ReviewService {
 
     @Transactional
     public void deleteReview(Long reviewId) {
+
+        Long userId = getReviewById(reviewId).getUserId();
+
+
+        userRepository.incrementReviewCount(userId, -1);
+
         reviewRepository.deleteById(reviewId);
     }
 }

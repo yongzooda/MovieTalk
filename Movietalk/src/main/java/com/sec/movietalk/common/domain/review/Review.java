@@ -87,6 +87,8 @@ public class Review {
     public void setDislikeCount(int dislikeCount) {
         this.dislikeCount = dislikeCount;
     }
+
+
 }
 
 
