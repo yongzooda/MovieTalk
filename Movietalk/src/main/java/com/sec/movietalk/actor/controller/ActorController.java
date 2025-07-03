@@ -8,6 +8,9 @@ import com.sec.movietalk.actor.external.TmdbService;
 import com.sec.movietalk.actor.service.ActorCommentService;
 import com.sec.movietalk.client.TmdbClient;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,17 +44,26 @@ public class ActorController {
 
     // 배우 검색
     @GetMapping("/search")
-    public String search(@RequestParam(value = "query", required = false) String query, Model model) {
+    public String search(@RequestParam(value = "query", required = false) String query,
+                         @RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         Model model) {
 
-        // 사용자가 입력한 검색어가 NUll이 아니고 공백이 아니면 TMDB API에 검색 요청
+        // 1. TMDB API 검색 결과
         if (query != null && !query.isBlank()) {
             List<ActorDto> actors = tmdbClient.searchActors(query);
             model.addAttribute("actors", actors);
             model.addAttribute("query", query);
         }
 
-        return "actor/search";
+        // 2. 캐시된 배우 목록 페이징 처리
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ActorCache> cachedActors = actorCacheRepository.findAll(pageable);
+        model.addAttribute("cachedActors", cachedActors);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", cachedActors.getTotalPages());
 
+        return "actor/search";
     }
 
     // 배우 상세 정보
