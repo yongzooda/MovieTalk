@@ -1,9 +1,9 @@
 package com.sec.movietalk.actor.controller;
 
-import com.sec.movietalk.actor.dto.ActorCommentRequest;
+import com.sec.movietalk.actor.dto.*;
+import com.sec.movietalk.actor.repository.ActorCacheRepository;
+import com.sec.movietalk.actor.service.ActorCacheService;
 import com.sec.movietalk.common.domain.comment.ActorComment;
-import com.sec.movietalk.actor.dto.ActorDto;
-import com.sec.movietalk.actor.dto.FilmographyDto;
 import com.sec.movietalk.actor.external.TmdbService;
 import com.sec.movietalk.actor.service.ActorCommentService;
 import com.sec.movietalk.client.TmdbClient;
@@ -20,7 +20,6 @@ import java.util.List;
 import static com.sec.movietalk.common.util.UserUtil.extractUserId;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/actors")
 public class ActorController {
 
@@ -30,10 +29,17 @@ public class ActorController {
 
     private final ActorCommentService commentService;
 
-    // tmdbClient를 스프링이 자동으로 주입할 수 있도록 만든 생성자 기반 의존성 주입
-    //public ActorController(TmdbClient tmdbClient) {
-        //this.tmdbClient = tmdbClient;
-    //}
+    private final ActorCacheService cacheService;
+
+    private final ActorCacheRepository actorCacheRepository;
+
+    public ActorController(TmdbClient tmdbClient, TmdbService tmdbService, ActorCommentService commentService, ActorCacheService actorCacheService, ActorCacheRepository actorCacheRepository) {
+        this.tmdbClient = tmdbClient;
+        this.tmdbService = tmdbService;
+        this.commentService = commentService;
+        this.cacheService = actorCacheService;
+        this.actorCacheRepository = actorCacheRepository;
+    }
 
     // 배우 검색
     @GetMapping("/search")
@@ -67,6 +73,25 @@ public class ActorController {
             model.addAttribute("currentUserId", userId);
         }
 
+
+        // 이미 저장된 배우인지 확인
+        if (!actorCacheRepository.existsById((long) actorId)) {
+            String profilePath = actor.getProfilePath();
+            String fullProfileUrl = profilePath != null
+                    ? "https://image.tmdb.org/t/p/w500" + profilePath
+                    : null;
+
+            ActorCache actorCache = ActorCache.builder()
+                    .id((long) actorId) // 캐시에 저장할 actorId
+                    .name(actor.getName())
+                    .gender(actor.getGender())
+                    .profilePath(fullProfileUrl)
+                    .build();
+
+            actorCacheRepository.save(actorCache);
+        }
+
+
         return "actor/detail";
     }
 
@@ -82,6 +107,7 @@ public class ActorController {
     }
 
 
+    // 댓글기능
     @PostMapping("/{actorId}/comment")
     public String postComment(@PathVariable Long actorId,
                               @RequestParam String content,
@@ -113,4 +139,5 @@ public class ActorController {
         commentService.deleteComment(commentId, userId);
         return "redirect:/actors/" + actorId;
     }
+
 }
