@@ -12,4 +12,6 @@ public interface CommentReportsRepository extends JpaRepository<CommentReports, 
 
     // 2) 특정 댓글에 대한 누적 신고 수 조회
     long countByComment_CommentId(Long commentId);
+
+    void deleteByComment_CommentId(Long commentId);
 }

@@ -11,4 +11,6 @@ public interface CommentReactionsRepository extends JpaRepository<CommentReactio
 
     /** 댓글별 좋아요/싫어요 개수 집계 **/
     long countByComment_CommentIdAndReaction(Long commentId, CommentReactions.ReactionType reaction);
+
+    void deleteByComment_CommentId(Long commentId);
 }

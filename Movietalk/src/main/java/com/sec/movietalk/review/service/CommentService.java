@@ -166,13 +166,16 @@ public class CommentService {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
 
+        // 대댓글들의 작성자 카운트 감소 (cascade로 함께 삭제되기 때문)
+        c.getReplies().forEach(reply -> {
+            userRepo.incrementCommentCount(reply.getUser().getUserId(), -1);
+        });
 
-
-
+        // 메인 댓글 삭제 (cascade로 대댓글, 반응, 신고도 함께 삭제됨)
         commentRepo.delete(c);
 
+        // 메인 댓글 작성자 카운트 감소
         userRepo.incrementCommentCount(commentAuthorId, -1);
-
     }
 
     /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함(신고 많은 자식 숨김) **/

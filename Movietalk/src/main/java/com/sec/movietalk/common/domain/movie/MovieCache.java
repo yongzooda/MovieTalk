@@ -23,10 +23,10 @@ public class MovieCache {
     @Column(length = 255)
     private String title;
 
-    @Lob
+    @Column(length = 500) // 충분히 길게 설정
     private String posterUrl;
 
-    @Lob
+    @Column(columnDefinition = "TEXT") // 개요는 TEXT로
     private String overview;
 
     @Column(name = "release_date")

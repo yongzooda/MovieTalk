@@ -20,12 +20,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE User u SET u.reviewCnt = u.reviewCnt + :inc WHERE u.userId = :id")
     void incrementReviewCount(@Param("id") Long id, @Param("inc") int inc);
 
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE User u SET u.commentCnt = u.commentCnt + :inc WHERE u.userId = :id")
     void incrementCommentCount(@Param("id") Long id, @Param("inc") int inc);
 }

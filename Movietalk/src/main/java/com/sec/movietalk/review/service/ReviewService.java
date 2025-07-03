@@ -6,6 +6,7 @@ import com.sec.movietalk.common.domain.review.ReviewReactions;
 import com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType;
 import com.sec.movietalk.common.domain.review.ReviewReports;
 import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.common.domain.comment.Comment;
 import com.sec.movietalk.movie.dto.MovieDetailDto;
 import com.sec.movietalk.movie.service.MovieService;
 import com.sec.movietalk.recommendation.repository.MovieCacheRepository;
@@ -13,6 +14,7 @@ import com.sec.movietalk.review.dto.ReviewCreateRequest;
 import com.sec.movietalk.review.dto.ReviewListResponse;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.review.dto.ReviewUpdateRequest;
+import com.sec.movietalk.review.repository.CommentRepository;
 import com.sec.movietalk.review.repository.ReviewRepository;
 
 import com.sec.movietalk.review.repository.ReviewReactionsRepository;
@@ -46,6 +48,7 @@ public class ReviewService {
 
     private final MovieService movieService;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
 
     @Transactional(readOnly = true)
@@ -134,6 +137,7 @@ public class ReviewService {
                     .build();
 
             movieCacheRepository.save(movie);
+            movieCacheRepository.flush(); // 🔥 꼭 필요
         }
 
         MovieCache movie = movieCacheRepository.findById(movieId)
@@ -163,14 +167,29 @@ public class ReviewService {
 
     @Transactional
     public void deleteReview(Long reviewId) {
+        // 1. 댓글 먼저 조회
+        List<Comment> comments = commentRepository.findByReview_ReviewId(reviewId);
 
+        // 2. 댓글 작성자별 개수 집계
+        Map<Long, Long> commentCountMap = comments.stream()
+                .collect(Collectors.groupingBy(
+                        c -> c.getUser().getUserId(),
+                        Collectors.counting()
+                ));
+
+        // 3. 각 작성자별로 comment_cnt 감소
+        commentCountMap.forEach((userId, count) -> {
+            userRepository.incrementCommentCount(userId, -count.intValue());
+        });
+
+        // 4. 리뷰 작성자 review_cnt 감소
         Long userId = getReviewById(reviewId).getUserId();
-
-
         userRepository.incrementReviewCount(userId, -1);
 
+        // 5. 리뷰 삭제 (cascade로 댓글도 같이 삭제)
         reviewRepository.deleteById(reviewId);
     }
+
 
 
     /**

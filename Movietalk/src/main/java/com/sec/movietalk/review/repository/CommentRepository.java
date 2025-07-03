@@ -22,4 +22,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     /** 5) 부모 댓글 삭제 시 하위 대댓글 일괄 삭제 **/
     void deleteByParent_CommentId(Long parentId);
+
+    int countByReview_ReviewId(Long reviewId);
+
+    List<Comment> findByReview_ReviewId(Long attr0);
+
+    List<Comment> findByParent_CommentId(Long commentId);
 }
