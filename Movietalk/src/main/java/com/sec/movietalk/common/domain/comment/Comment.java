@@ -4,6 +4,8 @@ import com.sec.movietalk.common.domain.review.Review;
 import com.sec.movietalk.common.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment parent;
 
     // 자식 댓글(대댓글)
