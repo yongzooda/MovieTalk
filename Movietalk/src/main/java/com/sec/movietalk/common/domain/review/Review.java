@@ -49,10 +49,16 @@ public class Review {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Review(Integer movieId, Long userId, String content) {
+    @Column(nullable = false)
+    private Double rating;
+
+    // ---- 생성자/세터/게터/기타 메서드 ----
+
+    public Review(Integer movieId, Long userId, String content, Double rating) {
         this.movieId = movieId;
         this.user = new User(userId);
         this.content = content;
+        this.rating = rating;
     }
 
     public Long getUserId() {
@@ -62,36 +68,13 @@ public class Review {
     public void setContent(String content) {
         this.content = content;
     }
+    public void setRating(Double rating) { this.rating = rating; }
+    public Double getRating() { return this.rating; }
 
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public int getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public Long getId() {
-        return this.reviewId;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    // 좋아요/싫어요 setter
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public void setDislikeCount(int dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
-
-
+    public int getLikeCount() { return likeCount; }
+    public int getDislikeCount() { return dislikeCount; }
+    public Long getId() { return this.reviewId; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public void setLikeCount(int likeCount) { this.likeCount = likeCount; }
+    public void setDislikeCount(int dislikeCount) { this.dislikeCount = dislikeCount; }
 }
-
-
-
-
-
