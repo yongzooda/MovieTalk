@@ -1,6 +1,5 @@
 package com.sec.movietalk.actor.repository;
 
-
 import com.sec.movietalk.common.domain.comment.ActorComment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,5 +14,4 @@ public interface ActorCommentRepository extends JpaRepository<ActorComment, Long
 
     Page<ActorComment> findByActorIdAndIsDeletedFalse(Long actorId, Pageable pageable);
 
-    List<ActorComment> findByUser_UserIdAndIsDeletedFalse(Long userId);
 }

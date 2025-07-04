@@ -1,16 +1,15 @@
 package com.sec.movietalk.home.service;
 
-import com.sec.movietalk.actor.repository.ActorCacheRepository;
-import com.sec.movietalk.actor.repository.ActorCommentRepository;
-import com.sec.movietalk.common.domain.actor.ActorCache;
 import com.sec.movietalk.common.domain.comment.Comment;
 import com.sec.movietalk.common.domain.movie.MovieCache;
 import com.sec.movietalk.common.domain.review.Review;
-import com.sec.movietalk.home.dto.HomeActorDto;
 import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
 import com.sec.movietalk.home.dto.HomeReviewDto;
-import com.sec.movietalk.home.repository.*;
+import com.sec.movietalk.home.repository.HomeCommentRepository;
+import com.sec.movietalk.home.repository.HomeMovieRepository;
+import com.sec.movietalk.home.repository.HomeReviewRepository;
+import com.sec.movietalk.home.repository.MovieCache3Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,9 +28,6 @@ public class HomeService {
     private final MovieCache3Repository movieCacheRepo;
     private final HomeReviewRepository homeViewsRepo;
     private final HomeCommentRepository homeCommentsRepo;
-    private final HomeActorRepository homeActorRepo;
-    private final ActorCacheRepository actorCacheRepo;
-    private final ActorCommentRepository actorCommentRepo;
 
     public List<HomeMovieDto> getTop4MoviesByViews() {
 
@@ -100,28 +96,5 @@ public class HomeService {
 
         return dtos;
     }
-
-    public List<HomeActorDto> getTop4ActorsByCommentCount() {
-
-        Page<HomeActorRepository.ActorCommentCountProjection> topActors = homeActorRepo
-                .findTop4ByActorIdCount(PageRequest.of(0, 4));
-        List<Integer> actorIds = topActors.stream()
-                .map(proj -> proj.getActorId() == null ? null : proj.getActorId().intValue())
-                .filter(Objects::nonNull)
-                .toList();
-
-        // 2. 배우 정보 조회 (id in ...)
-        List<ActorCache> actorCaches = actorCacheRepo.findByIdIn(actorIds);
-
-        // 3. DTO 변환
-        return actorCaches.stream()
-                .map(actor -> new HomeActorDto(
-                        actor.getId().intValue(), // Long → Integer 변환
-                        actor.getName(),
-                        actor.getProfilePath()
-                ))
-                .toList();
-    }
-
 
 }

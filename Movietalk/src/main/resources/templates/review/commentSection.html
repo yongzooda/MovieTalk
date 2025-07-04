@@ -125,7 +125,7 @@
                             th:data-comment-id="${reply.id}">✔️ 채택</button>
                     <span th:if="${currentUserId == reply.authorId}">
                         <button type="button" class="btn-edit" th:data-comment-id="${reply.id}">✏️ 수정</button>
-                        <button type="button" class="btn-delete" th:data-comment-id="${reply.id}">🗑️ 삭제하기</button>
+                        <button type="button" class="btn-delete" th:data-comment-id="${reply.id}">🗑️ 삭제</button>
                     </span>
                 </div>
                 <div th:if="${reply.accepted}" class="comment-accepted">채택됨</div>
@@ -155,7 +155,6 @@
         const reviewAuthorId = [[${reviewAuthorId}]];
         /*]]>*/
     </script>
-
 
     <script>
         // 공통 JSON 전송 함수 (POST)
@@ -199,28 +198,22 @@
                 postJson(`/api/comments/${cid}/adopt`, {}).then(() => location.reload())
             );
 
-        });
+            // 수정 버튼 (PATCH)
+            el.querySelector('.btn-edit')?.addEventListener('click', () => {
+                const text = prompt('수정할 내용을 입력하세요:');
+                if (!text) return;
+                patchJson(
+                    `/api/reviews/${reviewId}/comments/${cid}`,
+                    { commentId: cid, content: text }
+                ).then(() => location.reload());
+            });
 
-        document.querySelector('.comment-section').addEventListener('click', e => {
-            // 삭제
-            if (e.target.classList.contains('btn-delete')) {
-                const cid = e.target.dataset.commentId;
+            // 삭제 버튼
+            el.querySelector('.btn-delete')?.addEventListener('click', () => {
                 if (!confirm('정말 삭제하시겠습니까?')) return;
                 fetch(`/api/reviews/${reviewId}/comments/${cid}`, { method: 'DELETE' })
                     .then(r => r.ok ? location.reload() : alert('삭제에 실패했습니다.'));
-                return;
-            }
-            // 수정
-            if (e.target.classList.contains('btn-edit')) {
-                const cid = e.target.dataset.commentId;
-                const text = prompt('수정할 내용을 입력하세요:');
-                if (!text) return;
-                patchJson(`/api/reviews/${reviewId}/comments/${cid}`, { commentId: cid, content: text })
-                    .then(() => location.reload());
-
-                return;
-            }
-
+            });
         });
 
         // 답글 토글 및 전송 (최상위 댓글만)

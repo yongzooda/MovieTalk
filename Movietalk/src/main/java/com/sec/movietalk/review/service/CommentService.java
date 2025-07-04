@@ -80,10 +80,6 @@ public class CommentService {
                 .content(req.content())
                 .build();
         commentRepo.save(c);
-
-        // ★ 이 한 줄 추가!
-        userRepo.incrementCommentCount(currentUser.getId(), 1);
-
         return toDtoWithReplies(c);
     }
 
@@ -161,29 +157,30 @@ public class CommentService {
     /** 8. 댓글 삭제 (작성자 또는 리뷰 작성자) **/
     @Transactional
     public void deleteComment(Long reviewId, Long commentId, Long userId) {
+        log.info("deleteComment called reviewId={} commentId={} userId={}", reviewId, commentId, userId);
+
         Comment c = commentRepo.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
 
-        boolean isCommentAuthor = c.getUser().getUserId().equals(userId);
-        boolean isReviewAuthor  = c.getReview().getUser().getUserId().equals(userId);
-        if (!(isCommentAuthor || isReviewAuthor)) {
+        // 권한 검사 로그
+        log.info("commentAuthor={} reviewAuthor={}",
+                c.getUser().getUserId(),
+                c.getReview().getUser().getUserId());
+
+        // 권한 체크
+        if (!c.getUser().getUserId().equals(userId) &&
+                !c.getReview().getUser().getUserId().equals(userId)) {
             throw new AccessDeniedException("삭제 권한이 없습니다.");
         }
 
-        if (c.getParent() == null) { // 메인 댓글일 때
-            // 대댓글 작성자 카운트 감소
-            c.getReplies().forEach(reply -> {
-                userRepo.incrementCommentCount(reply.getUser().getUserId(), -1);
-            });
-            // 메인 댓글 작성자 카운트 감소
-            userRepo.incrementCommentCount(c.getUser().getUserId(), -1);
-        } else { // 대댓글만 삭제
-            userRepo.incrementCommentCount(c.getUser().getUserId(), -1);
-        }
+        // 작성자 카운트 감소
+        userRepo.incrementCommentCount(c.getUser().getUserId(), -1);
 
-        commentRepo.delete(c);
+        // JPA cascade + DB CASCADE 로 한 번에 삭제
+        commentRepo.deleteById(commentId);
+
+        log.info("deleteComment success commentId={}", commentId);
     }
-
 
 
     /** 댓글 → DTO 변환 + 재귀적으로 대댓글 포함(신고 많은 자식 숨김) **/

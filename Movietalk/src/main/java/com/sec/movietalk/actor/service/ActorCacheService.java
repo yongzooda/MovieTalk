@@ -1,6 +1,6 @@
 package com.sec.movietalk.actor.service;
 
-import com.sec.movietalk.common.domain.actor.ActorCache;
+import com.sec.movietalk.actor.dto.ActorCache;
 import com.sec.movietalk.actor.repository.ActorCacheRepository;
 import org.springframework.stereotype.Service;
 

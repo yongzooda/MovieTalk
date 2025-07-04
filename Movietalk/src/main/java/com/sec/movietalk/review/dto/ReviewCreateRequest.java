@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class ReviewCreateRequest {
     private Long userId;
-    private Integer movieId;
-    private String movieTitle;
+    private Integer movieId;  // TMDB에서 선택된 영화 ID
     private String content;
 }

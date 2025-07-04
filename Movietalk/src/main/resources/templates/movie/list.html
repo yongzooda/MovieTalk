@@ -10,17 +10,32 @@
 
 <div class="container my-5">
 
-    <!-- 🔍 검색창 -->
-    <form th:action="@{/movies/search}" method="get" class="d-flex justify-content-end mb-4" style="gap: 0.5rem;">
-        <select name="category" class="form-select w-auto" disabled>
-            <option value="keyword" selected>키워드(제목, 줄거리)</option>
-        </select>
+    <!-- 🧭 제목 + 검색창 한 줄 구성 -->
+    <div class="row align-items-center mb-4">
+        <!-- 📢 제목 -->
+        <div class="col-md-6">
+            <h2 class="mb-0" th:if="${keyword == null}">최신순으로 담은 영화 큐레이션</h2>
+            <h2 class="mb-0" th:if="${keyword != null}">TMDB [인기도] 순으로 정렬</h2>
+        </div>
 
-        <input type="text" name="keyword" class="form-control w-25"
-               placeholder="검색어를 입력하세요" th:value="${keyword}">
+        <!-- 🔍 검색창 -->
+        <div class="col-md-6">
+            <form th:action="@{/movies/search}" method="get" class="d-flex justify-content-end" style="gap: 0.5rem;">
+                <select name="category" class="form-select form-select-lg w-auto">
+                    <option th:value="title" th:selected="${category == 'title'}">제목</option>
+                    <option th:value="genre" th:selected="${category == 'genre'}">장르</option>
+                </select>
 
-        <button type="submit" class="btn btn-primary">검색</button>
-    </form>
+<!--                <input type="text" name="keyword" class="form-control form-control-lg w-25"-->
+<!--                       placeholder="검색어를 입력하세요" th:value="${keyword}">-->
+
+                <input type="text" name="keyword" class="form-control form-control-lg"
+                       style="width:42%;" th:value="${keyword}" placeholder="검색어를 입력하세요">
+
+                <button type="submit" class="btn btn-primary btn-lg">검색</button>
+            </form>
+        </div>
+    </div>
 
     <!-- 🎯 검색 결과 메시지 -->
     <div th:if="${keyword != null}" class="mb-4">
@@ -30,35 +45,53 @@
     </div>
 
     <!-- 🔔 검색 결과 없음 -->
-    <div th:if="${movies != null and movies.isEmpty()}" class="mb-4">
-        <p class="text-muted">검색 결과가 없습니다.</p>
+    <div th:if="${movies != null and movies.isEmpty()}" class="mb-5 d-flex justify-content-center align-items-center" style="height: 200px;">
+        <div class="text-muted text-center fs-4">검색 결과가 없습니다.</div>
     </div>
-
-    <h2 class="mb-4" th:if="${keyword == null}">최신 개봉작 목록</h2>
-    <h2 class="mb-4" th:if="${keyword != null}">TMDB [인기도] 순으로 정렬</h2>
-
 
     <!-- 🖼 영화 카드 출력 -->
     <div class="row row-cols-1 row-cols-md-5 g-4" th:if="${movies != null and !movies.isEmpty()}">
         <div class="col" th:each="movie : ${movies}">
             <div class="card h-100">
-                <a th:href="@{/movies/{id}(id=${movie.id})}">
-                    <img th:if="${movie.posterUrl != null}"
-                         th:src="${movie.posterUrl}"
-                         class="card-img-top"
-                         alt="포스터"
-                         style="height: 400px; object-fit: cover;">
-                    <div th:if="${movie.posterUrl == null}"
-                         class="card-img-top bg-secondary text-white text-center py-5">
-                        이미지 없음
-                    </div>
-                </a>
+                <th:block th:if="${keyword != null}">
+                    <a th:href="@{|/movies/${movie.id}?from=search&keyword=${keyword}&category=${category}&page=${currentPage}|}">
+                        <img th:if="${movie.posterUrl != null}"
+                             th:src="${movie.posterUrl}"
+                             class="card-img-top"
+                             alt="포스터"
+                             style="height: 400px; object-fit: cover;">
+                        <div th:if="${movie.posterUrl == null}"
+                             class="card-img-top bg-secondary text-white text-center py-5">
+                            이미지 없음
+                        </div>
+                    </a>
+                </th:block>
+                <th:block th:if="${keyword == null}">
+                    <a th:href="@{|/movies/${movie.id}?from=list&page=${currentPage}|}">
+                        <img th:if="${movie.posterUrl != null}"
+                             th:src="${movie.posterUrl}"
+                             class="card-img-top"
+                             alt="포스터"
+                             style="height: 400px; object-fit: cover;">
+                        <div th:if="${movie.posterUrl == null}"
+                             class="card-img-top bg-secondary text-white text-center py-5">
+                            이미지 없음
+                        </div>
+                    </a>
+                </th:block>
 
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a th:href="@{/movies/{id}(id=${movie.id})}"
-                           th:text="${movie.title}"
-                           class="text-decoration-none text-dark"></a>
+                        <th:block th:if="${keyword != null}">
+                            <a th:href="@{|/movies/${movie.id}?from=search&keyword=${keyword}&category=${category}&page=${currentPage}|}"
+                               th:text="${movie.title}"
+                               class="text-decoration-none text-dark"></a>
+                        </th:block>
+                        <th:block th:if="${keyword == null}">
+                            <a th:href="@{|/movies/${movie.id}?from=list&page=${currentPage}|}"
+                               th:text="${movie.title}"
+                               class="text-decoration-none text-dark"></a>
+                        </th:block>
                     </h5>
                     <p class="card-text">
                         <strong>개봉일: </strong>
@@ -73,23 +106,20 @@
     <div class="mt-5" th:if="${totalPages > 0}">
         <nav>
             <ul class="pagination justify-content-center">
-
-                <!-- ⏮ 이전 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
                     <a class="page-link"
                        th:if="${keyword != null}"
-                       th:href="@{/movies/search(page=${currentPage - 1}, keyword=${keyword})}">&lt;</a>
+                       th:href="@{/movies/search(page=${currentPage - 1}, keyword=${keyword}, category=${category})}">&lt;</a>
                     <a class="page-link"
                        th:if="${keyword == null}"
                        th:href="@{/movies(page=${currentPage - 1})}">&lt;</a>
                 </li>
 
-                <!-- 🔢 숫자 페이지 -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${i == currentPage} ? 'active'">
                     <a class="page-link"
                        th:if="${keyword != null}"
-                       th:href="@{/movies/search(page=${i}, keyword=${keyword})}"
+                       th:href="@{/movies/search(page=${i}, keyword=${keyword}, category=${category})}"
                        th:text="${i + 1}">1</a>
                     <a class="page-link"
                        th:if="${keyword == null}"
@@ -97,22 +127,55 @@
                        th:text="${i + 1}">1</a>
                 </li>
 
-                <!-- ⏭ 다음 버튼 -->
                 <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
                     <a class="page-link"
                        th:if="${keyword != null}"
-                       th:href="@{/movies/search(page=${currentPage + 1}, keyword=${keyword})}">&gt;</a>
+                       th:href="@{/movies/search(page=${currentPage + 1}, keyword=${keyword}, category=${category})}">&gt;</a>
                     <a class="page-link"
                        th:if="${keyword == null}"
                        th:href="@{/movies(page=${currentPage + 1})}">&gt;</a>
                 </li>
-
             </ul>
         </nav>
         <p class="text-center text-muted">총 페이지: <span th:text="${totalPages}"></span></p>
     </div>
 
 </div>
+
+<!-- ✨ 입력창 placeholder 변경 스크립트 -->
+<script th:inline="javascript">
+    const categorySelect = document.querySelector('select[name="category"]');
+    const keywordInput = document.querySelector('input[name="keyword"]');
+
+    if (categorySelect && keywordInput) {
+        categorySelect.addEventListener('change', function () {
+            const value = categorySelect.value;
+            if (value === 'title') {
+                keywordInput.placeholder = '영화 제목을 입력하세요';
+            } else if (value === 'genre') {
+                keywordInput.placeholder = '장르를 입력하세요 (예: 액션)';
+            } else {
+                keywordInput.placeholder = '검색어를 입력하세요';
+            }
+        });
+    }
+</script>
+
+<script>
+    // 스크롤 위치 저장 (페이지 떠날 때)
+    window.addEventListener("beforeunload", () => {
+        localStorage.setItem("scrollPosition", window.scrollY);
+    });
+
+    // 스크롤 위치 복원 (페이지 로드 시)
+    window.addEventListener("load", () => {
+        const saved = localStorage.getItem("scrollPosition");
+        if (saved !== null) {
+            window.scrollTo({ top: parseInt(saved), behavior: "instant" });
+            localStorage.removeItem("scrollPosition");
+        }
+    });
+</script>
 
 </body>
 </html>

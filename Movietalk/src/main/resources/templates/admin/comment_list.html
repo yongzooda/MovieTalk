@@ -35,7 +35,7 @@
         <td>
             <form th:action="@{/admin/comments/{id}(id=${comment.commentId})}"
                   method="post"
-                  onsubmit="return confirm('이 댓글을 정말 삭제하시겠습니까?');">
+                  onsubmit="return confirm('이 리뷰를 정말 삭제하시겠습니까?');">
                 <input type="hidden" name="_method" value="delete"/>
                 <button type="submit">삭제</button>
             </form>

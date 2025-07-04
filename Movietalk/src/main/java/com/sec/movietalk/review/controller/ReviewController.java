@@ -3,8 +3,8 @@ package com.sec.movietalk.review.controller;
 import com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType;
 import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.common.util.UserUtil;
-import com.sec.movietalk.movie.dto.MovieDetailDto;
-import com.sec.movietalk.movie.service.MovieService;
+import com.sec.movietalk.movie.dto.MovieDetailDto;        // TMDB 상세 DTO import
+import com.sec.movietalk.movie.service.MovieService;      // MovieService import
 import com.sec.movietalk.review.dto.CommentRequest;
 import com.sec.movietalk.review.dto.CommentResponse;
 import com.sec.movietalk.review.dto.ReviewCreateRequest;
@@ -30,7 +30,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final CommentService commentService;
-    private final MovieService movieService;
+    private final MovieService movieService; // 반드시 추가!!
 
     /** 1) 전체 리뷰 목록 조회 */
     @GetMapping
@@ -59,7 +59,7 @@ public class ReviewController {
         // 기존 리뷰 정보
         ReviewResponse review = reviewService.getReviewById(reviewId);
 
-        // TMDB 영화 상세정보 가져오기
+        // **TMDB 영화 상세정보 가져오기**
         MovieDetailDto movie = movieService.getMovieDetailFromTmdbId(review.getMovieId());
 
         List<CommentResponse> commentList = commentService.getComments(reviewId);
@@ -69,7 +69,7 @@ public class ReviewController {
                 reviewService.getUserReaction(reviewId, currentUserId);
 
         model.addAttribute("review", review);
-        model.addAttribute("movie", movie);
+        model.addAttribute("movie", movie); // 영화 상세정보 모델에 추가
         model.addAttribute("commentList", commentList);
         model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("reviewAuthorId", review.getUserId());
@@ -93,15 +93,8 @@ public class ReviewController {
 
     /** 5) 리뷰 작성 폼 */
     @GetMapping("/new")
-    public String createForm(
-            @RequestParam(required = false) Integer movieId,
-            @RequestParam(required = false) String movieTitle,
-            Model model
-    ) {
-        ReviewCreateRequest req = new ReviewCreateRequest();
-        req.setMovieId(movieId);
-        req.setMovieTitle(movieTitle);
-        model.addAttribute("review", req);
+    public String createForm(Model model) {
+        model.addAttribute("review", new ReviewCreateRequest());
         return "review/review_form";
     }
 
