@@ -91,7 +91,7 @@ public class ReviewController {
         return "redirect:/reviews/" + reviewId;
     }
 
-    /** 5) 리뷰 작성 폼 */
+    /** 5) 리뷰 작성 폼 (수정됨!) */
     @GetMapping("/new")
     public String createForm(
             @RequestParam(required = false) Integer movieId,
@@ -100,7 +100,16 @@ public class ReviewController {
     ) {
         ReviewCreateRequest req = new ReviewCreateRequest();
         req.setMovieId(movieId);
-        req.setMovieTitle(movieTitle);
+
+        // 영화 제목 자동 세팅
+        if (movieTitle != null && !movieTitle.isBlank()) {
+            req.setMovieTitle(movieTitle);
+        } else if (movieId != null) {
+            MovieDetailDto movie = movieService.getMovieDetailFromTmdbId(movieId);
+            if (movie != null) {
+                req.setMovieTitle(movie.getTitle());
+            }
+        }
         model.addAttribute("review", req);
         return "review/review_form";
     }
@@ -147,7 +156,7 @@ public class ReviewController {
                 .movieId(review.getMovieId())
                 .movieTitle(review.getMovieTitle())
                 .content(review.getContent())
-                .rating(review.getRating()) // ★★★★★ 기존 별점까지 반영!
+                .rating(review.getRating())
                 .build();
         model.addAttribute("review", form);
         return "review/review_edit";
