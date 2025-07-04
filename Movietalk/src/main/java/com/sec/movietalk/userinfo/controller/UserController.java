@@ -5,6 +5,7 @@ import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
 import com.sec.movietalk.home.dto.HomeReviewDto;
 import com.sec.movietalk.home.service.HomeService;
+import com.sec.movietalk.recommendation.service.FavoriteService;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
@@ -19,9 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class UserController {
     private final HomeService homeService;
     private final UserService userService;
     private final MyDataService mydataService;
+    private final FavoriteService favoriteService; //G1
 
 
     @GetMapping("/register")
@@ -241,7 +241,34 @@ public class UserController {
 
 
 
+    // ---------------------- G1 영화 즐겨찾기 ----------------------
+    /** 즐겨찾기 페이지 */
+    @GetMapping("/mypage/favorites")
+    public String favorites(@AuthenticationPrincipal Object principal, Model model) {
+        Long userId = extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+        model.addAttribute("favoriteMovies", favoriteService.getFavorites(userId));
+        return "mypage/my_favorite";
+    }
 
+    /** 즐겨찾기 추가 (AJAX) */
+    @PostMapping("/api/favorites/{movieId}")
+    @ResponseBody
+    public void addFavorite(@AuthenticationPrincipal Object principal,
+                            @PathVariable Integer movieId) {
+        favoriteService.addFavorite(extractUserId(principal), movieId);
+    }
+
+    /** 즐겨찾기 삭제 (AJAX) */
+    @DeleteMapping("/api/favorites/{movieId}")
+    @ResponseBody
+    public void deleteFavorite(@AuthenticationPrincipal Object principal,
+                               @PathVariable Integer movieId) {
+        favoriteService.removeFavorite(extractUserId(principal), movieId);
+    }
+
+
+    // ---------------------- G1 영화 즐겨찾기 ----------------------
 
 
 
