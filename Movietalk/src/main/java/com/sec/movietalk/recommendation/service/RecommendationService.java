@@ -93,7 +93,6 @@ public class RecommendationService {
                         r -> r,
                         (r1,r2) -> r1.getPopularity() >= r2.getPopularity() ? r1 : r2))
                 .values().stream()
-                .sorted(Comparator.comparing(MovieRecommendation::getPopularity).reversed())
                 .limit(20)
                 .toList();
     }

@@ -1,13 +1,17 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.common.util.UserUtil;
 import com.sec.movietalk.home.dto.HomeActorDto;
 import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
 import com.sec.movietalk.home.dto.HomeReviewDto;
 import com.sec.movietalk.home.service.HomeService;
+import com.sec.movietalk.recommendation.service.FavoriteService;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.request.WithdrawRequestDto;
 import com.sec.movietalk.userinfo.dto.response.MyActorCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.MyCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
@@ -19,9 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class UserController {
     private final HomeService homeService;
     private final UserService userService;
     private final MyDataService mydataService;
+    private final FavoriteService favoriteService; //G1
 
 
     @GetMapping("/register")
@@ -239,10 +242,72 @@ public class UserController {
 
     }
 
+    @GetMapping("/mypage/withdraw")
+    public String showWithdrawForm(@AuthenticationPrincipal Object principal, Model model) {
+        Long userId = UserUtil.extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+
+        model.addAttribute("withdraw", new WithdrawRequestDto());
+        boolean isSocial = userService.isSocialUser(userId);
+        model.addAttribute("isSocial", isSocial);
+
+        return "mypage/withdraw";
+    }
+
+    @PostMapping("/mypage/withdraw")
+    public String withdraw(@ModelAttribute WithdrawRequestDto dto,
+                           @AuthenticationPrincipal Object principal,
+                           Model model) {
+        Long userId = UserUtil.extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+
+        try {
+            userService.withdrawUser(userId, dto);
+            return "redirect:/logout";
+        } catch (Exception e) {
+            model.addAttribute("withdraw", dto);
+            model.addAttribute("error", e.getMessage());
+            boolean isSocial = userService.isSocialUser(userId);
+            model.addAttribute("isSocial", isSocial);
+            return "mypage/withdraw";
+        }
+    }
 
 
+    // ---------------------- G1 영화 즐겨찾기 ----------------------
+    /** 즐겨찾기 페이지 */
+    @GetMapping("/mypage/favorites")
+    public String favorites(@AuthenticationPrincipal Object principal, Model model) {
+        Long userId = extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+        model.addAttribute("favoriteMovies", favoriteService.getFavorites(userId));
+        return "mypage/my_favorite";
+    }
 
+    /** 즐겨찾기 추가 (AJAX) */
+    @PostMapping("/api/favorites/{movieId}")
+    @ResponseBody
+    public void addFavorite(@AuthenticationPrincipal Object principal,
+                            @PathVariable Integer movieId) {
+        favoriteService.addFavorite(extractUserId(principal), movieId);
+    }
+
+    /** 즐겨찾기 삭제 (AJAX) */
+    @DeleteMapping("/api/favorites/{movieId}")
+    @ResponseBody
+    public void deleteFavorite(@AuthenticationPrincipal Object principal,
+                               @PathVariable Integer movieId) {
+        favoriteService.removeFavorite(extractUserId(principal), movieId);
+    }
 
 
 
 }
+
+
+
+
+
+
+
+

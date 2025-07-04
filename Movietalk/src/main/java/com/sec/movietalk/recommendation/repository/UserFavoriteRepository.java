@@ -15,4 +15,9 @@ public interface UserFavoriteRepository extends JpaRepository<UserFavorite, Long
 
     // 즐겨찾기 목록 조회
     List<UserFavorite> findAllByUser_UserId(Long user_id);
+
+
+    // 즐겨찾기 삭제 G1
+    void deleteByUser_UserIdAndMovieId(Long userId, Integer movieId);
+
 }
