@@ -4,96 +4,143 @@
     <meta charset="UTF-8">
     <title>리뷰 목록 | MovieTalk</title>
     <style>
-
         body {
-          font-family: 'Segoe UI', sans-serif;
-          background-color: #f0f4f2;
-          margin: 0;
-          padding: 0;
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+            background-color: #eef3f1;
+            margin: 0;
+            padding: 0;
         }
-
-
         .container {
-          max-width: 900px;
-          margin: auto;
-          padding: 2rem;
+            max-width: 900px;
+            margin: 32px auto;
+            padding: 32px 24px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 6px 24px 0 rgba(48, 78, 66, 0.13), 0 1.5px 6px 0 rgba(56,161,105,0.10);
         }
-
         h2 {
-          color: #2f855a;
-          margin-bottom: 1.5rem;
+            color: #208e61;
+            font-weight: 700;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
+            font-size: 2rem;
         }
 
+        .search-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .search-section input[type="text"] {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border: 1.5px solid #38a16955;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .search-section input[type="text"]:focus {
+            border-color: #38a169;
+            background: #f6fffa;
+        }
+        .search-section button {
+            padding: 0.7rem 1.4rem;
+            background: linear-gradient(90deg, #38a169, #208e61 90%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.07);
+        }
+        .search-section button:hover {
+            background: linear-gradient(90deg, #208e61 40%, #38a169 90%);
+        }
         .btn-write {
-          background-color: #38a169;
-          color: white;
-          border: none;
-          padding: 0.6rem 1.2rem;
-          border-radius: 6px;
-          cursor: pointer;
-          float: right;
-          margin-bottom: 1rem;
+            display: inline-block;
+            background: linear-gradient(90deg, #38a169, #208e61 90%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            margin-left: auto;
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.07);
+            transition: background 0.18s, transform 0.1s;
         }
-
         .btn-write:hover {
-          background-color: #2f855a;
+            background: linear-gradient(90deg, #208e61 40%, #38a169 90%);
+            transform: translateY(-2px) scale(1.03);
         }
 
         .review-table {
-          width: 100%;
-          border-collapse: collapse;
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1rem;
         }
-
-        .review-table th,
-        .review-table td {
-          padding: 1rem;
-          border-bottom: 1px solid #e2e8f0;
-          text-align: left;
+        .review-table th, .review-table td {
+            padding: 1.1rem 0.7rem;
+            text-align: left;
         }
-
         .review-table th {
-          background-color: #c6f6d5;
-          color: #22543d;
+            background: #e5fcef;
+            color: #207755;
+            font-size: 1rem;
+            border-bottom: 2.5px solid #b6ebcc;
         }
-
-        .review-table tr:hover {
-          background-color: #f0fff4;
+        .review-table td {
+            border-bottom: 1.5px solid #f0f4f2;
+            font-size: 1rem;
         }
-
+        .review-table tr {
+            transition: background 0.2s;
+        }
+        .review-table tbody tr:hover {
+            background: #f5fefa;
+            box-shadow: 0 2px 16px #d2ffe6b6;
+        }
         .review-link {
-          color: #2f855a;
-          text-decoration: none;
-          font-weight: bold;
+            color: #208e61;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.03rem;
+            transition: text-decoration 0.1s;
         }
-
         .review-link:hover {
-          text-decoration: underline;
+            text-decoration: underline;
+            color: #1a6b4a;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px 2vw;
+            }
+            .review-table th, .review-table td {
+                padding: 0.7rem 0.4rem;
+                font-size: 0.98rem;
+            }
+            h2 { font-size: 1.3rem; }
+            .btn-write { padding: 0.5rem 1rem; font-size: 0.98rem; }
         }
     </style>
 </head>
 <body>
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
-
 <div class="container">
     <h2>영화 리뷰 게시판</h2>
-
-    <form th:action="@{/reviews/search}" method="get" style="margin-bottom: 1rem;">
-        <input type="text" name="keyword" placeholder="영화 제목 검색"
-               style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;">
-        <button type="submit"
-                style="padding: 0.5rem 1rem; border: none; background-color: #38a169; color: white; border-radius: 4px; cursor: pointer;">
-            검색
-        </button>
+    <form th:action="@{/reviews/search}" method="get" class="search-section">
+        <input type="text" name="keyword" placeholder="영화 제목 검색">
+        <button type="submit">검색</button>
     </form>
-
     <a th:href="@{/reviews/new}">
-        <button class="btn-write">리뷰 작성</button>
+        <button class="btn-write" type="button">+ 리뷰 작성</button>
     </a>
-
     <table class="review-table">
         <thead>
         <tr>
@@ -105,7 +152,7 @@
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(reviews)}">
-            <td colspan="4" style="text-align: center; color: #888;">검색 결과가 없습니다.</td>
+            <td colspan="4" style="text-align: center; color: #aaa;">검색 결과가 없습니다.</td>
         </tr>
         <tr th:each="review : ${reviews}">
             <td>
