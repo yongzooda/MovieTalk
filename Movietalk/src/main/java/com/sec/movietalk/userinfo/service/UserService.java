@@ -3,6 +3,7 @@ package com.sec.movietalk.userinfo.service;
 import com.sec.movietalk.common.domain.user.User;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.request.WithdrawRequestDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
 import com.sec.movietalk.userinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,5 +74,40 @@ public class UserService {
 
         );
     }
+
+    public void withdrawUser(Long userId, WithdrawRequestDto dto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        boolean isSocial = user.getPassword() == null || user.getPassword().isBlank();
+
+        if (isSocial) {
+            userRepository.delete(user);
+            return;
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new IllegalArgumentException("비밀번호와 확인값이 일치하지 않습니다.");
+        }
+
+        if (!user.getNickname().equals(dto.getNickname())) {
+            throw new IllegalArgumentException("닉네임이 일치하지 않습니다.");
+        }
+
+        userRepository.delete(user);
+    }
+
+
+    public boolean isSocialUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return user != null && (user.getPassword() == null || user.getPassword().isBlank());
+    }
+
+
+
 
 }

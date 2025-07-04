@@ -1,5 +1,7 @@
 package com.sec.movietalk.userinfo.controller;
 
+import com.sec.movietalk.common.domain.user.User;
+import com.sec.movietalk.common.util.UserUtil;
 import com.sec.movietalk.home.dto.HomeActorDto;
 import com.sec.movietalk.home.dto.HomeCommentDto;
 import com.sec.movietalk.home.dto.HomeMovieDto;
@@ -9,6 +11,7 @@ import com.sec.movietalk.recommendation.service.FavoriteService;
 import com.sec.movietalk.review.dto.ReviewResponse;
 import com.sec.movietalk.userinfo.dto.request.PasswordResetRequestDto;
 import com.sec.movietalk.userinfo.dto.request.SignupRequestDto;
+import com.sec.movietalk.userinfo.dto.request.WithdrawRequestDto;
 import com.sec.movietalk.userinfo.dto.response.MyActorCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.MyCommentResponseDto;
 import com.sec.movietalk.userinfo.dto.response.UserInfoResponseDto;
@@ -239,6 +242,36 @@ public class UserController {
 
     }
 
+    @GetMapping("/mypage/withdraw")
+    public String showWithdrawForm(@AuthenticationPrincipal Object principal, Model model) {
+        Long userId = UserUtil.extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+
+        model.addAttribute("withdraw", new WithdrawRequestDto());
+        boolean isSocial = userService.isSocialUser(userId);
+        model.addAttribute("isSocial", isSocial);
+
+        return "mypage/withdraw";
+    }
+
+    @PostMapping("/mypage/withdraw")
+    public String withdraw(@ModelAttribute WithdrawRequestDto dto,
+                           @AuthenticationPrincipal Object principal,
+                           Model model) {
+        Long userId = UserUtil.extractUserId(principal);
+        if (userId == null) return "redirect:/login";
+
+        try {
+            userService.withdrawUser(userId, dto);
+            return "redirect:/logout";
+        } catch (Exception e) {
+            model.addAttribute("withdraw", dto);
+            model.addAttribute("error", e.getMessage());
+            boolean isSocial = userService.isSocialUser(userId);
+            model.addAttribute("isSocial", isSocial);
+            return "mypage/withdraw";
+        }
+    }
 
 
     // ---------------------- G1 영화 즐겨찾기 ----------------------
@@ -268,8 +301,13 @@ public class UserController {
     }
 
 
-    // ---------------------- G1 영화 즐겨찾기 ----------------------
-
-
 
 }
+
+
+
+
+
+
+
+
