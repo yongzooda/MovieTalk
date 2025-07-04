@@ -1,217 +1,198 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <title>홈</title>
     <meta charset="UTF-8">
+    <title>홈 | MovieTalk</title>
+
+    <!-- Font & Bootstrap -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        .profile-card {
-            width: 230px;
-            min-width: 180px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(50, 70, 90, 0.08);
-            border: none;
-            padding: 28px 24px 20px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
+        /* ===== 공통 ===== */
+        body{
+          font-family:'Roboto',sans-serif;
+          background:linear-gradient(135deg,#f7fbfe 0%,#eff3f6 80%);
+          /* 새 고정 네비게이션(60 px) + 약간 여유 */
+          padding-top:80px;
         }
-        .profile-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.3em;
-            color: #25564b;
-            font-weight: 700;
-            letter-spacing: -1px;
+
+        /* ===== 좌측 프로필 카드 ===== */
+        .profile-card{
+          width:260px;min-width:200px;border-radius:18px;background:#fff;
+          box-shadow:0 12px 28px rgba(0,0,0,.05);padding:32px 26px 24px;
         }
-        .profile-nickname {
-            font-size: 1.15em;
-            font-weight: 600;
-            color: #28826d;
-            margin-bottom: 6px;
+        .profile-nickname{font-size:1.35rem;font-weight:700;color:#17825e;margin-bottom:6px}
+        .profile-counts span{font-size:1rem;margin-right:16px;color:#555}
+        .profile-counts b{color:#1bb08e}
+        .logout-btn{
+          background:#17825e;border:none;border-radius:10px;font-weight:600;color:#fff;
+          padding:.7rem 1rem;font-size:1.05rem;
+          box-shadow:0 4px 12px rgba(23,130,94,.25);transition:.15s;
         }
-        .profile-counts {
-            display: flex;
-            gap: 18px;
-            margin-bottom: 8px;
-            font-size: 0.97em;
-            color: #444;
+        .logout-btn:hover{background:#116b4e;box-shadow:0 6px 16px rgba(23,130,94,.35)}
+
+        /* ===== 인기 영화/배우 카드 ===== */
+        .popular-section{
+          background:#ffffffcc;border-radius:26px;padding:48px 32px;
+          box-shadow:0 10px 30px rgba(0,0,0,.06);backdrop-filter:saturate(180%) blur(4px);
         }
-        .profile-counts b {
-            font-size: 1.08em;
-            color: #32b09e;
+        .card-tile{
+          width:200px;border:none;border-radius:18px;background:#fff;
+          box-shadow:0 6px 20px rgba(0,0,0,.08);transition:.18s;
         }
-        .logout-btn {
-            width: 100%;
-            background: linear-gradient(90deg, #38a169 60%, #2f855a 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            padding: 9px 0 8px 0;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: background 0.18s, box-shadow 0.18s;
-            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.05);
-        }
-        .logout-btn:hover {
-            background: linear-gradient(90deg, #2f855a 50%, #38a169 100%);
-            box-shadow: 0 4px 16px rgba(56, 161, 105, 0.12);
+        .card-tile:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
+        .card-tile img{border-radius:12px;width:160px;height:240px;object-fit:cover;margin-top:20px}
+        .card-tile .title{font-size:1.1rem;font-weight:600;margin:18px 0 24px}
+
+        /* ===== 탭 ===== */
+        .tab-btn{flex:1;text-align:center;font-weight:600;font-size:1.15rem;padding:20px 0;cursor:pointer}
+        .tab-active{background:#17825e;color:#fff}
+        .tab-inactive{background:#f0f4f2}
+        .list-item{display:flex;justify-content:space-between;align-items:center;
+                   background:#f9fbfb;border-radius:14px;padding:14px 26px;font-size:1.05rem;
+                   box-shadow:0 3px 14px rgba(0,0,0,.05);transition:.17s}
+        .list-item:hover{background:#eef5f5;box-shadow:0 3px 14px rgba(0,0,0,.08)}
+        .item-likes img{width:20px;margin-right:6px;opacity:.8}
+        .item-likes span{font-weight:600;color:#17825e}
+        .separator{color:#b5b5b5;margin:0 10px}
+        .ellipsis{max-width:360px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+        /* ===== 반응형 ===== */
+        @media(max-width:640px){
+          .card-tile{width:160px}
+          .card-tile img{width:120px;height:180px}
         }
     </style>
-
 </head>
+
 <body>
+
+<!-- 🧭 새 고정 네비게이션 -->
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 
-<!-- 메인 그리드: 회원정보 + 메인콘텐츠(인기영화/배우) -->
-<div style="display: flex; justify-content: flex-start; align-items: flex-start; gap:48px; max-width: 1400px; margin: 36px auto 64px;">
+<!-- ===== 메인 ===== -->
+<div class="container-xxl py-5">
+    <div class="row g-5">
 
-    <!-- 1. 왼쪽: 회원 정보 -->
-    <div class="profile-card">
-        <h3>회원 정보</h3>
-        <div class="profile-nickname" th:text="${nickname}">닉네임</div>
-        <div class="profile-counts">
-            <span>리뷰 <b th:text="${reviewCnt}">0</b></span>
-            <span>댓글 <b th:text="${commentCnt}">0</b></span>
-        </div>
-        <form th:action="@{/logout}" method="post" style="width:100%;">
-            <button type="submit" class="logout-btn">로그아웃</button>
-        </form>
-    </div>
-
-
-    <!-- 2. 가운데: 인기 영화 + 인기 배우 (더 큼) -->
-    <div style="flex:1; display: flex; flex-direction: column; align-items: center;">
-
-
-        <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
-            <h2 style="margin-bottom:30px; font-size:2em;">🔥 인기 영화</h2>
-            <div style="display: flex; gap: 40px; justify-content: center;">
-
-
-                <div th:each="movie : ${popularMovies}"
-                     style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     th:onclick="|window.location.href='/movies/${movie.movieId}'|"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img th:src="${movie.posterUrl}" style="border-radius:10px; width:140px; height:210px;" alt="url"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${movie.title}"></span>
+        <!-- ▣ 프로필 -->
+        <aside class="col-auto">
+            <div class="profile-card text-center">
+                <h3 class="mb-3 fw-bold">회원 정보</h3>
+                <div class="profile-nickname" th:text="${nickname}">닉네임</div>
+                <div class="profile-counts d-flex justify-content-center mb-3">
+                    <span>리뷰 <b th:text="${reviewCnt}">0</b></span>
+                    <span>댓글 <b th:text="${commentCnt}">0</b></span>
                 </div>
-
+                <form th:action="@{/logout}" method="post" class="w-100">
+                    <button class="logout-btn w-100">로그아웃</button>
+                </form>
             </div>
-        </div>
+        </aside>
 
+        <!-- ▣ 메인 콘텐츠 -->
+        <main class="col">
 
-        <!-- 인기 배우 박스 (세로 더 큼) -->
-        <div style="width: 100%; max-width: 1100px; margin:0 auto; min-width: 440px; border:2px solid #bbb; border-radius:22px; padding:38px 28px 38px 28px; margin-bottom:48px; background:#fafbfc;">
-            <h2 style="margin-bottom:30px; font-size:2em;">🔥 인기 배우</h2>
-            <div style="display: flex; gap: 40px; justify-content: center;">
+            <!-- ★ 인기 영화 -->
+            <section class="popular-section mb-5">
+                <h2 class="fs-3 fw-bold mb-4">🔥 인기 영화</h2>
+                <div class="d-flex flex-wrap gap-4 justify-content-center">
 
+                    <div th:each="movie:${popularMovies}"
+                         class="card-tile text-center"
+                         th:onclick="|location.href='@{/movies/{id}(id=${movie.movieId})}'|">
+                        <img th:src="${movie.posterUrl}" alt="poster">
+                        <div class="title" th:text="${movie.title}">Movie</div>
+                    </div>
 
-                <div th:each="actor : ${topActors}"
-                     style="width: 190px; border:1.5px solid #eee; border-radius:15px; padding:24px 10px; text-align:center; background:#fff; cursor:pointer; box-shadow: 0 3px 12px rgba(60,60,60,0.07); transition: box-shadow 0.18s;"
-                     th:onclick="|window.location.href='/actors/${actor.actorId}'|"
-                     onmouseover="this.style.boxShadow='0 8px 24px rgba(60,60,60,0.16)';"
-                     onmouseout="this.style.boxShadow='0 3px 12px rgba(60,60,60,0.07)';"
-                >
-                    <img th:src="${actor.profilePath}" style="border-radius:10px; width:140px; height:210px;" alt="url"><br>
-                    <span style="display:block; margin:22px 0 16px 0; font-size:1.1em; font-weight:600;" th:text="${actor.name}"></span>
+                </div>
+            </section>
+
+            <!-- ★ 인기 배우 -->
+            <section class="popular-section mb-5">
+                <h2 class="fs-3 fw-bold mb-4">🔥 인기 배우</h2>
+                <div class="d-flex flex-wrap gap-4 justify-content-center">
+
+                    <div th:each="actor:${topActors}"
+                         class="card-tile text-center"
+                         th:onclick="|location.href='@{/actors/{id}(id=${actor.actorId})}'|">
+                        <img th:src="${actor.profilePath}" alt="actor">
+                        <div class="title" th:text="${actor.name}">Actor</div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ★ 탭(리뷰/댓글) -->
+            <section class="mx-auto" style="max-width:780px;background:#fff;border-radius:20px;
+                                      box-shadow:0 10px 30px rgba(0,0,0,.06);overflow:hidden;">
+                <!-- 탭 헤더 -->
+                <div class="d-flex">
+                    <div id="tab-review"  class="tab-btn tab-active"   onclick="switchTab('review')">📝 인기 리뷰</div>
+                    <div id="tab-comment" class="tab-btn tab-inactive" onclick="switchTab('comment')">💬 인기 댓글</div>
                 </div>
 
-            </div>
-        </div>
-
-        <!-- 인기 리뷰/댓글 통합 박스 -->
-        <div style="width:100%; max-width:720px; margin:48px auto 0 auto; border:2px solid #bbb; border-radius:18px; background:#fff; overflow:hidden;">
-
-            <div style="display:flex;">
-                <div id="tab-review" style="flex:1; text-align:center; padding:22px 0; font-weight:600; font-size:1.13em; cursor:pointer; background:#4CAF50;"
-                     onclick="showTab('review')"
-                     onmouseover="this.style.backgroundColor='#43b14b'"
-                     onmouseout="this.style.backgroundColor=selectedTab==='review' ? '#4CAF50' : '#f8f8f8'">
-                    📝 인기 리뷰
-                </div>
-                <div id="tab-comment" style="flex:1; text-align:center; padding:22px 0; font-weight:600; font-size:1.13em; cursor:pointer; background:#f8f8f8;"
-                     onclick="showTab('comment')"
-                     onmouseover="this.style.backgroundColor='#43b14b'"
-                     onmouseout="this.style.backgroundColor=selectedTab==='comment' ? '#4CAF50' : '#f8f8f8'">
-                    💬 인기 댓글
-                </div>
-            </div>
-
-
-
-            <div id="tab-review-list" style="padding:36px 38px;">
-                <div th:each="review : ${topReviews}" style="margin-bottom:14px;">
-                    <div
-                            style="display: flex; align-items: center; justify-content: space-between; padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.07em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
-                            th:onclick="|window.location.href='@{/reviews/{id}(id=${review.reviewId})}'|"
-                            onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
-                            onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';"
-                    >
-                        <!-- 왼쪽: 제목, 내용 -->
-                        <div>
-                            <b th:text="${review.movieTitle}">영화 제목</b>
-                            <span style="color:#bbb; margin:0 8px;">|</span>
-                            <span th:text="${review.content}" style="color:#333;">리뷰 내용</span>
-                        </div>
-                        <!-- 오른쪽: 좋아요 수 -->
-                        <div style="display: flex; align-items: center; gap:6px; min-width:65px; justify-content: flex-end;">
-                            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="18" style="margin-right:3px; opacity:0.7;">
-                            <span th:text="${review.likeCount}" style="font-weight:600; color:#248253; font-size:1.07em;"></span>
+                <!-- 리뷰 리스트 -->
+                <div id="tab-review-list" class="p-4">
+                    <div th:each="review:${topReviews}" class="mb-3">
+                        <div class="list-item"
+                             th:onclick="|location.href='@{/reviews/{id}(id=${review.reviewId})}'|">
+                            <div>
+                                <b th:text="${review.movieTitle}">영화 제목</b>
+                                <span class="separator">|</span>
+                                <span class="ellipsis" th:text="${review.content}">리뷰 내용</span>
+                            </div>
+                            <div class="item-likes d-flex align-items-center">
+                                <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="">
+                                <span th:text="${review.likeCount}">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-
-            <div id="tab-comment-list" style="display:none; padding:36px 38px;">
-                <div th:each="comment : ${topComments}" style="margin-bottom:14px;">
-                    <div
-                            style="display: flex; align-items: center; justify-content: space-between; padding:12px 24px; border-radius:13px; background:#fafbfc; border:1.5px solid #e7e7e7; font-size:1.07em; cursor:pointer; transition:background 0.17s, box-shadow 0.17s;"
-                            th:onclick="|window.location.href='@{/reviews/{id}(id=${comment.reviewId})}'|"
-                            onmouseover="this.style.background='#f3f6fa'; this.style.boxShadow='0 3px 16px #f2f2f2';"
-                            onmouseout="this.style.background='#fafbfc'; this.style.boxShadow='none';"
-                    >
-                        <!-- 왼쪽: 닉네임 + 댓글 내용 -->
-                        <div>
-                            <b th:text="${comment.nickname}" style="margin-right:7px;">닉네임</b>
-                            <span style="color:#bbb; margin:0 7px;">|</span>
-                            <span th:text="${comment.content}" style="color:#333; max-width:340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;">댓글 내용</span>
-                        </div>
-                        <!-- 오른쪽: 좋아요 수 -->
-                        <div style="display: flex; align-items: center; gap:6px; min-width:65px; justify-content: flex-end;">
-                            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like" width="18" style="margin-right:3px; opacity:0.7;">
-                            <span th:text="${comment.likeCount}" style="font-weight:600; color:#248253; font-size:1.07em;"></span>
+                <!-- 댓글 리스트 -->
+                <div id="tab-comment-list" class="p-4 d-none">
+                    <div th:each="comment:${topComments}" class="mb-3">
+                        <div class="list-item"
+                             th:onclick="|location.href='@{/reviews/{id}(id=${comment.reviewId})}'|">
+                            <div>
+                                <b th:text="${comment.nickname}">닉네임</b>
+                                <span class="separator">|</span>
+                                <span class="ellipsis" th:text="${comment.content}">댓글 내용</span>
+                            </div>
+                            <div class="item-likes d-flex align-items-center">
+                                <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="">
+                                <span th:text="${comment.likeCount}">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </main>
+    </div><!-- /row -->
+</div><!-- /container -->
 
+<!-- ===== 탭 스크립트 ===== -->
+<script>
+    function switchTab(tab){
+      const revBtn = document.getElementById('tab-review');
+      const comBtn = document.getElementById('tab-comment');
+      const revList= document.getElementById('tab-review-list');
+      const comList= document.getElementById('tab-comment-list');
 
-        <script>
-            // 탭 전환 스크립트
-            let selectedTab = 'review';
-            function showTab(tab) {
-                selectedTab = tab;
-                document.getElementById('tab-review-list').style.display = tab === 'review' ? 'block' : 'none';
-                document.getElementById('tab-comment-list').style.display = tab === 'comment' ? 'block' : 'none';
-                document.getElementById('tab-review').style.background = tab === 'review' ? '#4CAF50' : '#f8f8f8';
-                document.getElementById('tab-comment').style.background = tab === 'comment' ? '#4CAF50' : '#f8f8f8';
-            }
-        </script>
+      if(tab==='review'){
+        revBtn.classList.replace('tab-inactive','tab-active');
+        comBtn.classList.replace('tab-active','tab-inactive');
+        revList.classList.remove('d-none'); comList.classList.add('d-none');
+      }else{
+        comBtn.classList.replace('tab-inactive','tab-active');
+        revBtn.classList.replace('tab-active','tab-inactive');
+        comList.classList.remove('d-none'); revList.classList.add('d-none');
+      }
+    }
+</script>
 
-
-    </div>
-</div>
-</div>
-
-
-
-
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

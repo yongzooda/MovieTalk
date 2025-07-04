@@ -5,10 +5,11 @@
     <title th:text="${actor.name} + ' 상세 정보'">배우 상세</title>
     <style>
         body {
+
             font-family: "Noto Sans KR", sans-serif;
             background-color: #f4f6f8;
             margin: 0;
-            padding: 30px;
+            padding: 70px 0 0 0;
         }
 
         .actor-container {
@@ -39,12 +40,12 @@
         }
 
         .top-left-buttons {
-            position: absolute;
-            top: 20px;
+            position: fixed;
+            top: 80px;
             left: 30px;
             display: flex;
             gap: 10px;
-            z-index: 10;
+            z-index: 90;
         }
 
         .top-button {
@@ -191,6 +192,7 @@
     </style>
 </head>
 <body>
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
 
 <div class="actor-container">
     <!-- 배우 정보 -->
