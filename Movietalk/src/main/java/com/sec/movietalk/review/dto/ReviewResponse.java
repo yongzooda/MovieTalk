@@ -17,10 +17,10 @@ public class ReviewResponse {
     private int dislikeCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    // 추가
     private String author;
     private String movieTitle;
     private String moviePosterUrl;
+    private Double rating;
 
     public static ReviewResponse fromEntity(
             Review review,
@@ -39,16 +39,8 @@ public class ReviewResponse {
                 review.getUpdatedAt(),
                 author,
                 movieTitle,
-                moviePosterUrl
+                moviePosterUrl,
+                review.getRating()
         );
     }
 }
-
-
-
-
-
-
-
-
-

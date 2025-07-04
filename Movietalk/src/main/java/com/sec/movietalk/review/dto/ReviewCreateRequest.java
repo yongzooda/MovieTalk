@@ -10,4 +10,5 @@ public class ReviewCreateRequest {
     private Integer movieId;
     private String movieTitle;
     private String content;
+    private Double rating;
 }

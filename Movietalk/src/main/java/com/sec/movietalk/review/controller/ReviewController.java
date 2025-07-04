@@ -147,6 +147,7 @@ public class ReviewController {
                 .movieId(review.getMovieId())
                 .movieTitle(review.getMovieTitle())
                 .content(review.getContent())
+                .rating(review.getRating()) // ★★★★★ 기존 별점까지 반영!
                 .build();
         model.addAttribute("review", form);
         return "review/review_edit";

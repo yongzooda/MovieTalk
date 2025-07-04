@@ -11,7 +11,8 @@ public class ReviewUpdateRequest {
 
     private Long reviewId;
     private Long userId;
-    private Integer movieId;       // TMDB 영화 ID
+    private Integer movieId;
     private String content;
     private String movieTitle;
+    private Double rating;
 }
