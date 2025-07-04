@@ -179,16 +179,21 @@
     </div>
     <div class="form-group">
       <label for="movieTitle">영화 제목</label>
-      <div class="suggest-box">
-        <input type="text"
-               th:field="*{movieTitle}"
-               id="movieTitle"
-               placeholder="영화 제목 입력"
-               autocomplete="off" />
-        <ul id="suggestions"></ul>
+      <!-- 영화가 고정된 경우 (movieId, movieTitle 값이 있는 경우) -->
+      <div th:if="${review.movieId != null}">
+        <span th:text="${review.movieTitle}"></span>
+        <input type="hidden" th:field="*{movieTitle}" />
+        <input type="hidden" th:field="*{movieId}" />
       </div>
-      <input type="hidden" th:field="*{movieId}" id="movieId" required />
-    </div>
+      <!-- 영화가 고정 안 된 경우만 input 활성화 -->
+      <div th:if="${review.movieId == null}">
+        <div class="suggest-box">
+          <input type="text" th:field="*{movieTitle}" id="movieTitle" placeholder="영화 제목 입력" autocomplete="off" />
+          <ul id="suggestions"></ul>
+        </div>
+        <input type="hidden" th:field="*{movieId}" id="movieId" required />
+      </div>
+
     <div class="form-group">
       <label for="content">리뷰 내용</label>
       <textarea id="content"

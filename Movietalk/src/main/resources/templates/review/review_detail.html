@@ -257,7 +257,7 @@
       <input type="hidden" name="reactionType" value="like"/>
       <button type="submit"
               class="action-btn like"
-              th:disabled="${userReaction == T(com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType).dislike}">
+              th:disabled="${userReaction != null and userReaction.equals(T(com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType).dislike)}">
         👍 좋아요 (<span th:text="${review.likeCount}">0</span>)
       </button>
     </form>
@@ -265,7 +265,7 @@
       <input type="hidden" name="reactionType" value="dislike"/>
       <button type="submit"
               class="action-btn dislike"
-              th:disabled="${userReaction == T(com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType).like}">
+              th:disabled="${userReaction != null and userReaction.equals(T(com.sec.movietalk.common.domain.review.ReviewReactions.ReactionType).like)}">
         👎 싫어요 (<span th:text="${review.dislikeCount}">0</span>)
       </button>
     </form>
