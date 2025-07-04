@@ -1,184 +1,154 @@
-<!-- src/main/resources/templates/popular/list.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <meta charset="UTF-8"/>
-    <title>인기 영화 TOP</title>
+    <meta charset="UTF-8">
+    <title>인기 영화 TOP | MovieTalk</title>
 
-    <!-- 1) 스타일 추가 -->
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Pretendard -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-
-        /* 페이지 네비게이션용 컨트롤 */
-        .pagination-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        :root{
+          --green:#17825e;--green-light:#38a169;--blue:#3182ce;
+          --radius:1.4rem;--shadow:0 16px 42px rgba(0,0,0,.07);
         }
-        .pagination-controls button,
-        .pagination-controls input[type="number"] {
-            font-size: 1.1rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        .pagination-controls button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .pagination-controls button:hover {
-            background-color: #0056b3;
-        }
-        .pagination-controls input[type="number"] {
-            width: 3rem;
-            text-align: center;
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+          font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;
+          background:linear-gradient(140deg,#f6f9fa 0%,#e9f1ef 100%);
+          line-height:1.6;color:#1d1f23;
+          /* 새 네비(60px) + 여유 */
+          padding-top:80px;
         }
 
-        /* 필터 폼 감싸는 영역 */
-        .filter-controls {
-          margin-bottom: 1rem;
+        /* 메인 카드 -------------------------------------------------- */
+        .glass-box{
+          max-width:1100px;margin:0 auto;padding:2.4rem 1.8rem;
+          background:#fffffff2;backdrop-filter:saturate(180%) blur(8px);
+          border-radius:var(--radius);box-shadow:var(--shadow);
+          animation:fadePop .45s ease;
         }
+        @keyframes fadePop{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:none}}
+        h2{font-weight:700;font-size:2rem;color:var(--green);margin-bottom:2rem;letter-spacing:-.5px}
 
-        /* 셀렉트 박스 공통 스타일 */
-        .filter-controls select {
-          font-size: 1.1rem;       /* 폰트 크기 키우기 */
-          padding: 0.4rem 0.8rem;  /* 세로·가로 패딩 추가 */
-          margin-right: 0.5rem;    /* 요소 간 간격 */
-        }
-
-        /* 버튼 공통 스타일 */
-        .filter-controls button {
-          font-size: 1.1rem;
-          padding: 0.45rem 1rem;
-          cursor: pointer;
-          background-color: #007bff;
-          border: none;
-          color: white;
-          border-radius: 4px;
-        }
-
-        .filter-controls button:hover {
-          background-color: #0056b3;
-        }
+        .poster-img{width:75px;border-radius:.4rem}
+        .actor-chip a{white-space:nowrap;margin-right:.25rem}
+        .table thead th{background:#e5fcef;font-weight:600;color:#1d7b4f}
+        .table-hover tbody tr:hover{background:#f5fefa}
+        .table td,.table th{vertical-align:middle}
+        select.form-select{min-width:120px}
+        .btn-primary{background:linear-gradient(100deg,var(--green-light),var(--green));border:none}
+        .btn-primary:hover{background:linear-gradient(100deg,var(--green),var(--green-light))}
     </style>
 </head>
-<body
-        th:with="
-        currentPeriod=${param.period != null ? param.period[0] : 'DAILY'},
-        currentSort=${param.sort   != null ? param.sort[0]   : 'VIEWS'}">
 
+<body th:with="
+        currentPeriod=${param.period != null ? param.period[0] : 'DAILY'},
+        currentSort  =${param.sort   != null ? param.sort[0]   : 'VIEWS'}">
+
+<!-- 🧭 새 고정 네비게이션 -->
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 
-<h1 th:text="${currentSort=='REVIEWS'}
-                  ? '인기 영화 TOP - 리뷰수'
-                  : '인기 영화 TOP - 조회수'">
-    인기 영화 TOP
-</h1>
+<!-- ▣ 메인 카드 -------------------------------------------------------- -->
+<div class="glass-box">
 
-<form method="get" th:action="@{/popular}" class="filter-controls">
-    <select name="period">
-        <option value="DAILY"   th:selected="${currentPeriod=='DAILY'}">일간</option>
-        <option value="WEEKLY"  th:selected="${currentPeriod=='WEEKLY'}">주간</option>
-        <option value="MONTHLY" th:selected="${currentPeriod=='MONTHLY'}">월간</option>
-        <option value="ALLTIME" th:selected="${currentPeriod=='ALLTIME'}">전체</option>
-    </select>
+    <h2 th:text="${currentSort=='REVIEWS'} ? '인기 영화 TOP - 리뷰수' : '인기 영화 TOP - 조회수'">
+        인기 영화 TOP
+    </h2>
 
-    <select name="sort">
-        <option value="VIEWS"   th:selected="${currentSort=='VIEWS'}">조회수</option>
-        <option value="REVIEWS" th:selected="${currentSort=='REVIEWS'}">리뷰수</option>
-    </select>
+    <!-- 필터 -->
+    <form class="row gy-2 gx-3 align-items-end mb-4" method="get" th:action="@{/popular}">
+        <div class="col-auto">
+            <label class="form-label">기간</label>
+            <select name="period" class="form-select">
+                <option value="DAILY"   th:selected="${currentPeriod=='DAILY'}">일간</option>
+                <option value="WEEKLY"  th:selected="${currentPeriod=='WEEKLY'}">주간</option>
+                <option value="MONTHLY" th:selected="${currentPeriod=='MONTHLY'}">월간</option>
+                <option value="ALLTIME" th:selected="${currentPeriod=='ALLTIME'}">전체</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">정렬</label>
+            <select name="sort" class="form-select">
+                <option value="VIEWS"   th:selected="${currentSort=='VIEWS'}">조회수</option>
+                <option value="REVIEWS" th:selected="${currentSort=='REVIEWS'}">리뷰수</option>
+            </select>
+        </div>
+        <div class="col-auto pt-2"><button class="btn btn-primary px-4">적용</button></div>
+    </form>
 
-    <button type="submit">적용</button>
-</form>
-<hr/>
+    <!-- 랭킹 테이블 -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle text-center">
+            <thead>
+            <tr>
+                <th>순위</th><th>포스터</th><th class="text-start">제목</th>
+                <th>개봉일</th>
+                <th th:text="${currentSort=='REVIEWS'} ? '리뷰수' : '조회수'">메트릭</th>
+                <th class="text-start">배우</th><th>링크</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="card:${resp.content}">
+                <td th:text="${card.rank}">1</td>
+                <td><img class="poster-img"
+                         th:src="@{|https://image.tmdb.org/t/p/w154${card.posterUrl}|}"></td>
+                <td class="text-start" th:text="${card.title}">Title</td>
+                <td th:text="${#temporals.format(card.releaseDate,'yyyy-MM-dd')}">날짜</td>
+                <td th:text="${card.metricValue}">0</td>
+                <td class="text-start actor-chip">
+                  <span th:each="chip:${card.actorChips}">
+                    <a class="link-secondary" th:href="@{/actors/{id}(id=${chip.actorId})}"
+                       th:text="'#'+${chip.name}">#배우</a>
+                  </span>
+                </td>
+                <td>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/reviews/search(keyword=${card.title})}">리뷰 보기</a>
+                        <a class="btn btn-outline-secondary btn-sm"
+                           th:href="@{/movies/{id}(id=${card.movieId})}">상세 보기</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-<table border="1" cellpadding="6" cellspacing="0">
-    <thead>
-    <tr>
-        <th>순위</th>
-        <th>포스터</th>
-        <th>제목</th>
-        <th>개봉일</th>
-        <th th:text="${currentSort=='REVIEWS'} ? '리뷰수' : '조회수'">메트릭</th>
-        <th>배우</th>
-        <th>해당 영화 관련</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="card : ${resp.content}">
-        <td th:text="${card.rank}">1</td>
-        <td>
-            <img th:src="@{|https://image.tmdb.org/t/p/w100${card.posterUrl}|}"
-                 alt="poster" width="50"/>
-        </td>
-        <td th:text="${card.title}">Movie Title</td>
-        <td th:text="${#temporals.format(card.releaseDate,'yyyy-MM-dd')}">
-            2021-01-01
-        </td>
-        <td th:text="${card.metricLabel} + ' : ' + ${card.metricValue}">
-            조회수 : 150
-        </td>
-        <td>
-          <span th:each="chip,iterStat : ${card.actorChips}">
-            <a th:href="@{/actors/{id}(id=${chip.actorId})}"
-               th:text="${chip.name}">배우이름</a>
-            <span th:if="${!iterStat.last}">, </span>
-          </span>
-        </td>
-        <td>
-            <!-- 리뷰 보러가기 버튼 -->
-            <button type="button"
-                    th:onclick="|window.location.href='@{/reviews/search(keyword=${card.title})}'|">
-                리뷰 보러가기
-            </button>
+    <!-- 페이지네이션 -->
+    <form class="d-flex flex-wrap gap-2 justify-content-center mt-4"
+          method="get" th:action="@{/popular}">
+        <input type="hidden" name="size"   th:value="${resp.meta.size}">
+        <input type="hidden" name="period" th:value="${currentPeriod}">
+        <input type="hidden" name="sort"   th:value="${currentSort}">
 
-            <!-- 상세보기 버튼 -->
-            <button type="button"
-                    th:onclick="|window.location.href='@{/movies/{id}(id=${card.movieId})}'|">
-                상세보기
-            </button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <button class="btn btn-outline-secondary"
+                name="page" th:value="${resp.meta.page-1}"
+                th:disabled="${resp.meta.page == 0}">&laquo; Prev</button>
 
-<!-- 페이징 -->
-<form method="get" th:action="@{/popular}" class="pagination-controls">
-    <!-- 기존 파라미터 유지 -->
-    <input type="hidden" name="size"   th:value="${resp.meta.size}" />
-    <input type="hidden" name="period" th:value="${currentPeriod}" />
-    <input type="hidden" name="sort"   th:value="${currentSort}" />
+        <input type="number" name="page" min="1"
+               th:attr="max=${resp.meta.totalPages}"
+               th:value="${resp.meta.page+1}"
+               class="form-control text-center" style="width:5rem">
 
-    <!-- Prev 버튼 -->
-    <button type="submit"
-            name="page"
-            th:value="${resp.meta.page-1}"
-            th:if="${resp.meta.page>0}">
-        &laquo; Prev
-    </button>
+        <span class="fw-semibold align-self-center">
+            / <span th:text="${resp.meta.totalPages}">1</span>
+        </span>
 
-    <!-- 직접 입력 가능한 페이지 넘버 -->
-    <input type="number"
-           name="page"
-           min="1"
-           th:attr="max=${resp.meta.totalPages}"
-           th:value="${resp.meta.page+1}" />
+        <button class="btn btn-primary">Go</button>
 
-    <!-- 총 페이지 수 표시 -->
-    <span>/ <span th:text="${resp.meta.totalPages}">3</span></span>
+        <button class="btn btn-outline-secondary"
+                name="page" th:value="${resp.meta.page+1}"
+                th:disabled="${resp.meta.page+1 >= resp.meta.totalPages}">Next &raquo;</button>
+    </form>
+</div><!-- /glass-box -->
 
-    <!-- 입력 후 바로 이동 -->
-    <button type="submit">Go</button>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Next 버튼 -->
-    <button type="submit"
-            name="page"
-            th:value="${resp.meta.page+1}"
-            th:if="${resp.meta.page+1 < resp.meta.totalPages}">
-        Next &raquo;
-    </button>
-</form>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>
