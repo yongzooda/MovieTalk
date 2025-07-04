@@ -1,31 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>영화 추천</title>
+    <title>영화 추천 | MovieTalk</title>
 
     <style>
-        /* Netflix‑like dark theme */
+        /* Netflix-like dark theme with flex layout to pin footer */
         body {
             margin: 0;
+            /* 네비 60px + 여유 */
             padding: 80px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+
             background-color: #141414;
             color: #fff;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
+
         h2 {
             text-align: center;
             margin: 40px 0 20px;
             font-size: 2.2em;
         }
 
-        /* 카드 1줄 7개 그리드 */
+        /* 카드 1줄 7개 그리드, flex:1 추가 */
         #grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 16px;
             padding: 0 40px 60px;
+
+            flex: 1 0 auto;
         }
+
         .card {
             position: relative;
             cursor: pointer;
@@ -40,10 +49,8 @@
         }
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(20, 20, 20, 0.35);
             border-radius: 4px;
             display: flex;
@@ -58,10 +65,11 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- 상단 네비 -->
-<div th:replace="fragments/top-nav :: topNav"></div>
+<!-- 상단 네비게이션 -->
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
 
 <h2>🎬 추천 영화</h2>
 <div id="grid"></div>
@@ -74,41 +82,42 @@
 
     // 즐겨찾기 수가 부족하면 온보딩으로 리디렉션
     fetch(`/api/recommendations/check/${user_id}`)
-        .then(r => r.json())
-        .then(({ has_favorite }) => {
-            if (!has_favorite) {
-                location.href = '/onboarding';
-                return Promise.reject('onboarding');
-            }
-            return fetch(`/api/recommendations/${user_id}`);
-        })
-        .then(r => r.json())
-        .then(list => {
-            if (!list || list.length === 0) {
-                grid.innerHTML = '<p style="color:#aaa;">추천할 영화가 없습니다.</p>';
-                return;
-            }
+      .then(r => r.json())
+      .then(({ has_favorite }) => {
+        if (!has_favorite) {
+          location.href = '/onboarding';
+          return Promise.reject('onboarding');
+        }
+        return fetch(`/api/recommendations/${user_id}`);
+      })
+      .then(r => r.json())
+      .then(list => {
+        if (!list || list.length === 0) {
+          grid.innerHTML = '<p style="color:#aaa;">추천할 영화가 없습니다.</p>';
+          return;
+        }
 
-            list.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick   = () => location.href = `/movies/${m.movie_id}`; // snake_case 그대로
+        list.forEach(m => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.onclick   = () => location.href = `/movies/${m.movie_id}`;
 
-                card.innerHTML = `
+          card.innerHTML = `
             <img src="${IMG}${m.poster_path}" alt="${m.title}">
             <div class="overlay">상세 보기</div>
           `;
-                grid.appendChild(card);
-            });
-        })
-        .catch(e => {
-            if (e !== 'onboarding') {
-                grid.innerHTML = '<p style="color:#aaa;">추천 호출 실패: ' + e + '</p>';
-            }
+          grid.appendChild(card);
         });
+      })
+      .catch(e => {
+        if (e !== 'onboarding') {
+          grid.innerHTML = '<p style="color:#aaa;">추천 호출 실패: ' + e + '</p>';
+        }
+      });
     /*]]>*/
 </script>
 
+<!-- 하단 푸터 -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
