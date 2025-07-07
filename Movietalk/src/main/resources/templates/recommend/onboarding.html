@@ -5,92 +5,57 @@
     <title>온보딩 - 영화 선택 | MovieTalk</title>
 
     <style>
-        body {
-          margin: 0;
-          /* 네비 60px + 여유 */
-          padding: 80px 0 0 0;
+        /* ===== 전역 ===== */
+        body{
+            margin:0;
+            padding:80px 0 0;                     /* 네비 여유 */
+            display:flex;flex-direction:column;min-height:100vh;
+            background:#141414;color:#fff;
+            font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+        }
+        h1{
+            text-align:center;margin:40px 0 20px;font-size:2.5em;
+        }
+        main{flex:1 0 auto;display:flex;flex-direction:column;}
 
-          /* 푸터를 항상 하단에 붙이기 */
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-
-          background-color: #141414;
-          color: #fff;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* ===== 카드 그리드 ===== */
+        #grid{
+            display:grid;grid-template-columns:repeat(7,1fr);
+            gap:16px;padding:0 40px;
+            flex:1 0 auto;overflow-y:auto;
+            padding-bottom:140px;                 /* 버튼 영역 여백 */
+        }
+        .card{position:relative;cursor:pointer;transition:transform .2s;}
+        .card img{width:100%;border-radius:4px;}
+        .card:hover{transform:scale(1.05);}
+        .overlay{
+            position:absolute;top:0;left:0;width:100%;height:100%;
+            background:rgba(20,20,20,.5);border-radius:4px;
+            display:flex;align-items:center;justify-content:center;
+            opacity:0;transition:opacity .2s;
+        }
+        .card:hover .overlay{opacity:1;}
+        .badge{
+            position:absolute;top:8px;left:8px;
+            background:#e50914;color:#fff;
+            width:24px;height:24px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-weight:bold;
         }
 
-        h1 {
-          text-align: center;
-          margin: 40px 0 20px;
-          font-size: 2.5em;
+        /* ===== 하단 고정 버튼 ===== */
+        .btn-wrapper{
+            position:sticky;bottom:20px;          /* 푸터 닿으면 위로 밀림 */
+            display:flex;justify-content:center;
+            z-index:1000;
         }
-
-        /* 메인 컨텐츠 영역을 flex:1으로 확장 */
-        main {
-          flex: 1 0 auto;
-          display: flex;
-          flex-direction: column;
+        #completeButton{
+            padding:10px 24px;
+            background:#e50914;color:#fff;border:none;border-radius:4px;
+            font-size:1.1em;cursor:pointer;text-align:center;
+            opacity:.5;pointer-events:none;
         }
-
-        /* 1줄에 7개씩 Grid 세팅 */
-        #grid {
-          display: grid;
-          grid-template-columns: repeat(7, 1fr);
-          gap: 16px;
-          padding: 0 40px;
-          flex: 1 0 auto;
-          overflow-y: auto;
-        }
-
-        .card {
-          position: relative;
-          cursor: pointer;
-          transition: transform 0.2s;
-        }
-        .card img {
-          width: 100%;
-          border-radius: 4px;
-        }
-        .card:hover {
-          transform: scale(1.05);
-        }
-        .overlay {
-          position: absolute; top: 0; left: 0;
-          width: 100%; height: 100%;
-          background: rgba(20,20,20,0.5);
-          border-radius: 4px;
-          display: flex; align-items: center; justify-content: center;
-          opacity: 0; transition: opacity 0.2s;
-        }
-        .card:hover .overlay {
-          opacity: 1;
-        }
-        .badge {
-          position: absolute;
-          top: 8px; left: 8px;
-          background: #e50914; color: #fff;
-          width: 24px; height: 24px;
-          border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          font-weight: bold;
-        }
-        #completeButton {
-          margin: 20px auto;
-          background: #e50914;
-          color: #fff;
-          border: none;
-          padding: 12px 24px;
-          font-size: 1em;
-          border-radius: 4px;
-          cursor: pointer;
-          opacity: 0.5;
-          pointer-events: none;
-        }
-        #completeButton.enabled {
-          opacity: 1;
-          pointer-events: auto;
-        }
+        #completeButton.enabled{opacity:1;pointer-events:auto;}
     </style>
 </head>
 <body>
@@ -98,11 +63,15 @@
 <!-- 상단 네비 -->
 <div th:replace="~{fragments/top-nav :: topNav}"></div>
 
-<!-- 메인 컨텐츠 -->
 <main>
-    <h1>당신이 좋아하는 영화 3가지를 선택해주세요</h1>
+    <h1>당신이 좋아하는 영화를 최소 3개 이상 선택해주세요</h1>
+
     <div id="grid"></div>
-    <button id="completeButton">선호 저장 및 추천 보기</button>
+
+    <!-- Sticky 버튼 (배경 없음) -->
+    <div class="btn-wrapper">
+        <button id="completeButton">선호 저장 및 추천 보기</button>
+    </div>
 </main>
 
 <script th:inline="javascript">
@@ -111,89 +80,88 @@
     const grid        = document.getElementById('grid');
     const completeBtn = document.getElementById('completeButton');
 
-    const MAX_ITEMS   = 100;
-    const BATCH_SIZE  = 21;
-    let candidates    = [];
-    let currentIndex  = 0;
-    let selected      = [];
+    const MAX_ITEMS = 100, BATCH_SIZE = 21;
+    let candidates  = [], currentIndex = 0;
+    let selectedIds = new Set();
 
-    fetch(`/api/recommendations/onboarding/movies`)
-      .then(res => res.json())
-      .then(list => {
-        candidates = list.slice(0, MAX_ITEMS);
-        loadNextBatch();
-        window.addEventListener('scroll', onScrollLoad);
-      })
-      .catch(e => console.error('후보 영화 로드 실패:', e));
+    /* 1) 기존 선호 영화 */
+    fetch(`/api/recommendations/onboarding/favorites/${user_id}`)
+        .then(r=>r.json())
+        .then(ids=>{ids.forEach(id=>selectedIds.add(id)); updateBtn(); loadInit();})
+        .catch(loadInit);
 
-    function loadNextBatch() {
-      const slice = candidates.slice(currentIndex, currentIndex + BATCH_SIZE);
-      slice.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.id = m.movieId;
-        card.innerHTML = `
-          <img src="${m.posterUrl}" alt="${m.title}">
-          <div class="overlay">+ 선택</div>
-        `;
-        card.addEventListener('click', () => toggleSelect(m, card));
-        grid.appendChild(card);
-      });
-      currentIndex += slice.length;
+    /* 2) 후보 영화 */
+    function loadInit(){
+        fetch('/api/recommendations/onboarding/movies')
+            .then(r=>r.json())
+            .then(list=>{
+                candidates=list.slice(0,MAX_ITEMS);
+                loadNext();
+                window.addEventListener('scroll',onScroll);
+            });
     }
-
-    function onScrollLoad() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        if (currentIndex < candidates.length) {
-          loadNextBatch();
-        } else {
-          window.removeEventListener('scroll', onScrollLoad);
+    function onScroll(){
+        if(window.innerHeight+window.scrollY>=document.body.offsetHeight-50){
+            loadNext();
         }
-      }
     }
 
-    function toggleSelect(movie, cardEl) {
-      const idx = selected.findIndex(m => m.movieId === movie.movieId);
-      if (idx >= 0) {
-        selected.splice(idx, 1);
-        cardEl.querySelector('.badge')?.remove();
-      } else if (selected.length < 3) {
-        selected.push(movie);
-        const badge = document.createElement('div');
-        badge.className = 'badge';
-        badge.textContent = selected.length;
-        cardEl.appendChild(badge);
-      }
-      updateCompleteBtn();
+    /* 3) 카드 */
+    function loadNext(){
+        const slice=candidates.slice(currentIndex,currentIndex+BATCH_SIZE);
+        slice.forEach(m=>{
+            const card=document.createElement('div');
+            card.className='card';card.dataset.id=m.movieId;
+            card.innerHTML=`
+      <img src="${m.posterUrl}" alt="${m.title}">
+      <div class="overlay">+ 선택</div>`;
+            card.addEventListener('click',()=>toggle(m,card));
+            grid.appendChild(card);
+            if(selectedIds.has(m.movieId)) addBadge(card);
+        });
+        currentIndex+=slice.length;
     }
 
-    function updateCompleteBtn() {
-      if (selected.length === 3) {
-        completeBtn.classList.add('enabled');
-      } else {
-        completeBtn.classList.remove('enabled');
-      }
+    /* 4) 선택/해제 */
+    function toggle(m,card){
+        if(selectedIds.has(m.movieId)){
+            selectedIds.delete(m.movieId);
+            card.querySelector('.badge')?.remove();
+        }else{
+            selectedIds.add(m.movieId);
+            addBadge(card);
+        }
+        updateBtn();
+    }
+    function addBadge(card){
+        const b=document.createElement('div');
+        b.className='badge';
+        b.textContent=[...selectedIds].indexOf(+card.dataset.id)+1;
+        card.appendChild(b);
     }
 
-    completeBtn.addEventListener('click', () => {
-      if (selected.length !== 3) return;
-      const movie_ids = selected.map(m => m.movieId);
-      fetch(`/api/recommendations/onboarding/complete/${user_id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movie_ids })
-      })
-      .then(res => {
-        if (res.ok) location.href = '/recommend';
-        else throw new Error('저장 실패');
-      })
-      .catch(e => alert('선호 저장 중 오류: ' + e));
+    /* 5) 버튼 활성화 */
+    function updateBtn(){
+        selectedIds.size>=3?
+            completeBtn.classList.add('enabled'):
+            completeBtn.classList.remove('enabled');
+    }
+
+    /* 6) 저장 & 이동 */
+    completeBtn.addEventListener('click',()=>{
+        if(selectedIds.size<3)return;
+        fetch(`/api/recommendations/onboarding/complete/${user_id}`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({movie_ids:[...selectedIds]})
+        })
+            .then(r=>{if(r.ok)location.href='/recommend'; else throw''})
+            .catch(()=>alert('저장 실패'));
     });
     /*]]>*/
 </script>
 
 <!-- 하단 푸터 -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 </body>
 </html>

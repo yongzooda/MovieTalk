@@ -97,4 +97,13 @@ public class RecommendationService {
                 .toList();
     }
 
+    /** 저장된 선호 영화 ID 리스트를 반환 */
+    public List<Integer> getUserFavorites(Long userId) {
+        return userFavoriteRepository
+                .findByUser_UserId(userId)
+                .stream()
+                .map(uf -> uf.getMovieId())
+                .toList();
+    }
+
 }

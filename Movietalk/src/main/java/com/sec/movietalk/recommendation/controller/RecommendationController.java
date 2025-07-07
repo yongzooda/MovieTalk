@@ -41,6 +41,13 @@ public class RecommendationController {
         return service.getOnboardingMovies();
     }
 
+
+    /** 2-1. 유저가 저장해둔 선호 영화 ID 리스트 조회 */
+    @GetMapping("/onboarding/favorites/{user_id}")
+    public List<Integer> getUserFavorites(@PathVariable("user_id") Long userId) {
+        return service.getUserFavorites(userId);
+    }
+
     // 3: 온보딩 완료 → 선호 영화 저장
     @PostMapping("/onboarding/complete/{user_id}")
     public void saveFavorites(@PathVariable("user_id") Long userId,
