@@ -19,7 +19,7 @@ public class PopularPageController {
     @GetMapping("/popular")
     public String popularPage(
             @RequestParam(defaultValue = "VIEWS")  SortType sort,
-            @RequestParam(defaultValue = "DAILY")  RankingPeriod period,
+            @RequestParam(defaultValue = "ALLTIME")  RankingPeriod period,
             @RequestParam(defaultValue = "0")      int page,
             @RequestParam(defaultValue = "20")     int size,
             Model model

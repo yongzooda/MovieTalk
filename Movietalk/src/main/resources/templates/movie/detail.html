@@ -131,6 +131,10 @@
                 <th:block th:if="${from == null}">
                     <a th:href="@{/movies}" class="btn btn-secondary">⬅ 목록으로</a>
                 </th:block>
+
+                <!-- 인기 영화로 돌아가기 버튼 추가 -->
+                <a th:href="@{/popular}"
+                   class="btn btn-secondary ms-2">인기 영화 차트로 돌아가기</a>
             </div>
 
             <div class="col-md-6 d-flex justify-content-end gap-3">
