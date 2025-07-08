@@ -43,6 +43,6 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 2. **프로젝트 클론**
    ```bash
-   git clone https://github.com/your-team/movietalk.git
+   git clone https://github.com/yongzooda/MovieTalk.git
    cd movietalk
 
