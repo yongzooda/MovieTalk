@@ -55,13 +55,43 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 ## 👥 팀원 소개
 
-| <img src="https://avatars.githubusercontent.com/bonyubking" width="70"/> <br>👑 구본엽 | <img src="https://avatars.githubusercontent.com/guwls" width="70"/> <br>🎨 김현진 | <img src="https://avatars.githubusercontent.com/PG1tHub" width="70"/> <br>🔍 박지원 |
-|:---:|:---:|:---:|
-| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/guwls) | [GitHub](https://github.com/PG1tHub) |
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/bonyubking" width="90"/><br>
+        👑 <b>구본엽</b><br>
+        <a href="https://github.com/bnyeob">GitHub</a>
+      </td>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/guwls" width="90"/><br>
+        🎨 <b>김현진</b><br>
+        <a href="https://github.com/guwls">GitHub</a>
+      </td>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/PG1tHub" width="90"/><br>
+        🔍 <b>박지원</b><br>
+        <a href="https://github.com/PG1tHub">GitHub</a>
+      </td>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/ssong7890" width="90"/><br>
+        👑 <b>송지원</b><br>
+        <a href="https://github.com/ssong7890">GitHub</a>
+      </td>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/yongzooda" width="90"/><br>
+        🎨 <b>이용주</b><br>
+        <a href="https://github.com/yongzooda">GitHub</a>
+      </td>
+      <td align="center" style="padding: 16px;">
+        <img src="https://avatars.githubusercontent.com/sihwan0816" width="90"/><br>
+        🔍 <b>김시환</b><br>
+        <a href="https://github.com/sihwan0816">GitHub</a>
+      </td>
+    </tr>
+  </table>
+</div>
 
-| <img src="https://avatars.githubusercontent.com/ssong7890" width="70"/> <br>👑 송지원 | <img src="https://avatars.githubusercontent.com/yongzooda" width="70"/> <br>🎨 이용주 | <img src="https://avatars.githubusercontent.com/sihwan0816" width="70"/> <br>🔍 김시환 |
-|:---:|:---:|:---:|
-| [GitHub](https://github.com/ssong7890) | [GitHub](https://github.com/yongzooda) | [GitHub](https://github.com/sihwan0816) |
 
 
 
