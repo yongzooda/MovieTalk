@@ -33,6 +33,19 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 - **Database**: MySQL
 - **API 연동**: TMDB OpenAPI
 - **협업/운영**: GitHub, Notion
+  
+## ⚙️ 기술 스택
+
+![Java](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/SpringSecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-%23FF6F00?style=flat)
+![Lombok](https://img.shields.io/badge/Lombok-%23E76F00?style=flat)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=flat&logo=thymeleaf)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![TMDB](https://img.shields.io/badge/TMDB-01B4E4?style=flat)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white)
 
 
 ## 🚀 설치 및 실행 방법
