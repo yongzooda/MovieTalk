@@ -1,0 +1,3069 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.3)
+
+2025-07-07T11:51:22.628+09:00  INFO 13338 --- [Movietalk] [           main] com.sec.movietalk.MovietalkApplication   : Starting MovietalkApplication v0.0.1-SNAPSHOT using Java 21.0.6 with PID 13338 (/Users/g1/Desktop/Movietalk/Movietalk/target/Movietalk-0.0.1-SNAPSHOT.jar started by g1 in /Users/g1/Desktop/Movietalk/Movietalk)
+2025-07-07T11:51:22.630+09:00  INFO 13338 --- [Movietalk] [           main] com.sec.movietalk.MovietalkApplication   : The following 1 profile is active: "oauth"
+2025-07-07T11:51:23.954+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-07T11:51:23.956+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-07T11:51:24.072+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107 ms. Found 24 JPA repository interfaces.
+2025-07-07T11:51:24.122+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-07T11:51:24.122+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2025-07-07T11:51:24.132+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.actor.repository.ActorCacheRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.132+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.actor.repository.ActorCommentRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.132+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.HomeActorRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.133+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.HomeCommentRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.133+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.HomeMovieRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.134+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.HomeReviewRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.134+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.MovieCache3Repository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.135+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.home.repository.ReviewReportsRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.135+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.movie.repository.MovieRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.135+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.movie.repository.MovieViewRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.135+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.popular.repository.MovieCache2Repository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.136+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.popular.repository.MovieViewAggregationRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.137+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.popular.repository.MovieViewDailyRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.137+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.popular.repository.MovieViewsRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.138+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.popular.repository.ReviewAggregationRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.138+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.recommendation.repository.MovieCacheRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.138+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.recommendation.repository.UserFavoriteRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.138+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.CommentReactionsRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.CommentReportsRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.CommentRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.ReviewReactionsRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.ReviewReportsRepository2; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.review.repository.ReviewRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.139+09:00  INFO 13338 --- [Movietalk] [           main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.sec.movietalk.userinfo.repository.UserRepository; If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository
+2025-07-07T11:51:24.140+09:00  INFO 13338 --- [Movietalk] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 MongoDB repository interfaces.
+2025-07-07T11:51:24.931+09:00  INFO 13338 --- [Movietalk] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-07-07T11:51:24.947+09:00  INFO 13338 --- [Movietalk] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-07T11:51:24.948+09:00  INFO 13338 --- [Movietalk] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-07T11:51:24.994+09:00  INFO 13338 --- [Movietalk] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-07T11:51:24.995+09:00  INFO 13338 --- [Movietalk] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2320 ms
+2025-07-07T11:51:25.243+09:00  INFO 13338 --- [Movietalk] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-07T11:51:25.299+09:00  INFO 13338 --- [Movietalk] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-07-07T11:51:25.329+09:00  INFO 13338 --- [Movietalk] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-07T11:51:25.592+09:00  INFO 13338 --- [Movietalk] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-07T11:51:25.629+09:00  INFO 13338 --- [Movietalk] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-07T11:51:25.981+09:00  INFO 13338 --- [Movietalk] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@321b7b9e
+2025-07-07T11:51:25.983+09:00  INFO 13338 --- [Movietalk] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-07T11:51:26.083+09:00  INFO 13338 --- [Movietalk] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-07-07T11:51:26.090+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@69ac5752) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1736273c)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@ba86c53) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@36eb8e07)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3df6494f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1b5f960a)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@53ddabc6) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@39ac8c0c)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@361f1647) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@51172948)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6f2a3b37) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@323b0632)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7cd8831c) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@146db8a6)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2a20da9f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@40c0437f)
+2025-07-07T11:51:26.091+09:00 DEBUG 13338 --- [Movietalk] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@78b8f818) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1e9d721)
+2025-07-07T11:51:27.301+09:00  INFO 13338 --- [Movietalk] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-07T11:51:27.365+09:00 DEBUG 13338 --- [Movietalk] [           main] org.hibernate.SQL                        : 
+    alter table user 
+       modify column role varchar(20) default 'USER'
+Hibernate: 
+    alter table user 
+       modify column role varchar(20) default 'USER'
+2025-07-07T11:51:27.420+09:00 DEBUG 13338 --- [Movietalk] [           main] org.hibernate.SQL                        : 
+    alter table review_views 
+       drop index uniq_review_user_date
+Hibernate: 
+    alter table review_views 
+       drop index uniq_review_user_date
+2025-07-07T11:51:27.733+09:00 DEBUG 13338 --- [Movietalk] [           main] org.hibernate.SQL                        : 
+    alter table review_views 
+       add constraint uniq_review_user_date unique (review_id, user_id, viewed_date)
+Hibernate: 
+    alter table review_views 
+       add constraint uniq_review_user_date unique (review_id, user_id, viewed_date)
+2025-07-07T11:51:27.839+09:00  INFO 13338 --- [Movietalk] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+TMDB API Key = c44a435965d8b1b4c069c7f392fe9661
+2025-07-07T11:51:28.200+09:00  INFO 13338 --- [Movietalk] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-07T11:51:29.937+09:00  WARN 13338 --- [Movietalk] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-07T11:51:30.245+09:00  INFO 13338 --- [Movietalk] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-07-07T11:51:30.895+09:00  INFO 13338 --- [Movietalk] [localhost:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server localhost:27017
+
+com.mongodb.MongoSocketOpenException: Exception opening socket
+	at com.mongodb.internal.connection.SocketStream.lambda$open$0(SocketStream.java:85) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:85) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.open(InternalStreamConnection.java:233) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.lookupServerDescription(DefaultServerMonitor.java:219) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.run(DefaultServerMonitor.java:176) ~[mongodb-driver-core-5.5.1.jar!/:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:549) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+	at com.mongodb.internal.connection.SocketStreamHelper.initialize(SocketStreamHelper.java:76) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at com.mongodb.internal.connection.SocketStream.initializeSocket(SocketStream.java:104) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:79) ~[mongodb-driver-core-5.5.1.jar!/:na]
+	... 3 common frames omitted
+
+2025-07-07T11:51:30.905+09:00  INFO 13338 --- [Movietalk] [           main] org.mongodb.driver.client                : MongoClient with metadata {"driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "5.5.1"}, "os": {"type": "Darwin", "name": "Mac OS X", "architecture": "x86_64", "version": "15.5"}, "platform": "Java/Oracle Corporation/21.0.6+8-LTS-188"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@426ba1d5, com.mongodb.Jep395RecordCodecProvider@60600939, com.mongodb.KotlinCodecProvider@4e9f4264]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-07-07T11:51:31.182+09:00  INFO 13338 --- [Movietalk] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-07-07T11:51:31.203+09:00  INFO 13338 --- [Movietalk] [           main] com.sec.movietalk.MovietalkApplication   : Started MovietalkApplication in 9.244 seconds (process running for 9.817)
+2025-07-07T11:51:32.661+09:00  INFO 13338 --- [Movietalk] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-07T11:51:32.662+09:00  INFO 13338 --- [Movietalk] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-07T11:51:32.664+09:00  INFO 13338 --- [Movietalk] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-07-07T11:51:40.162+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.email=?
+2025-07-07T11:51:40.324+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:40.339+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+Hibernate: 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+2025-07-07T11:51:40.359+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+Hibernate: 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+2025-07-07T11:51:40.366+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:40.372+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:40.375+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:40.380+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:40.384+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+Hibernate: 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+2025-07-07T11:51:40.405+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:40.413+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+Hibernate: 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+2025-07-07T11:51:40.420+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:40.424+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:40.430+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+Hibernate: 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+2025-07-07T11:51:40.434+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+Hibernate: 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+2025-07-07T11:51:40.440+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+Hibernate: 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+2025-07-07T11:51:43.766+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:43.847+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:43.934+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:45.173+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.email=?
+2025-07-07T11:51:45.274+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:45.278+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+Hibernate: 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+2025-07-07T11:51:45.280+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+Hibernate: 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+2025-07-07T11:51:45.282+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:45.285+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:45.305+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:45.308+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:45.312+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+Hibernate: 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+2025-07-07T11:51:45.315+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:51:45.322+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+Hibernate: 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+2025-07-07T11:51:45.325+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:45.326+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:45.328+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+Hibernate: 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+2025-07-07T11:51:45.329+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+Hibernate: 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+2025-07-07T11:51:45.332+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+Hibernate: 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+2025-07-07T11:51:47.122+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:47.169+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:47.185+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:49.760+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:52.757+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:56.369+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.373+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.375+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.377+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.379+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.381+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.383+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=? 
+        and uf1_0.movie_id=? 
+    limit
+        ?
+2025-07-07T11:51:56.402+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        user_favorite
+        (created_at, movie_id, user_id) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        user_favorite
+        (created_at, movie_id, user_id) 
+    values
+        (?, ?, ?)
+2025-07-07T11:51:56.457+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:56.512+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:51:56.537+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:18.013+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:21.262+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+Hibernate: 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+2025-07-07T11:52:21.263+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+Hibernate: 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+2025-07-07T11:52:21.267+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:21.799+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:21.962+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.120+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.353+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.531+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.710+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.877+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:22.959+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:23.029+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:23.201+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:23.350+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:23.629+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:23.812+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:23.974+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:24.173+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:24.337+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:24.523+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:24.931+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:25.089+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:25.278+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:27.167+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:27.214+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:27.257+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:30.612+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:36.306+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:36.308+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+Hibernate: 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+2025-07-07T11:52:36.309+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+Hibernate: 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+2025-07-07T11:52:36.311+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:36.313+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:36.315+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:36.318+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:36.322+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+Hibernate: 
+    select
+        r1_0.review_id,
+        r1_0.content,
+        r1_0.created_at,
+        r1_0.dislike_count,
+        r1_0.like_count,
+        r1_0.movie_id,
+        r1_0.rating,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        review r1_0 
+    order by
+        r1_0.like_count desc 
+    limit
+        ?
+2025-07-07T11:52:36.325+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:36.330+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+Hibernate: 
+    select
+        c1_0.comment_id,
+        c1_0.accepted,
+        c1_0.accepted_at,
+        c1_0.content,
+        c1_0.created_at,
+        c1_0.dislike_cnt,
+        c1_0.like_cnt,
+        c1_0.parent_id,
+        c1_0.review_id,
+        c1_0.updated_at,
+        c1_0.user_id 
+    from
+        comment c1_0 
+    order by
+        c1_0.like_cnt desc 
+    limit
+        ?
+2025-07-07T11:52:36.333+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:36.334+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.comment_cnt,
+        u1_0.email,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.review_cnt,
+        u1_0.role 
+    from
+        user u1_0 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:36.336+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+Hibernate: 
+    select
+        ac1_0.actor_id,
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id 
+    order by
+        count(ac1_0.actor_comment_id) desc 
+    limit
+        ?
+2025-07-07T11:52:36.354+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+Hibernate: 
+    select
+        count(ac1_0.actor_comment_id) 
+    from
+        actor_comment ac1_0 
+    where
+        ac1_0.actor_id is not null 
+    group by
+        ac1_0.actor_id
+2025-07-07T11:52:36.356+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+Hibernate: 
+    select
+        ac1_0.id,
+        ac1_0.gender,
+        ac1_0.name,
+        ac1_0.profile_path 
+    from
+        actor_cache ac1_0 
+    where
+        ac1_0.id in (?, ?, ?, ?)
+2025-07-07T11:52:41.217+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+Hibernate: 
+    select
+        mv1_0.movie_id,
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id 
+    order by
+        2 desc 
+    limit
+        ?
+2025-07-07T11:52:41.219+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+Hibernate: 
+    select
+        count(mv1_0.movie_views_id) 
+    from
+        movie_views mv1_0 
+    group by
+        mv1_0.movie_id
+2025-07-07T11:52:41.221+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:41.388+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:41.550+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:41.707+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:41.864+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.030+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.195+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.355+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.504+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.657+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.805+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:42.963+09:00 DEBUG 13338 --- [Movietalk] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:42.987+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:43.013+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        count(uf1_0.user_favorite_id) 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:43.034+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        uf1_0.user_favorite_id,
+        uf1_0.created_at,
+        uf1_0.movie_id,
+        uf1_0.user_id 
+    from
+        user_favorite uf1_0 
+    left join
+        user u1_0 
+            on u1_0.user_id=uf1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-07-07T11:52:43.172+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:43.338+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:43.783+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:43.976+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:44.143+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:44.318+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:44.479+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:44.642+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:52:49.559+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    order by
+        mc1_0.release_date desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    order by
+        mc1_0.release_date desc 
+    limit
+        ?, ?
+2025-07-07T11:52:49.563+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        count(mc1_0.movie_id) 
+    from
+        movie_cache mc1_0
+Hibernate: 
+    select
+        count(mc1_0.movie_id) 
+    from
+        movie_cache mc1_0
+2025-07-07T11:52:55.059+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    insert 
+    into
+        movie_views
+        (movie_id, user_id, viewed_at) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        movie_views
+        (movie_id, user_id, viewed_at) 
+    values
+        (?, ?, ?)
+2025-07-07T11:52:55.064+09:00 DEBUG 13338 --- [Movietalk] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+Hibernate: 
+    select
+        mc1_0.movie_id,
+        mc1_0.created_at,
+        mc1_0.overview,
+        mc1_0.poster_url,
+        mc1_0.release_date,
+        mc1_0.title 
+    from
+        movie_cache mc1_0 
+    where
+        mc1_0.movie_id=?
+2025-07-07T11:54:34.382+09:00  INFO 13338 --- [Movietalk] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-07T11:54:34.386+09:00  INFO 13338 --- [Movietalk] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-07-07T11:54:34.393+09:00  INFO 13338 --- [Movietalk] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-07T11:54:34.395+09:00  INFO 13338 --- [Movietalk] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-07T11:54:34.398+09:00  INFO 13338 --- [Movietalk] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

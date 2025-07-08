@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${actor.name} + ' 상세 정보'">배우 상세</title>
+    <style>
+        body {
+
+            font-family: "Noto Sans KR", sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 70px 0 0 0;
+        }
+
+        .actor-container {
+            background-color: white;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .actor-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .actor-image {
+            width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .actor-info {
+            text-align: center;
+        }
+
+        .top-left-buttons {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 90;
+        }
+
+        .top-button {
+            text-decoration: none;
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .top-button:hover {
+            background-color: #357ABD;
+        }
+
+        .comment-section {
+            margin-top: 50px;
+        }
+
+        .comment-form {
+            margin-bottom: 30px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            height: 120px;
+            padding: 16px;
+            font-size: 15px;
+            border: none;
+            border-radius: 0;
+            resize: vertical;
+            background-color: #fdfdfd;
+            outline: none;
+            box-shadow: none;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .comment-form button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #218838;
+        }
+
+        .comment-box {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comment-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .comment-text {
+            margin-bottom: 10px;
+        }
+
+        .edit-form {
+            display: none;
+        }
+
+        .edit-form textarea {
+            width: 100%;
+            height: 90px;
+            padding: 14px;
+            font-size: 14px;
+            border: none;
+            resize: vertical;
+            background-color: #fdfdfd;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .edit-form button {
+            margin-top: 10px;
+            padding: 8px 14px;
+            font-size: 13px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .comment-actions button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            font-size: 12px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-actions button:hover {
+            background-color: #5a6268;
+        }
+
+        .pagination-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .pagination-list li {
+            margin: 0 5px;
+        }
+
+        .pagination-list a {
+            display: block;
+            padding: 8px 14px;
+            background-color: #eee;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .pagination-list li.active a {
+            background-color: #4a90e2;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
+
+<div class="actor-container">
+    <!-- 배우 정보 -->
+    <div class="actor-header">
+        <h1 th:text="${actor.name}">배우 이름</h1>
+        <img class="actor-image" th:src="'https://image.tmdb.org/t/p/w300' + ${actor.profilePath}" alt="배우 프로필">
+        <p th:text="${actor.biography}">소개글</p>
+        <p>생일: <span th:text="${actor.birthday}">1990-01-01</span></p>
+        <p>출생지: <span th:text="${actor.placeOfBirth}">서울</span></p>
+        <p>성별:
+            <span th:switch="${actor.gender}">
+                <span th:case="1">여자</span>
+                <span th:case="2">남자</span>
+                <span th:case="0">정보없음</span>
+            </span>
+        </p>
+        <p>대표 활동 분야: <span th:text="${actor.knownForDepartment}">Acting</span></p>
+    </div>
+
+    <!-- 버튼 영역 -->
+    <div class="top-left-buttons">
+        <a th:href="@{'/actors/' + ${actor.id} + '/filmography'}" class="top-button">🎬 필모그래피</a>
+        <a th:href="@{'/actors/search'}" class="top-button">🔍 배우 검색</a>
+    </div>
+
+    <!-- 댓글 작성 -->
+    <div class="comment-section">
+        <h2>💬 댓글 작성</h2>
+        <form class="comment-form" th:action="@{'/actors/' + ${actor.id} + '/comment'}" method="post">
+            <textarea name="content" placeholder="이 배우에 대한 생각을 자유롭게 남겨보세요" required></textarea>
+            <button type="submit">등록</button>
+        </form>
+
+        <!-- 댓글 목록 -->
+        <div th:each="comment : ${comments}" class="comment-box">
+            <p class="comment-meta">
+                <strong th:text="${comment.user.nickname}">닉네임</strong> |
+                <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</span>
+            </p>
+
+            <p class="comment-text" th:text="${comment.actorContent}" th:id="'content-'+${comment.actorCommentId}">댓글 내용</p>
+
+            <!-- 수정 폼 (기본 숨김) -->
+            <form th:id="'edit-form-' + ${comment.actorCommentId}"
+                  th:action="@{'/actors/' + ${actor.id} + '/comment/' + ${comment.actorCommentId} + '/edit'}"
+                  method="post" style="display:none;">
+                <textarea name="content" rows="3" style="width:100%;">[[${comment.actorContent}]]</textarea>
+                <div class="comment-actions">
+                    <button type="submit">💾 저장</button>
+                    <button type="button" th:onclick="'cancelEdit(' + ${comment.actorCommentId} + ')'">❌ 취소</button>
+                </div>
+            </form>
+
+            <!-- 수정/삭제 버튼 -->
+            <div th:id="'buttons-' + ${comment.actorCommentId}" class="comment-actions" th:if="${currentUserId == comment.user.id}">
+                <button type="button" th:onclick="'showEditForm(' + ${comment.actorCommentId} + ')'">✏ 수정</button>
+                <form th:action="@{'/actors/' + ${actor.id} + '/comment/' + ${comment.actorCommentId} + '/delete'}"
+                      method="post" style="display:inline;">
+                    <button type="submit">🗑 삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pagination">
+    <ul class="pagination-list">
+        <!-- 이전 페이지 -->
+        <li th:if="${comments.hasPrevious()}">
+            <a th:href="@{|/actors/${actor.id}?page=${comments.number - 1}|}">&laquo; 이전</a>
+        </li>
+
+        <!-- 페이지 번호 반복 -->
+        <li th:each="i : ${#numbers.sequence(0, comments.totalPages - 1)}"
+            th:classappend="${i == comments.number} ? ' active'">
+            <a th:href="@{|/actors/${actor.id}?page=${i}|}" th:text="${i + 1}">1</a>
+        </li>
+
+        <!-- 다음 페이지 -->
+        <li th:if="${comments.hasNext()}">
+            <a th:href="@{|/actors/${actor.id}?page=${comments.number + 1}|}">다음 &raquo;</a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function showEditForm(commentId) {
+        document.getElementById('content-' + commentId).style.display = 'none';
+        document.getElementById('edit-form-' + commentId).style.display = 'block';
+        document.getElementById('buttons-' + commentId).style.display = 'none';
+    }
+
+    function cancelEdit(commentId) {
+        document.getElementById('content-' + commentId).style.display = 'block';
+        document.getElementById('edit-form-' + commentId).style.display = 'none';
+        document.getElementById('buttons-' + commentId).style.display = 'block';
+    }
+</script>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

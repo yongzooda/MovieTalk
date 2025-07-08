@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 추천 | MovieTalk</title>
+
+    <style>
+        /* === 전역 === */
+        body{
+            margin:0;
+            padding:80px 0 0;                    /* 네비 여유 */
+            display:flex;flex-direction:column;min-height:100vh;
+            background:#141414;color:#fff;
+            font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+        }
+        h2{margin:40px 0 20px;text-align:center;font-size:2.2em;}
+
+        /* === 카드 그리드 === */
+        #grid{
+            display:grid;grid-template-columns:repeat(7,1fr);gap:16px;
+            padding:0 40px;
+            padding-bottom:140px;                /* 하단 고정 버튼 여백 */
+            flex:1 0 auto;
+        }
+        .card{position:relative;cursor:pointer;transition:transform .2s;}
+        .card img{width:100%;border-radius:4px;}
+        .card:hover{transform:scale(1.05);}
+        .overlay{
+            position:absolute;top:0;left:0;width:100%;height:100%;
+            background:rgba(20,20,20,.35);border-radius:4px;
+            display:flex;align-items:center;justify-content:center;
+            opacity:0;transition:opacity .2s;font-size:1.1em;
+        }
+        .card:hover .overlay{opacity:1;}
+
+        /* === 하단 고정 버튼 === */
+        .btn-wrapper{
+            position:sticky;bottom:20px;         /* 푸터 닿으면 위로 밀림 */
+            display:flex;justify-content:center;
+            z-index:1000;
+        }
+        #addFavoriteButton{
+            padding:10px 24px;
+            background:#e50914;color:#fff;border:none;border-radius:4px;
+            font-size:1em;cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 상단 네비 -->
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
+
+<h2>🎬 추천 영화</h2>
+
+<!-- 카드 그리드 -->
+<div id="grid"></div>
+
+<!-- 하단 고정 버튼 -->
+<div class="btn-wrapper">
+    <button id="addFavoriteButton">선호영화 추가하기</button>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const user_id = [[${user_id}]];
+    const grid    = document.getElementById('grid');
+    const IMG     = 'https://image.tmdb.org/t/p/w300';
+
+    /* 온보딩 이동 버튼 */
+    document.getElementById('addFavoriteButton')
+        .addEventListener('click', () => location.href = '/onboarding');
+
+    /* 즐겨찾기 개수 체크 → 부족하면 온보딩으로 */
+    fetch(`/api/recommendations/check/${user_id}`)
+        .then(r => r.json())
+        .then(({ has_favorite }) => {
+            if (!has_favorite){
+                location.href = '/onboarding';
+                throw 'onboarding';
+            }
+            /* 실제 추천 리스트 */
+            return fetch(`/api/recommendations/${user_id}`);
+        })
+        .then(r => r.json())
+        .then(list => {
+            if (!list || list.length === 0){
+                grid.innerHTML = '<p style="color:#aaa;">추천할 영화가 없습니다.</p>';
+                return;
+            }
+            list.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick   = () => location.href = `/movies/${m.movie_id}`;
+                card.innerHTML = `
+        <img src="${IMG}${m.poster_path}" alt="${m.title}">
+        <div class="overlay">상세 보기</div>
+      `;
+                grid.appendChild(card);
+            });
+        })
+        .catch(e => {
+            if (e !== 'onboarding')
+                grid.innerHTML = '<p style="color:#aaa;">추천 호출 실패: '+e+'</p>';
+        });
+    /*]]>*/
+</script>
+
+<!-- 하단 푸터 -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

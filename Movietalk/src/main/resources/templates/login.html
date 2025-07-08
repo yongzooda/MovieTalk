@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 | MovieTalk</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* 전체 배경 – 아주 연한 그라디언트 */
+        body{
+          min-height:100vh;
+          background:linear-gradient(145deg,#f4f7f9 0%,#eef2f5 100%);
+          font-family:'Segoe UI',Arial,sans-serif
+        }
+
+        /* 로그인 카드 */
+        .login-card{
+          width:100%;            /* 반응형 */
+          max-width:520px;       /* 기존 420 → 520 */
+          border-radius:1.5rem;  /* 더 둥글게 */
+          box-shadow:0 12px 36px rgba(0,0,0,.08);
+          backdrop-filter:saturate(180%) blur(5px); /* 약간의 유리 느낌 */
+        }
+
+        /* 입력 상자 – 글꼴·높이 약간 키우기 */
+        .login-card .form-control{
+          padding:.9rem 1rem;
+          font-size:1.05rem;
+        }
+
+        /* 메인 버튼(로그인) */
+        .btn-brand{
+          background:#158443;
+          border-color:#158443;
+          font-size:1.05rem;
+          padding:.75rem 1rem;
+        }
+        .btn-brand:hover{background:#106b36;border-color:#106b36}
+
+        /* 서브 버튼(회원가입/재설정) */
+        .btn-subs{
+          font-size:.97rem;
+          padding:.55rem .9rem;
+        }
+
+        /* 소셜 아이콘 */
+        .social-btn img{
+          width:56px;height:56px;object-fit:contain;transition:transform .15s;
+        }
+        .social-btn:hover img{transform:scale(1.08)}
+    </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center">
+
+<div class="login-card bg-white p-5 text-center">
+
+    <h2 class="fw-bold mb-4 text-success" style="letter-spacing:-.5px">MovieTalk</h2>
+
+    <!-- 로그인 폼 -->
+    <form th:action="@{/login}" method="post" class="text-start">
+        <div class="mb-3">
+            <label for="email"  class="form-label fw-medium">이메일</label>
+            <input type="text" id="email" name="email"
+                   class="form-control" placeholder="이메일 입력" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="form-label fw-medium">비밀번호</label>
+            <input type="password" id="password" name="password"
+                   class="form-control" placeholder="비밀번호 입력" required>
+        </div>
+
+        <button type="submit" class="btn btn-brand w-100 mb-4 shadow-sm">로그인</button>
+    </form>
+
+    <!-- 회원가입 · 비밀번호 재설정 -->
+    <div class="d-flex gap-2 mb-4">
+        <button class="btn btn-outline-secondary flex-fill btn-subs"
+                onclick="location.href='/register'">회원가입</button>
+        <button class="btn btn-outline-secondary flex-fill btn-subs"
+                onclick="location.href='/findpassword'">비밀번호 재설정</button>
+    </div>
+
+    <!-- 소셜 로그인 -->
+    <div class="d-flex justify-content-center gap-4 mb-3">
+        <a th:href="@{/oauth2/authorization/google}" class="social-btn">
+            <img src="/icons-google.svg"  alt="구글 로그인">
+        </a>
+        <a th:href="@{/oauth2/authorization/naver}"  class="social-btn">
+            <img src="/icons-naver.svg"   alt="네이버 로그인">
+        </a>
+        <a th:href="@{/oauth2/authorization/kakao}"  class="social-btn">
+            <img src="/icons-kakaotalk.svg" alt="카카오 로그인">
+        </a>
+    </div>
+
+    <!-- 메시지 -->
+    <p th:if="${param.error}"  class="text-danger fw-semibold m-0">
+        로그인 실패: 이메일 또는 비밀번호를 확인하세요.
+    </p>
+    <p th:if="${param.logout}" class="text-success fw-semibold m-0">
+        로그아웃 완료
+    </p>
+</div><!-- /.login-card -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="commentSection(commentList, reviewId, currentUserId, reviewAuthorId)"
+     class="comment-section">
+
+    <!-- ✦ STYLE – 디자인만 개선, 기존 구조·로직 그대로 ✦ -->
+    <style>
+        :root{
+          --green:#17825e;
+          --green-light:#38a169;
+          --blue:#3182ce;
+          --orange:#dd6b20;
+          --red:#e53e3e;
+          --teal:#319795;
+          --radius:1rem;
+          --shadow:0 10px 28px rgba(0,0,0,.06);
+        }
+
+        /* 전체 영역 */
+        .comment-section{margin-top:2.5rem}
+
+        /* 댓글 & 대댓글 카드 */
+        .comment,
+        .comment.reply{
+          background:#fffdfc;
+          backdrop-filter:saturate(180%) blur(6px);
+          border-radius:var(--radius);
+          box-shadow:var(--shadow);
+          padding:1.2rem 1.45rem;
+        }
+        .comment{margin-bottom:1.4rem}
+        .comment.reply{
+          margin-left:2.3rem;
+          background:#f8fafb;
+          border-left:4px solid var(--green-light);
+          margin-bottom:1.4rem;
+        }
+
+        /* 헤더 */
+        .comment-header{
+          display:flex;align-items:center;gap:.55rem;
+          font-size:.83rem;color:#566
+        }
+        .comment-header strong{
+          font-weight:700;font-size:.93rem;color:var(--green)
+        }
+        .comment-date{font-size:.74rem;color:#889}
+
+        /* 본문 */
+        .comment-body p{
+          margin:.65rem 0;font-size:1.05rem;
+          line-height:1.6;color:#222
+        }
+
+        /* 채택 뱃지 */
+        .comment-accepted{
+          display:inline-block;
+          background:var(--green-light);color:#fff;
+          font-size:.7rem;font-weight:700;
+          border-radius:.4rem;padding:.2rem .55rem;
+          margin-top:.35rem
+        }
+
+        /* 액션 버튼 */
+        .comment-actions{
+          display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem
+        }
+        .comment-actions button{
+          font-size:.74rem;font-weight:600;border:none;border-radius:.5rem;
+          padding:.3rem .6rem;color:#fff;cursor:pointer;
+          display:inline-flex;align-items:center;gap:.2rem;
+          box-shadow:0 4px 12px rgba(0,0,0,.05);
+          transition:transform .1s
+        }
+        .comment-actions button:hover{transform:translateY(-2px)}
+        .btn-like   {background:var(--green-light)}
+        .btn-dislike{background:var(--red)}
+        .btn-report {background:var(--orange)}
+        .btn-reply  {background:var(--blue)}
+        .btn-adopt  {background:var(--teal)}
+        .btn-edit   {background:#ecc94b;color:#333}
+        .btn-delete {background:#b83232}
+        .comment-actions button[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+
+        /* 답글 입력 박스 */
+        .reply-form-container{margin-top:.7rem}
+        .reply-form-container textarea{
+          width:100%;border:1.8px solid #bdebd1;border-radius:.8rem;
+          padding:.75rem;font-size:.96rem;background:#f9fefc;
+          transition:border-color .15s
+        }
+        .reply-form-container textarea:focus{
+          outline:none;border-color:var(--green-light)
+        }
+        .reply-form-container button{
+          margin-top:.45rem;background:var(--green);color:#fff;border:none;
+          border-radius:.7rem;padding:.45rem 1rem;font-size:.92rem;font-weight:600
+        }
+
+        /* 새 댓글 입력 */
+        .comment-form textarea{
+          width:100%;border:2px solid #d5e9d9;border-radius:.9rem;
+          padding:.85rem;font-size:1.05rem;background:#f8fefa
+        }
+        .comment-form textarea:focus{
+          outline:none;border-color:var(--green-light)
+        }
+        .comment-form button{
+          margin-top:.6rem;background:var(--green);color:#fff;border:none;
+          border-radius:.9rem;padding:.7rem 1.25rem;font-size:1.05rem;font-weight:700
+        }
+
+        /* 모바일 */
+        @media(max-width:520px){
+          .comment.reply{margin-left:1.2rem}
+        }
+    </style>
+
+    <h3 class="fw-bold mb-4" style="color:var(--green)">댓글</h3>
+
+    <!-- ▽ 댓글 목록 -->
+    <div th:each="comment : ${commentList}"
+         class="comment"
+         th:attr="data-comment-id=${comment.id}">
+
+        <!-- 헤더 -->
+        <div class="comment-header">
+            <strong th:text="${comment.authorName}">작성자</strong>
+            <span class="comment-date"
+                  th:text="${#temporals.format(comment.createdAt,'yyyy-MM-dd HH:mm')}">작성일</span>
+        </div>
+
+        <!-- 본문 -->
+        <div class="comment-body">
+            <p th:text="${comment.content}">댓글 내용</p>
+        </div>
+
+        <!-- 액션 -->
+        <div class="comment-actions">
+            <button class="btn-like">👍 <span th:text="${comment.likeCnt}">0</span></button>
+            <button class="btn-dislike">👎 <span th:text="${comment.dislikeCnt}">0</span></button>
+            <button class="btn-report">🚨 신고</button>
+            <button class="btn-reply" th:data-comment-id="${comment.id}">💬 답글</button>
+
+            <button class="btn-adopt"
+                    th:if="${currentUserId == reviewAuthorId} and !${comment.accepted}"
+                    th:data-comment-id="${comment.id}">✔️ 채택</button>
+
+            <span th:if="${currentUserId == comment.authorId}">
+              <button class="btn-edit"   th:data-comment-id="${comment.id}">✏️ 수정</button>
+              <button class="btn-delete" th:data-comment-id="${comment.id}">🗑 삭제</button>
+            </span>
+        </div>
+
+        <div th:if="${comment.accepted}" class="comment-accepted">채택됨</div>
+
+        <!-- ▽ 대댓글 -->
+        <div class="replies" th:if="${comment.replies}" th:each="reply : ${comment.replies}">
+            <div class="comment reply" th:attr="data-comment-id=${reply.id}">
+                <div class="comment-header">
+                    <strong th:text="${reply.authorName}">작성자</strong>
+                    <span class="comment-date"
+                          th:text="${#temporals.format(reply.createdAt,'yyyy-MM-dd HH:mm')}">날짜</span>
+                </div>
+
+                <div class="comment-body">
+                    <p th:text="${reply.content}">대댓글 내용</p>
+                </div>
+
+                <div class="comment-actions">
+                    <button class="btn-like">👍 <span th:text="${reply.likeCnt}">0</span></button>
+                    <button class="btn-dislike">👎 <span th:text="${reply.dislikeCnt}">0</span></button>
+                    <button class="btn-report">🚨 신고</button>
+
+                    <button class="btn-adopt"
+                            th:if="${currentUserId == reviewAuthorId} and !${reply.accepted}"
+                            th:data-comment-id="${reply.id}">✔️ 채택</button>
+
+                    <span th:if="${currentUserId == reply.authorId}">
+                      <button class="btn-edit"   th:data-comment-id="${reply.id}">✏️ 수정</button>
+                      <button class="btn-delete" th:data-comment-id="${reply.id}">🗑 삭제</button>
+                    </span>
+                </div>
+
+                <div th:if="${reply.accepted}" class="comment-accepted">채택됨</div>
+            </div><!-- /comment.reply -->
+        </div><!-- /replies -->
+
+        <!-- 답글 입력 폼 -->
+        <div class="reply-form-container"
+             th:attr="data-parent-id=${comment.id}"
+             style="display:none;">
+            <textarea rows="2" class="reply-text" placeholder="답글을 입력하세요…"></textarea>
+            <button class="btn-submit-reply" type="button">등록</button>
+        </div>
+    </div><!-- /comment -->
+
+    <!-- ▽ 새 댓글 -->
+    <form class="comment-form">
+        <textarea name="content" rows="3" placeholder="댓글을 입력하세요…" required></textarea>
+        <button type="submit">등록</button>
+    </form>
+
+    <!-- reviewId / currentUserId / reviewAuthorId (기존 값 유지) -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const reviewId       = [[${reviewId}]];
+        const currentUserId  = [[${currentUserId}]];
+        const reviewAuthorId = [[${reviewAuthorId}]];
+        /*]]>*/
+    </script>
+
+    <!-- 기능 로직 (변경 없음) -->
+    <script>
+        // ------- 공통 JSON 전송 함수 -------
+        const postJson  = (url,data)=>
+              fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        const patchJson = (url,data)=>
+              fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+
+        // ------- 댓글·대댓글 액션 -------
+        document.querySelectorAll('.comment').forEach(el=>{
+          const cid = el.dataset.commentId;
+
+          // 신고
+          el.querySelector('.btn-report')?.addEventListener('click',()=>{
+            const reason = prompt('신고 사유를 입력하세요:');
+            if(!reason) return;
+            postJson(`/api/comments/${cid}/reports`,{reason})
+              .then(r=>r.ok?location.reload():alert('이미 신고했습니다.'));
+          });
+
+          // 좋아요
+          el.querySelector('.btn-like')?.addEventListener('click',()=>
+            postJson(`/api/comments/${cid}/reactions`,{reactionType:'like'}).then(()=>location.reload()));
+
+          // 싫어요
+          el.querySelector('.btn-dislike')?.addEventListener('click',()=>
+            postJson(`/api/comments/${cid}/reactions`,{reactionType:'dislike'}).then(()=>location.reload()));
+
+          // 채택
+          el.querySelector('.btn-adopt')?.addEventListener('click',()=>
+            postJson(`/api/comments/${cid}/adopt`,{}).then(()=>location.reload()));
+        });
+
+        // ------- 삭제 & 수정 (위임) -------
+        document.querySelector('.comment-section').addEventListener('click',e=>{
+          // 삭제
+          if(e.target.classList.contains('btn-delete')){
+            const cid = e.target.dataset.commentId;
+            if(!confirm('정말 삭제하시겠습니까?')) return;
+            fetch(`/api/reviews/${reviewId}/comments/${cid}`,{method:'DELETE'})
+              .then(r=>r.ok?location.reload():alert('삭제 실패'));
+          }
+
+          // 수정
+          if(e.target.classList.contains('btn-edit')){
+            const cid  = e.target.dataset.commentId;
+            const text = prompt('수정할 내용을 입력하세요:');
+            if(!text) return;
+            patchJson(`/api/reviews/${reviewId}/comments/${cid}`,{commentId:cid,content:text})
+              .then(()=>location.reload());
+          }
+        });
+
+        // ------- 답글 토글 -------
+        document.querySelectorAll('.btn-reply').forEach(btn=>{
+          btn.addEventListener('click',()=>{
+            const pid = btn.dataset.commentId;
+            const box = document.querySelector(`.reply-form-container[data-parent-id="${pid}"]`);
+            box.style.display = box.style.display==='none' ? 'block' : 'none';
+          });
+        });
+
+        // ------- 답글 등록 -------
+        document.querySelectorAll('.btn-submit-reply').forEach(btn=>{
+          btn.addEventListener('click',()=>{
+            const box = btn.closest('.reply-form-container');
+            const pid = box.dataset.parentId;
+            const txt = box.querySelector('.reply-text').value.trim();
+            if(!txt) return alert('답글을 입력하세요.');
+            postJson(`/api/reviews/${reviewId}/comments/${pid}/reply`,
+                     {reviewId,parentId:pid,content:txt})
+              .then(()=>location.reload());
+          });
+        });
+
+        // ------- 새 댓글 등록 -------
+        document.querySelector('.comment-form').addEventListener('submit',e=>{
+          e.preventDefault();
+          const txt = e.target.content.value.trim();
+          if(!txt) return;
+          postJson(`/api/reviews/${reviewId}/comments`,
+                   {reviewId,parentId:null,content:txt})
+            .then(r=>r.ok?(e.target.reset(),location.reload()):alert('등록 실패'));
+        });
+    </script>
+</div>

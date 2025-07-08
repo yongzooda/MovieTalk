@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 상세</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 70px 0 0 0;
+            padding-bottom: 60px;
+        }
+
+        .layout-container {
+            margin: 0 auto;
+            max-width: 1080px;
+            padding: 0 15px;
+        }
+
+        .detail-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .poster-box {
+            flex: 0 0 280px;
+        }
+
+        .info-box {
+            flex: 1;
+            max-width: calc(100% - 310px);
+        }
+
+        .overview-wrapper {
+            max-width: 100%;
+        }
+
+        .button-group-container {
+            margin-top: 1rem;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 🧭 네비게이션 바 -->
+<div th:replace="~{fragments/top-nav :: topNav}"></div>
+
+<!-- ✅ 성인 콘텐츠 제한 메시지 -->
+<div th:if="${adultRestricted}" class="text-center mt-5">
+    <h3 class="text-danger">성인 콘텐츠로 인해 상세 정보를 표시할 수 없습니다.</h3>
+    <a th:href="@{/movies}" class="btn btn-secondary mt-4">목록으로 돌아가기</a>
+</div>
+
+<!-- ✅ 일반 상세 정보 출력 -->
+<div th:unless="${adultRestricted}" class="mt-4 layout-container">
+
+    <!-- 🎬 영화 제목 -->
+    <h2 class="text-center mb-5"
+        th:text="${movie != null} ? ${movie.title} : ${detail.title}">제목</h2>
+
+    <!-- 📐 콘텐츠 본문 -->
+    <div class="detail-layout">
+        <!-- 🎞 포스터 -->
+        <div class="poster-box text-center">
+            <img th:src="${movie != null} ? ${movie.posterUrl} : 'https://image.tmdb.org/t/p/w500' + ${detail.posterPath}"
+                 alt="포스터" class="img-fluid rounded shadow" style="max-width: 100%;">
+        </div>
+
+        <!-- 📋 상세 정보 -->
+        <div class="info-box">
+            <p><strong>개봉일:</strong>
+                <span th:text="${movie != null} ? ${movie.releaseDate} : ${detail.releaseDate}">2024-05-01</span>
+            </p>
+
+            <th:block th:with="genreNames=${detail.genres.?[name != null].![name]}">
+                <p><strong>장르:</strong>
+                    <span th:text="${#strings.listJoin(genreNames, ' / ')}"></span>
+                </p>
+            </th:block>
+
+            <th:block th:with="countryNames=${detail.productionCountries.?[name != null].![name]}">
+                <p><strong>국가:</strong>
+                    <span th:text="${#strings.listJoin(countryNames, ' / ')}"></span>
+                </p>
+            </th:block>
+
+            <p><strong>러닝타임:</strong>
+                <span th:text="${detail.runtime} + '분'">120분</span>
+            </p>
+
+            <hr>
+
+            <!-- ✏️ 줄거리 -->
+            <div class="mt-4 overview-wrapper">
+                <h5>줄거리</h5>
+                <p th:text="${detail.overview != null && !#strings.isEmpty(detail.overview)
+                    ? detail.overview : '줄거리 정보가 없습니다.'}"></p>
+            </div>
+
+            <!-- 🎭 출연진 -->
+            <div class="overview-wrapper mt-4">
+                <h5 class="mb-2">출연진</h5>
+                <p class="d-flex flex-wrap" style="gap: 0.5rem;">
+    <span th:each="actor, stat : ${#lists.size(detail.cast) > 5 ? detail.cast.subList(0,5) : detail.cast}"
+          style="white-space: nowrap;">
+        <span th:text="${actor.name + '(' + actor.character + '역)' + (!stat.last ? ',' : '')}"></span>
+        <span th:if="${stat.last}"> 등</span>
+    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔘 버튼 영역 -->
+    <div class="container button-group-container">
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-start">
+                <th:block th:if="${from == 'search'}">
+                    <a th:href="@{/movies/search(keyword=${keyword}, category=${category}, page=${page})}"
+                       class="btn btn-secondary">🔍 검색 결과로 돌아가기</a>
+                </th:block>
+
+                <th:block th:if="${from == 'list'}">
+                    <a th:href="@{/movies(page=${page})}" class="btn btn-secondary">목록으로 돌아가기</a>
+                </th:block>
+
+                <th:block th:if="${from == null}">
+                    <a th:href="@{/movies}" class="btn btn-secondary">⬅ 목록으로</a>
+                </th:block>
+
+                <!-- 인기 영화로 돌아가기 버튼 추가 -->
+                <a th:href="@{/popular}"
+                   class="btn btn-secondary ms-2">인기 영화 차트로 돌아가기</a>
+            </div>
+
+            <div class="col-md-6 d-flex justify-content-end gap-3">
+                <a th:if="${detail != null}"
+                   th:href="@{/reviews/new(movieId=${movie != null ? movie.movieId : detail.tmdbId})}"
+                   class="btn btn-primary">리뷰 작성하기</a>
+
+                <a th:href="@{/reviews/search(keyword=${movie != null ? movie.title : detail.title})}"
+                   class="btn btn-outline-primary">리뷰 보기</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
