@@ -55,23 +55,14 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 ## 👥 팀원 소개
 
-- 👑 **구본엽**   
-  - [GitHub](https://github.com/bnyeob)  
+| <img src="https://avatars.githubusercontent.com/bnyeob" width="70"/> <br>👑 구본엽 | <img src="https://avatars.githubusercontent.com/kimyesi" width="70"/> <br>🎨 김현진 | <img src="https://avatars.githubusercontent.com/testerlee" width="70"/> <br>🔍 박지원 |
+|:---:|:---:|:---:|
+| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/kimyesi) | [GitHub](https://github.com/testerlee) |
 
-- 🎨 **김현진**   
-  - [GitHub](https://github.com/kimyesi)  
+| <img src="https://avatars.githubusercontent.com/bnyeob" width="70"/> <br>👑 송지원 | <img src="https://avatars.githubusercontent.com/kimyesi" width="70"/> <br>🎨 이용주 | <img src="https://avatars.githubusercontent.com/testerlee" width="70"/> <br>🔍 김시환 |
+|:---:|:---:|:---:|
+| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/kimyesi) | [GitHub](https://github.com/testerlee) |
 
-- 🔍 **박지원** 
-  - [GitHub](https://github.com/testerlee)  
-
-- 👑 **송지원**  
-  - [GitHub](https://github.com/bnyeob)  
-
-- 🎨 **이용주** 
-  - [GitHub](https://github.com/kimyesi)  
-
-- 🔍 **김시환**
-  - [GitHub](https://github.com/testerlee)  
 
 
 
