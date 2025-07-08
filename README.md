@@ -55,9 +55,9 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 ## 👥 팀원 소개
 
-| <img src="https://avatars.githubusercontent.com/bnyeob" width="70"/> <br>👑 구본엽 | <img src="https://avatars.githubusercontent.com/kimyesi" width="70"/> <br>🎨 김현진 | <img src="https://avatars.githubusercontent.com/testerlee" width="70"/> <br>🔍 박지원 |
+| <img src="https://avatars.githubusercontent.com/bonyubking" width="70"/> <br>👑 구본엽 | <img src="https://avatars.githubusercontent.com/guwls" width="70"/> <br>🎨 김현진 | <img src="https://avatars.githubusercontent.com/PG1tHub" width="70"/> <br>🔍 박지원 |
 |:---:|:---:|:---:|
-| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/kimyesi) | [GitHub](https://github.com/testerlee) |
+| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/guwls) | [GitHub](https://github.com/PG1tHub) |
 
 | <img src="https://avatars.githubusercontent.com/bnyeob" width="70"/> <br>👑 송지원 | <img src="https://avatars.githubusercontent.com/kimyesi" width="70"/> <br>🎨 이용주 | <img src="https://avatars.githubusercontent.com/testerlee" width="70"/> <br>🔍 김시환 |
 |:---:|:---:|:---:|
