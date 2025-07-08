@@ -55,19 +55,23 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 ## 👥 팀원 소개
 
-- 👑 **구본엽**  
-  - Backend, 팀장  
+- 👑 **구본엽**   
   - [GitHub](https://github.com/bnyeob)  
-  - "개발 짱 재밌다!"
 
-- 🎨 **김예시**  
-  - Frontend  
+- 🎨 **김현진**   
   - [GitHub](https://github.com/kimyesi)  
-  - "프론트는 나에게!"
 
-- 🔍 **이테스터**  
-  - QA/테스터  
+- 🔍 **박지원** 
   - [GitHub](https://github.com/testerlee)  
-  - "오류 잡는 재미~"
+
+- 👑 **송지원**  
+  - [GitHub](https://github.com/bnyeob)  
+
+- 🎨 **이용주** 
+  - [GitHub](https://github.com/kimyesi)  
+
+- 🔍 **김시환**
+  - [GitHub](https://github.com/testerlee)  
+
 
 
