@@ -59,9 +59,9 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 |:---:|:---:|:---:|
 | [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/guwls) | [GitHub](https://github.com/PG1tHub) |
 
-| <img src="https://avatars.githubusercontent.com/bnyeob" width="70"/> <br>👑 송지원 | <img src="https://avatars.githubusercontent.com/kimyesi" width="70"/> <br>🎨 이용주 | <img src="https://avatars.githubusercontent.com/testerlee" width="70"/> <br>🔍 김시환 |
+| <img src="https://avatars.githubusercontent.com/ssong7890" width="70"/> <br>👑 송지원 | <img src="https://avatars.githubusercontent.com/yongzooda" width="70"/> <br>🎨 이용주 | <img src="https://avatars.githubusercontent.com/sihwan0816" width="70"/> <br>🔍 김시환 |
 |:---:|:---:|:---:|
-| [GitHub](https://github.com/bnyeob) | [GitHub](https://github.com/kimyesi) | [GitHub](https://github.com/testerlee) |
+| [GitHub](https://github.com/ssong7890) | [GitHub](https://github.com/yongzooda) | [GitHub](https://github.com/sihwan0816) |
 
 
 
