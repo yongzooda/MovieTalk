@@ -26,13 +26,6 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 <img width="565" alt="image" src="https://github.com/user-attachments/assets/db9bb365-c36d-4e76-9869-7f639ce9e5f2" />
 
-
-## ⚙️ 기술 스택
-- **Backend**: Java, Spring Boot, Spring Data JPA, Spring Security, Lombok
-- **Frontend**: Thymeleaf
-- **Database**: MySQL
-- **API 연동**: TMDB OpenAPI
-- **협업/운영**: GitHub, Notion
   
 ## ⚙️ 기술 스택
 
