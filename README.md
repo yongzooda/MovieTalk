@@ -6,6 +6,7 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 
 사이트 주소: http://movitalk.cloud
 
+![image](https://github.com/user-attachments/assets/d5eb39f6-3792-43f7-8a9a-505381685cf1)
 
 <img width="824" alt="image" src="https://github.com/user-attachments/assets/f8837ddd-e37d-4080-8873-b068662e97bf" />
 
@@ -18,6 +19,8 @@ TMDB OpenAPI를 활용한 영화 정보, 리뷰, 추천 플랫폼
 - 배우 검색/필모그래피/댓글
 - 마이페이지(내역, 정보관리)
 - 관리자(회원/리뷰/신고/통계 관리)
+  
+
 
 
 <img width="565" alt="image" src="https://github.com/user-attachments/assets/db9bb365-c36d-4e76-9869-7f639ce9e5f2" />
